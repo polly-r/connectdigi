@@ -1,0 +1,64 @@
+---
+import '@fontsource-variable/inter';
+import '@fontsource-variable/fraunces/opsz.css';
+import '../styles/global.css';
+import interLatin from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+
+import Seo from '../components/Seo.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description: string;
+  noindex?: boolean;
+}
+
+const { title, description, noindex } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en-ZA">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--
+      Runs before first paint: applies the stored theme, or the system one, so
+      the wrong theme never flashes. Also marks JS as available. Keep the
+      storage key in sync with THEME_STORAGE_KEY in src/lib/theme.ts.
+    -->
+    <script is:inline>
+      (function () {
+        var root = document.documentElement;
+        var stored = null;
+        try {
+          stored = localStorage.getItem('theme');
+        } catch (e) {}
+        var dark =
+          stored === 'dark' || (stored !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        root.classList.toggle('dark', dark);
+        root.classList.add('js');
+      })();
+    </script>
+    <Seo title={title} description={description} noindex={noindex} />
+    <link rel="preload" href={interLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body class="flex min-h-dvh flex-col">
+    <a
+      href="#main"
+      class="sr-only z-50 bg-accent text-on-accent focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:px-4 focus:py-3"
+      data-menu-inert
+    >
+      Skip to content
+    </a>
+    <Header />
+    <main id="main" tabindex="-1" class="flex-1 focus:outline-none" data-menu-inert>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

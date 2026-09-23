@@ -12,12 +12,23 @@ const tbc = (label: string): string => `[TBC: ${label}]`;
 /** True if a value is still a placeholder, so components can render it as one. */
 export const isTbc = (value: string): boolean => value.startsWith('[TBC:');
 
+/** The label inside a placeholder value: "[TBC: contact email]" → "contact email". */
+export const tbcLabel = (value: string): string => value.replace(/^\[TBC:\s*/, '').replace(/\]$/, '');
+
 /**
  * Placeholder domain. `.invalid` is reserved (RFC 2606) and can never resolve,
  * so it cannot be mistaken for the live site. Replace once the domain is bought;
  * astro.config.mjs (sitemap, canonical URLs) reads it from here.
  */
 export const SITE_URL = 'https://theconnectdigital.invalid';
+
+/** Main navigation, in order. */
+export const mainNav = [
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about' },
+  { label: 'Services', href: '/services' },
+  { label: 'Connect', href: '/connect' },
+] as const;
 
 export const site = {
   name: 'The Connect Digital',

@@ -1,0 +1,29 @@
+---
+/**
+ * The themeable logo mark, inlined so it follows the theme:
+ * upper half = currentColor (--color-fg); lower half = accent in light mode,
+ * white in dark mode (--color-logo-lower), matching the mono white original.
+ *
+ * The asset keeps #logo-upper / #logo-lower; inlined copies use classes
+ * instead so two logos on one page don't duplicate IDs.
+ *
+ * Pass `label` when the mark stands alone; omit it when visible text next to
+ * the mark already names the company, and it is hidden from assistive tech.
+ */
+import markSource from '../assets/logo/logo-mark.svg?raw';
+
+interface Props {
+  label?: string;
+  class?: string;
+}
+
+const { label, class: className } = Astro.props;
+
+const a11y = label ? `role="img" aria-label="${label.replace(/"/g, '&quot;')}"` : 'aria-hidden="true"';
+const markup = markSource
+  .trim()
+  .replace(/id="logo-(upper|lower)"/g, 'class="logo-$1"')
+  .replace('<svg ', `<svg ${a11y} focusable="false" ${className ? `class="${className}" ` : ''}`);
+---
+
+<Fragment set:html={markup} />

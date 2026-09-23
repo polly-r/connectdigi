@@ -90,9 +90,11 @@ inspect each file and report on:
   `#051D40` dark background is the failure to avoid.
 - **Hard-coded fills and strokes.** In the working copy, the navy upper half
   should use `currentColor` (follows `--color-fg`, so it turns white in dark
-  mode) and the blue lower half `var(--color-accent)`. Group them as
-  `#logo-upper` and `#logo-lower`. One themeable SVG then replaces the four
-  variants in the UI; the originals stay in `public/logo/` untouched.
+  mode) and the blue lower half `var(--color-logo-lower)`: the accent in light
+  mode, white in dark mode, so the dark-mode mark is the mono white logo (see
+  Decisions log, Phase 1). Group them as `#logo-upper` and `#logo-lower`. One
+  themeable SVG then replaces the variants in the UI; the originals stay in
+  `public/logo/` untouched.
 - **`viewBox` and size.** Keep a correct `viewBox`, strip fixed `width`/`height`.
 - **Structure.** Whether nodes and connectors are separate `<circle>`,
   `<line>` and `<path>` elements or one merged path.
@@ -315,8 +317,8 @@ Phase 0 (2026-09-23):
 - Logo: only two variants were supplied, renamed to
   `public/logo/logo-full-colour.svg` and `public/logo/logo-mono-white.svg`
   (contents untouched). The themeable working copy is built from
-  `logo-full-colour.svg`. In dark mode the navy parts turn white and the blue
-  stays blue. No wordmark SVG, so the name is set in type next to the mark.
+  `logo-full-colour.svg`. No wordmark SVG, so the name is set in type next to
+  the mark. (Dark-mode colours superseded in Phase 1, below.)
 - The logo is four merged, filled compound paths (nodes and connectors are not
   separate elements). It is not animated; `NodeNetwork` draws its own geometry.
 - Interaction budget: divider draw-in and stats count-up count as "scroll
@@ -331,6 +333,17 @@ Phase 0 (2026-09-23):
   `src/data/site.ts`).
 - TypeScript pinned to `^6`: `@astrojs/check` does not support TS 7 yet.
 - `/lab` is added only under `astro dev` by a local integration, never built.
+
+Phase 1 (2026-09-23):
+- Work with only the two supplied logo variants.
+- Dark theme uses the mono white logo: the whole mark is white (both halves
+  follow `--color-fg` via `--color-logo-lower`). The mono white original is
+  the same artwork at a different scale (verified pixel-identical), so the one
+  working copy covers it. `favicon.svg` also turns fully white on dark browser
+  chrome. Light theme keeps navy upper / accent lower. This applies to the logo
+  only; the accent token and the `NodeNetwork` motif rules are unchanged.
+- `playwright-core` (dev only) drives the installed Microsoft Edge for
+  screenshots and checks (`scripts/shoot.mjs`). No browser download.
 
 ## Working agreement
 - Use plan mode at the start of each phase and wait for approval.

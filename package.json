@@ -10,7 +10,10 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "check": "astro check"
+    "check": "astro check",
+    "check:contrast": "node scripts/check-contrast.mjs",
+    "prebuild": "node scripts/check-contrast.mjs",
+    "logo": "node scripts/build-logo.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^7.0.0",
@@ -31,6 +34,8 @@
     "@astrojs/check": "^0.9.10",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "playwright-core": "^1.63.0",
+    "svgo": "^4.1.0",
     "typescript": "^6.0.3"
   }
 }

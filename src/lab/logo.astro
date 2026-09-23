@@ -1,0 +1,128 @@
+---
+// Dev-only: original logo files vs the themeable working copy.
+import '@fontsource-variable/inter';
+import '@fontsource-variable/fraunces/opsz.css';
+import '../styles/global.css';
+import Logo from '../components/Logo.astro';
+
+const sizes = [32, 96, 400];
+---
+
+<html lang="en-ZA">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Lab: logo comparison</title>
+  </head>
+  <body class="bg-bg text-fg">
+    <main class="container-site py-12">
+      <h1 class="text-h2">Logo: originals vs working copy</h1>
+      <p class="mt-4 max-w-[65ch] text-muted">
+        Originals are shown as supplied (<code>&lt;img&gt;</code>), including their built-in padding. The working
+        copy is inlined through <code>Logo.astro</code>, cropped to the artwork, and takes its colours from the
+        theme. Hairline boxes show each image's bounds.
+      </p>
+
+      {
+        sizes.map((size) => (
+          <section class="mt-12">
+            <h2 class="text-h3">{size}px</h2>
+            <div class="mt-4 grid gap-4 lg:grid-cols-2">
+              <div class="bg-bg text-fg rounded border border-line p-6">
+                <p class="text-small text-muted">Light theme</p>
+                <div class="mt-4 flex flex-wrap items-end gap-8">
+                  <figure>
+                    <img
+                      src="/logo/logo-full-colour.svg"
+                      width={size}
+                      height={size}
+                      alt=""
+                      class="outline outline-line"
+                    />
+                    <figcaption class="mt-2 text-small text-muted">Original, full colour</figcaption>
+                  </figure>
+                  <figure>
+                    <span class="block outline outline-line" style={`width:${size}px`}>
+                      <Logo class="block h-auto w-full" />
+                    </span>
+                    <figcaption class="mt-2 text-small text-muted">Working copy</figcaption>
+                  </figure>
+                </div>
+              </div>
+
+              <div class="dark bg-bg text-fg rounded border border-line p-6">
+                <p class="text-small text-muted">Dark theme</p>
+                <div class="mt-4 flex flex-wrap items-end gap-8">
+                  <figure>
+                    <img
+                      src="/logo/logo-mono-white.svg"
+                      width={size}
+                      height={size}
+                      alt=""
+                      class="outline outline-line"
+                    />
+                    <figcaption class="mt-2 text-small text-muted">Original, mono white</figcaption>
+                  </figure>
+                  <figure>
+                    <img
+                      src="/logo/logo-full-colour.svg"
+                      width={size}
+                      height={size}
+                      alt=""
+                      class="outline outline-line"
+                    />
+                    <figcaption class="mt-2 text-small text-muted">Original, full colour on navy (not used)</figcaption>
+                  </figure>
+                  <figure>
+                    <span class="block outline outline-line" style={`width:${size}px`}>
+                      <Logo class="block h-auto w-full" />
+                    </span>
+                    <figcaption class="mt-2 text-small text-muted">Working copy</figcaption>
+                  </figure>
+                </div>
+              </div>
+            </div>
+          </section>
+        ))
+      }
+
+      <section class="mt-16">
+        <h2 class="text-h3">Favicons</h2>
+        <p class="mt-2 max-w-[65ch] text-muted">
+          <code>favicon.svg</code> turns fully white (mono white) when the browser or OS is in dark mode. The
+          PNG/ICO fallbacks always use the light colours.
+        </p>
+        <div class="mt-4 grid gap-4 md:grid-cols-2">
+          {
+            ['', 'dark'].map((theme) => (
+              <div class:list={[theme, 'bg-bg text-fg rounded border border-line p-6']}>
+                <p class="text-small text-muted">{theme ? 'Dark' : 'Light'} tab strip</p>
+                <div class="mt-4 flex flex-wrap items-end gap-6">
+                  <figure>
+                    <img src="/favicon.svg" width="16" height="16" alt="" />
+                    <figcaption class="mt-2 text-small text-muted">SVG 16</figcaption>
+                  </figure>
+                  <figure>
+                    <img src="/favicon.svg" width="32" height="32" alt="" />
+                    <figcaption class="mt-2 text-small text-muted">SVG 32</figcaption>
+                  </figure>
+                  <figure>
+                    <img src="/favicon.ico" width="32" height="32" alt="" />
+                    <figcaption class="mt-2 text-small text-muted">ICO 32</figcaption>
+                  </figure>
+                  <figure>
+                    <img src="/apple-touch-icon.png" width="90" height="90" alt="" class="rounded-[20px]" />
+                    <figcaption class="mt-2 text-small text-muted">Apple touch</figcaption>
+                  </figure>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

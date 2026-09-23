@@ -1,0 +1,29 @@
+---
+/**
+ * Marks content that is not real yet. Always visible, in dev and production,
+ * so nothing can be mistaken for final copy. Listed in PLACEHOLDERS.md.
+ *
+ * `inline` sits in running text (a missing email address); `block` stands in
+ * for a whole element (a logo tile, a section of copy).
+ */
+interface Props {
+  label: string;
+  variant?: 'inline' | 'block';
+  class?: string;
+}
+
+const { label, variant = 'inline', class: className } = Astro.props;
+const Tag = variant === 'block' ? 'div' : 'span';
+---
+
+<Tag
+  data-placeholder
+  class:list={[
+    'border border-dashed border-control text-small text-muted',
+    variant === 'block' ? 'flex min-h-24 items-center justify-center p-4 text-center' : 'inline-block px-1.5 py-0.5',
+    className,
+  ]}
+>
+  <span>PLACEHOLDER: {label}</span>
+  <slot />
+</Tag>

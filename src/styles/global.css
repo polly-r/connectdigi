@@ -1,1 +1,179 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Colour tokens. The only place hex values appear in the project.
+ * Light values here; `.dark` (in the base layer below) swaps bg and fg.
+ * The accent and on-accent never change.
+ * Checked by scripts/check-contrast.mjs, which parses this file: keep the
+ * `--color-name: #HEX;` and `color-mix(in srgb, …)` formats below.
+ */
+@theme static {
+  --color-*: initial;
+  --color-bg: #FFFFFF;
+  --color-fg: #051D40;
+  --color-accent: #1976D2;
+  --color-on-accent: #FFFFFF;
+}
+
+/*
+ * Derived colours, mixed from fg and bg on the element that uses them, so
+ * they stay correct wherever `.dark` is applied.
+ */
+@theme inline {
+  --color-muted: color-mix(in srgb, var(--color-fg) 72%, var(--color-bg));
+  --color-control: color-mix(in srgb, var(--color-fg) 55%, var(--color-bg));
+  --color-line: color-mix(in srgb, var(--color-fg) 15%, var(--color-bg));
+}
+
+@theme {
+  /* Typefaces: swap either one here. Fraunces is provisional. */
+  --font-display: "Fraunces Variable", Georgia, "Times New Roman", serif;
+  --font-body: "Inter Variable", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --default-font-family: var(--font-body);
+
+  /* Fluid type scale, 360px → 1440px viewport. Replaces Tailwind's defaults. */
+  --text-*: initial;
+  --text-small: clamp(0.875rem, 0.8542rem + 0.0926vw, 0.9375rem);
+  --text-small--line-height: 1.5;
+  --text-body: clamp(1rem, 0.9583rem + 0.1852vw, 1.125rem);
+  --text-body--line-height: 1.6;
+  --text-lead: clamp(1.125rem, 1.0417rem + 0.3704vw, 1.375rem);
+  --text-lead--line-height: 1.5;
+  --text-h3: clamp(1.375rem, 1.25rem + 0.5556vw, 1.75rem);
+  --text-h3--line-height: 1.25;
+  --text-h2: clamp(1.75rem, 1.3333rem + 1.8519vw, 3rem);
+  --text-h2--line-height: 1.1;
+  --text-h2--letter-spacing: -0.01em;
+  --text-h1: clamp(2.25rem, 1.5rem + 3.3333vw, 4.5rem);
+  --text-h1--line-height: 1.02;
+  --text-h1--letter-spacing: -0.015em;
+  --text-display: clamp(2.75rem, 1rem + 7.7778vw, 8rem);
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.02em;
+
+  /* Spacing and grid. */
+  --spacing-gutter: clamp(1rem, 0.5rem + 2.2222vw, 2.5rem);
+  --spacing-section: clamp(4rem, 2rem + 8.8889vw, 10rem);
+  --container-site: 90rem;
+}
+
+@layer base {
+  /*
+   * Logo lower half: accent in light mode; in dark mode the whole mark is
+   * white, matching the supplied mono white logo. Used by logo-mark.svg.
+   */
+  :root {
+    color-scheme: light;
+    --color-logo-lower: var(--color-accent);
+  }
+
+  .dark {
+    --color-bg: #051D40;
+    --color-fg: #FFFFFF;
+    --color-logo-lower: currentColor;
+    color-scheme: dark;
+  }
+
+  /* Sticky header height; anchors scroll clear of it. */
+  :root {
+    --header-h: 4rem;
+
+    @media (width >= 48rem) {
+      --header-h: 5rem;
+    }
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--header-h);
+  }
+
+  /* Controls that do nothing without JS (theme toggle, menu button) are hidden
+     until the head script adds `.js`. The footer carries the full nav. */
+  html:not(.js) [data-requires-js] {
+    display: none !important;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-weight: 500;
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    ::before,
+    ::after {
+      transition-duration: 0.01ms !important;
+      transition-delay: 0s !important;
+    }
+  }
+}
+
+/* Centred page column with fluid side gutters. */
+@utility container-site {
+  width: 100%;
+  max-width: var(--container-site);
+  margin-inline: auto;
+  padding-inline: var(--spacing-gutter);
+}
+
+/* The site grid: 4 columns on mobile, 8 from md, 12 from lg. */
+@utility grid-site {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: var(--spacing-gutter);
+
+  @variant md {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+
+  @variant lg {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+}
+
+/*
+ * Body-size text link: foreground text with an accent underline in both
+ * themes (accent text fails AA on navy).
+ */
+@utility link {
+  text-decoration-line: underline;
+  text-decoration-color: var(--color-accent);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.2em;
+
+  &:hover {
+    text-decoration-thickness: 0.15em;
+  }
+}

@@ -1,20 +1,12 @@
 ---
-// Phase 0 holding page. Replaced by the real Home page in Phase 4.
-import '../styles/global.css';
-import { site } from '../data/site';
+// Temporary holding page. Home page, built in Phase 4
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Placeholder from '../components/Placeholder.astro';
 ---
 
-<html lang="en-ZA">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{site.name}</title>
-	</head>
-	<body>
-		<main>
-			<h1>{site.name}</h1>
-			<p>Scaffold only. Site under construction.</p>
-		</main>
-	</body>
-</html>
+<BaseLayout description="The Connect Digital is a digital marketing agency: web development, social media marketing, content creation, app development and tech solutions.">
+  <div class="container-site py-section">
+    <h1 class="text-h1">The Connect Digital</h1>
+    <Placeholder variant="block" class="mt-10" label="Home page, built in Phase 4" />
+  </div>
+</BaseLayout>
