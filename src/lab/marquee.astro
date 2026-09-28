@@ -3,17 +3,16 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Marquee from '../components/marquee/Marquee.astro';
 import MarqueeItem from '../components/marquee/MarqueeItem.astro';
-import Placeholder from '../components/Placeholder.astro';
+import ClientLogo from '../components/ClientLogo.astro';
 import { services } from '../data/site';
-
-const logoTiles = Array.from({ length: 6 }, (_, i) => `client logo ${i + 1}`);
+import { clients } from '../data/clients';
 ---
 
 <BaseLayout title="Lab: marquee" description="Marquee lab (dev only)." noindex>
   <div class="container-site py-12">
     <h1 class="text-h2">Lab: Marquee</h1>
     <p class="mt-4 max-w-[65ch] text-muted">
-      Three instances of one component. Hover (mouse), tap (touch) or the button pauses each one; focus pauses the
+      Three instances of one component. Hover (mouse) or tap (touch) pauses each one; keyboard focus pauses the
       CTA band. Reduced motion shows each as a static wrapped row.
     </p>
 
@@ -44,15 +43,15 @@ const logoTiles = Array.from({ length: 6 }, (_, i) => `client logo ${i + 1}`);
 
   <div class="container-site">
     <h2 class="text-small font-normal text-muted" style="font-family: var(--font-body)">
-      2. Client logo strip (startOnView, speed 40)
+      2. Client logo strip (startOnView, speed 40; stand-in brand logos, not clients)
     </h2>
   </div>
 
-  <Marquee label="Clients" speed={40} startOnView gap="1.5rem" class="container-site mt-4">
+  <Marquee label="Clients" speed={40} startOnView gap="4rem" class="container-site mt-4">
     {
-      logoTiles.map((label) => (
+      clients.map((logo) => (
         <MarqueeItem>
-          <Placeholder variant="block" label={label} class="h-20 min-h-0 w-44" />
+          <ClientLogo logo={logo} />
         </MarqueeItem>
       ))
     }

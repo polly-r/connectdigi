@@ -131,7 +131,9 @@ not a catalogue.
   touch) pauses the ticker. Items are plain text: no descriptions, no links
   (Decisions log, Phase 2).
 - Client logo strip via `Marquee`, animation starting only when scrolled into
-  view. Renders placeholder logo tiles until real client logos are supplied.
+  view. Currently shows STAND-IN logos of well-known brands (client decision,
+  Decisions log, Phase 2); none is a client, and all must be replaced with real
+  client logos before launch (`src/data/clients.ts`).
 - Stats: build and render the component with clearly labelled placeholder
   values (e.g. "[STAT 1]"), never invented numbers. The count-up animation
   only runs on numeric values, so placeholders show statically.
@@ -234,7 +236,7 @@ Rules:
 Props: `speed` (pixels per second, not duration, so pace is independent of
 content width), `mobileSpeed` (optional, defaults lower), `direction`
 (`'left' | 'right'`), `pauseOnHover`, `startOnView`, `gap`, `label`
-(accessible name), `showControl` (default `true`).
+(accessible name), and `href` + `linkLabel` for the CTA band.
 
 Implementation:
 - Render the item set once as a real list. On mount, measure it and clone the
@@ -251,8 +253,11 @@ Implementation:
 - Hover pause applies only under `@media (hover: hover)`. On touch, tapping the
   marquee pauses it; tapping elsewhere resumes. Focus within the marquee (for
   example the CTA band's link) also pauses it.
-- **Visible pause/play button** (`showControl`). WCAG 2.2.2 requires a way to
-  pause any auto-moving content that runs longer than five seconds.
+- **No pause/play button** (client decision, Decisions log, Phase 2). Known
+  gap: WCAG 2.2.2 asks for a way to pause auto-moving content that runs longer
+  than five seconds; keyboard-only users cannot pause strips that contain
+  nothing focusable (services ticker, logo strip). Hover, tap, focus and
+  reduced motion still apply.
 - `prefers-reduced-motion: reduce`: no animation and no clones. Render the
   single set as a static wrapped row.
 - No per-item descriptions (dropped in Phase 2). `MarqueeItem` is a plain
@@ -281,10 +286,13 @@ for the Privacy Policy.
 - Placeholders stay visible in both dev and production builds. They will be
   replaced by hand later. Do not hide, filter or conditionally render them.
 - Never invent client names, numbers, testimonials, quotes or contact details.
+  Exceptions the client asked for (Decisions log, Phase 2): stand-in brand
+  logos in the client strip, and reserved example contact values in the
+  footer. Both print a warning on every build until replaced.
 - Use a `Placeholder` component with a visible dashed outline and a label such as
   "PLACEHOLDER: client logo" so nothing can be mistaken for real content.
-- Contact details, social links and site URL live in `src/data/site.ts`, all
-  marked TBC.
+- Contact details, social links and site URL live in `src/data/site.ts`.
+  Contact details are example values, social profile URLs are TBC.
 - Maintain `PLACEHOLDERS.md` in the repo root listing every placeholder and
   where it lives, so the content handover is a checklist.
 
@@ -350,9 +358,19 @@ Phase 2 (2026-09-28):
   buttons, not links). The Marquee has no description feature.
 - Marquee extras: optional `href` + `linkLabel` put one link over the strip
   (used by the CTA band; the moving text is then hidden from screen readers).
-  The pause/play button sits beside the strip, outside the focus-pause area;
-  it shows "Play" while paused by the button or by a tap, and "Pause"
-  otherwise.
+- Pause/play button removed at the client's request, after being told it
+  leaves keyboard-only users unable to pause the services and logo strips
+  (WCAG 2.2.2). Hover, tap-to-pause, focus pause and reduced motion remain.
+- Footer contact shows an icon plus reserved example values
+  (hello@example.com, +27 00 000 0000, "Street, City, South Africa") instead of
+  dashed placeholders. Social shows Facebook, Instagram and LinkedIn icons;
+  they become links once profile URLs are supplied. Icons: Bootstrap Icons
+  (MIT), in `Icon.astro`.
+- Client logo strip uses stand-in logos of well-known brands (Spotify,
+  Airbnb, Shopify, Stripe, Netflix, Nike; Simple Icons, CC0) at the client's
+  request, after being told this reads as a client claim and is a trademark
+  risk if it goes live. None is a client. `src/data/clients.ts` has
+  `standIn = true`; `scripts/check-stand-ins.mjs` warns on every build.
 
 ## Working agreement
 - Use plan mode at the start of each phase and wait for approval.

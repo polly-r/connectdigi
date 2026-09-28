@@ -9,7 +9,7 @@
  * reduced motion, the single set shows as a static wrapped row.
  */
 interface Props {
-  /** Accessible name for the list, also used in the pause button's name. */
+  /** Accessible name for the list. */
   label: string;
   /** Pace in pixels per second, independent of content width. */
   speed?: number;
@@ -21,8 +21,6 @@ interface Props {
   startOnView?: boolean;
   /** Space after every item, as a CSS length. */
   gap?: string;
-  /** Visible pause/play button (WCAG 2.2.2). */
-  showControl?: boolean;
   /** Makes the whole strip one link (CTA band); the moving text is then hidden from assistive tech. */
   href?: string;
   /** Accessible name for the link. Required with `href`. */
@@ -38,7 +36,6 @@ const {
   pauseOnHover = true,
   startOnView = false,
   gap = '2.5rem',
-  showControl = true,
   href,
   linkLabel,
   class: className,
@@ -51,7 +48,6 @@ if (href && !linkLabel) throw new Error(`Marquee "${label}": \`linkLabel\` is re
   class:list={['marquee', className]}
   style={`--marquee-gap: ${gap}`}
   data-marquee
-  data-label={label}
   data-speed={speed}
   data-mobile-speed={mobileSpeed}
   data-direction={direction}
@@ -66,29 +62,6 @@ if (href && !linkLabel) throw new Error(`Marquee "${label}": \`linkLabel\` is re
     </div>
     {href && <a href={href} class="marquee-link" aria-label={linkLabel} />}
   </div>
-
-  {
-    showControl && (
-      <button
-        type="button"
-        class="marquee-control group grid size-11 shrink-0 place-items-center rounded-full border border-control hover:bg-line"
-        data-marquee-control
-        data-state="playing"
-        data-requires-js
-      >
-        <span class="sr-only" data-marquee-control-text>
-          Pause {label}
-        </span>
-        <svg viewBox="0 0 16 16" class="size-4 group-data-[state=paused]:hidden" aria-hidden="true" focusable="false">
-          <rect x="3.5" y="2.5" width="3" height="11" rx="0.5" fill="currentColor" />
-          <rect x="9.5" y="2.5" width="3" height="11" rx="0.5" fill="currentColor" />
-        </svg>
-        <svg viewBox="0 0 16 16" class="hidden size-4 group-data-[state=paused]:block" aria-hidden="true" focusable="false">
-          <path d="M4.5 2.5v11l9-5.5z" fill="currentColor" />
-        </svg>
-      </button>
-    )
-  }
 </div>
 
 <style is:global>
@@ -101,16 +74,8 @@ if (href && !linkLabel) throw new Error(`Marquee "${label}": \`linkLabel\` is re
     }
   }
 
-  .marquee {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
   .marquee-viewport {
     position: relative;
-    flex: 1;
-    min-width: 0;
     overflow: hidden;
   }
 
@@ -186,10 +151,6 @@ if (href && !linkLabel) throw new Error(`Marquee "${label}": \`linkLabel\` is re
   @media (prefers-reduced-motion: reduce) {
     .marquee-track {
       animation: none !important;
-    }
-
-    .marquee-control {
-      display: none;
     }
   }
 </style>

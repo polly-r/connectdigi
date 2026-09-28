@@ -9,13 +9,24 @@ content-handover checklist: tick an item once the real content is in.
 > advice. Its final text needs review by the client and, ideally, a legal
 > professional before launch.
 
-## Company and contact details — `src/data/site.ts`
+## ⚠ Must replace before launch (look real, are not)
+
+These are shown without a dashed placeholder outline at the client's request,
+so they can pass for real content. `npm run build` prints a warning while any
+of them is in place (`scripts/check-stand-ins.mjs`).
+
+- [ ] **Client logos: stand-in brand logos, NOT clients.** Spotify, Airbnb,
+      Shopify, Stripe, Netflix, Nike. Replace with real, approved client logos
+      in `src/data/clients.ts`, then set `standIn = false`.
+- [ ] **Contact email** (example value `hello@example.com`): `site.contact.email`
+- [ ] **Contact phone** (example value `+27 00 000 0000`): `site.contact.phone`
+- [ ] **Business address** (example value `Street, City, South Africa`): `site.contact.address`
+
+## Company and social — `src/data/site.ts`
 
 - [ ] Site URL / domain: `SITE_URL` (currently `https://theconnectdigital.invalid`; also drives sitemap and canonical URLs)
-- [ ] Contact email: `site.contact.email`
-- [ ] Contact phone: `site.contact.phone`
-- [ ] Business address: `site.contact.address`
-- [ ] Social networks and profile URLs: `site.social`
+- [ ] Facebook, Instagram, LinkedIn profile URLs: `site.social[].href`
+      (icons show in the footer now; they become links once a URL is set)
 
 ## Privacy Policy facts — `src/data/site.ts`
 
@@ -55,7 +66,7 @@ Each shows a block `Placeholder` and is linked from the nav/footer so links neve
 ## Not built yet (added as each phase lands)
 
 - [ ] Home hero headline (Phase 4)
-- [ ] Client logos (Phase 4, logo strip)
+- [ ] Client logo strip on Home (Phase 4; logos themselves listed above)
 - [ ] Stats values (Phase 4)
 - [ ] About manifesto paragraphs (Phase 5)
 - [ ] Case studies, one placeholder per service line (Phase 6, `src/content/work/`)

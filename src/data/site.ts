@@ -35,16 +35,23 @@ export const site = {
   url: SITE_URL,
   locale: 'en-ZA',
 
+  /**
+   * EXAMPLE VALUES, NOT REAL. Shown as-is in the footer at the client's
+   * request (CLAUDE.md, Decisions log, Phase 2). example.com is reserved
+   * (RFC 2606) and the 000 number doesn't exist. Replace with real details;
+   * listed in PLACEHOLDERS.md.
+   */
   contact: {
-    email: tbc('contact email'),
-    phone: tbc('contact phone'),
-    address: tbc('business address'),
+    email: 'hello@example.com',
+    phone: '+27 00 000 0000',
+    address: 'Street, City, South Africa',
   },
 
-  /** Which networks, and their URLs, are still to be supplied. */
+  /** Networks are decided; profile URLs are still to be supplied. */
   social: [
-    { label: tbc('social network 1'), href: tbc('social profile URL 1') },
-    { label: tbc('social network 2'), href: tbc('social profile URL 2') },
+    { network: 'facebook', label: 'Facebook', href: tbc('Facebook profile URL') },
+    { network: 'instagram', label: 'Instagram', href: tbc('Instagram profile URL') },
+    { network: 'linkedin', label: 'LinkedIn', href: tbc('LinkedIn profile URL') },
   ],
 
   /** Company facts for the Privacy Policy (POPIA). */

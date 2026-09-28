@@ -12,8 +12,9 @@
     "astro": "astro",
     "check": "astro check",
     "check:contrast": "node scripts/check-contrast.mjs",
-    "prebuild": "node scripts/check-contrast.mjs",
-    "logo": "node scripts/build-logo.mjs"
+    "prebuild": "node scripts/check-contrast.mjs && node scripts/check-stand-ins.mjs",
+    "logo": "node scripts/build-logo.mjs",
+    "check:stand-ins": "node scripts/check-stand-ins.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^7.0.0",

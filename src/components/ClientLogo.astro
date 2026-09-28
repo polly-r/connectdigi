@@ -1,0 +1,26 @@
+---
+/**
+ * One client logo for the logo strip, drawn in the muted text colour so a
+ * set of logos reads as one quiet row in both themes.
+ * Data: src/data/clients.ts (currently stand-ins, see that file).
+ */
+import type { ClientLogo } from '../data/clients';
+
+interface Props {
+  logo: ClientLogo;
+  class?: string;
+}
+
+const { logo, class: className } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 24 24"
+  fill="currentColor"
+  role="img"
+  aria-label={logo.name}
+  focusable="false"
+  class:list={['h-9 w-auto text-muted md:h-10', className]}
+>
+  <path d={logo.path} />
+</svg>

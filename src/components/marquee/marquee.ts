@@ -11,12 +11,13 @@
  * On resize (debounced), font load, or crossing the mobile breakpoint, the
  * track is re-measured and the animation resumes from the same pixel offset.
  *
- * Paused while any reason applies: the pause button, off-screen, waiting for
- * first view (startOnView), or a tap on touch. Hover and focus pausing is pure
- * CSS. Reduced motion: no clones, no animation (static wrapped row).
+ * Paused while any reason applies: off-screen, waiting for first view
+ * (startOnView), or a tap on touch. Hover and focus pausing is pure CSS.
+ * There is no pause/play button (client decision, CLAUDE.md Decisions log,
+ * Phase 2). Reduced motion: no clones, no animation (static wrapped row).
  */
 
-type PauseReason = 'user' | 'offscreen' | 'waiting' | 'touch';
+type PauseReason = 'offscreen' | 'waiting' | 'touch';
 
 const MOBILE_QUERY = '(max-width: 47.999rem)';
 const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
@@ -26,9 +27,6 @@ class Marquee {
   private readonly viewport: HTMLElement;
   private readonly track: HTMLElement;
   private readonly set: HTMLElement;
-  private readonly control: HTMLButtonElement | null;
-  private readonly controlText: HTMLElement | null;
-  private readonly label: string;
   private readonly speed: number;
   private readonly mobileSpeed: number;
   private readonly reverse: boolean;
@@ -49,9 +47,6 @@ class Marquee {
     this.viewport = root.querySelector<HTMLElement>('[data-marquee-viewport]')!;
     this.track = root.querySelector<HTMLElement>('[data-marquee-track]')!;
     this.set = root.querySelector<HTMLElement>('[data-marquee-set]')!;
-    this.control = root.querySelector<HTMLButtonElement>('[data-marquee-control]');
-    this.controlText = root.querySelector<HTMLElement>('[data-marquee-control-text]');
-    this.label = root.dataset.label ?? '';
     this.speed = Number(root.dataset.speed) || 50;
     this.mobileSpeed = Number(root.dataset.mobileSpeed) || this.speed;
     this.reverse = root.dataset.direction === 'right';
@@ -61,20 +56,6 @@ class Marquee {
     const onReducedMotionChange = () => (this.reducedMotion.matches ? this.stop() : this.start());
     this.reducedMotion.addEventListener('change', onReducedMotionChange);
     this.teardown.push(() => this.reducedMotion.removeEventListener('change', onReducedMotionChange));
-
-    if (this.control) {
-      const onControl = () => {
-        if (this.interactivelyPaused()) {
-          this.reasons.delete('user');
-          this.reasons.delete('touch');
-        } else {
-          this.reasons.add('user');
-        }
-        this.update();
-      };
-      this.control.addEventListener('click', onControl);
-      this.teardown.push(() => this.control?.removeEventListener('click', onControl));
-    }
 
     if (!this.reducedMotion.matches) this.start();
   }
@@ -224,16 +205,8 @@ class Marquee {
     this.copies = copies;
   }
 
-  private interactivelyPaused(): boolean {
-    return this.reasons.has('user') || this.reasons.has('touch');
-  }
-
   private update(): void {
     this.root.toggleAttribute('data-paused', this.reasons.size > 0);
-    if (!this.control || !this.controlText) return;
-    const paused = this.interactivelyPaused();
-    this.control.dataset.state = paused ? 'paused' : 'playing';
-    this.controlText.textContent = `${paused ? 'Play' : 'Pause'} ${this.label}`;
   }
 }
 
