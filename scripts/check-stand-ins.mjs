@@ -2,7 +2,7 @@
 // stand-in content that must not go live is still in place:
 //   - brand logos used as stand-in clients (src/data/clients.ts)
 //   - example contact details (src/data/site.ts)
-//   - draft hero copy (src/data/home.ts)
+//   - draft hero copy and sample stats (src/data/home.ts)
 // See PLACEHOLDERS.md.
 
 import { readFileSync } from 'node:fs';
@@ -27,6 +27,13 @@ if (/example\.com|000 0000/.test(site)) {
 const home = read('src/data/home.ts');
 if (/export const heroDraft = true/.test(home)) {
   warnings.push('Home hero headline and intro are DRAFT copy. Replace in src/data/home.ts, then set heroDraft = false.');
+}
+if (/export const statsSample = true/.test(home)) {
+  const values = [...home.matchAll(/\{ value: '([^']+)', label: '([^']+)' \}/g)].map((m) => `${m[1]} ${m[2].toLowerCase()}`);
+  warnings.push(
+    `Home stats are SAMPLE figures, not real (${values.join('; ')}).`,
+    '  Replace with verified figures in src/data/home.ts, then set statsSample = false.',
+  );
 }
 
 if (warnings.length) {

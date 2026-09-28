@@ -24,6 +24,11 @@ of them is in place (`scripts/check-stand-ins.mjs`).
 - [ ] **Home hero headline and intro: DRAFT copy** ("Digital work that connects." /
       "Web, social, content and apps for startups, local businesses and luxury brands.").
       Replace in `src/data/home.ts`, then set `heroDraft = false`.
+- [ ] **Home stats: SAMPLE figures, not real.** 120+ projects delivered, 45+
+      startups assisted, R25m+ revenue generated for clients, 15 industries
+      served. The labels are the client's; every value must be replaced with a
+      verified figure in `src/data/home.ts`, then set `statsSample = false`.
+      A value counts up if it's a number with a short prefix/suffix (`120+`, `R25m+`).
 
 ## Company and social — `src/data/site.ts`
 
@@ -53,8 +58,6 @@ of them is in place (`scripts/check-stand-ins.mjs`).
 
 ## Home — `src/data/home.ts`
 
-- [ ] Stats: four values and labels, shown as `[STAT 1]` / `[STAT 1 LABEL]` …
-      A numeric value (e.g. `120+`, `98%`) counts up automatically.
 - [ ] Hero button label ("Start a project") and section labels ("What we do",
       "In numbers", "Clients"): draft UI copy, confirm wording
 

@@ -134,9 +134,11 @@ not a catalogue.
   view. Currently shows STAND-IN logos of well-known brands (client decision,
   Decisions log, Phase 2); none is a client, and all must be replaced with real
   client logos before launch (`src/data/clients.ts`).
-- Stats: build and render the component with clearly labelled placeholder
-  values (e.g. "[STAT 1]"), never invented numbers. The count-up animation
-  only runs on numeric values, so placeholders show statically.
+- Stats: currently SAMPLE figures under the client's labels (client decision,
+  Decisions log, Phase 4); every value must be replaced with a verified
+  figure before launch (`statsSample` in `src/data/home.ts`, build warns).
+  The count-up animation only runs on numeric values, so "[STAT n]"-style
+  placeholders show statically.
 
 ### About
 Structure reference: narrativearcstudio.com/about-us. No team section, bios or
@@ -392,7 +394,7 @@ Phase 4 (2026-09-28):
   client's request ("Digital work that connects." + intro), with
   `heroDraft = true` in `src/data/home.ts`; the build warns until replaced.
 - Home order: hero (headline, intro, "Start a project" CTA) → services
-  ticker (full width) → stats → divider → client strip.
+  ticker (full width) → divider → stats → divider → client strip.
 - Reveals pre-hide with opacity only (content stays in the accessibility
   tree) and have a CSS failsafe that shows content after 2.5s if scripts
   never run. The hero split is reverted after the reveal.
@@ -400,6 +402,11 @@ Phase 4 (2026-09-28):
   up to 3 characters ("120+", "98%", "R2.5m"); "[STAT 1]" placeholders stay
   static. Rule: `NUMERIC_STAT` in `src/data/home.ts`.
 - Footer has no top margin; each page supplies its own bottom padding.
+- Stats use sample figures at the client's request, after being told each
+  becomes a factual claim once live: labels (client's) Projects delivered,
+  Startups assisted, Revenue generated for clients, Industries served; sample
+  values 120+, 45+, R25m+, 15. `statsSample = true`; the build warns.
+- A second node divider sits between the services ticker and the stats.
 
 ## Working agreement
 - Use plan mode at the start of each phase and wait for approval.

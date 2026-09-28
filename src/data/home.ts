@@ -6,8 +6,8 @@
  * log, Phase 4). They need the client's final wording before launch; the
  * build warns while `heroDraft` is true. Listed in PLACEHOLDERS.md.
  *
- * Stats are labelled placeholders, never invented numbers (CLAUDE.md). The
- * count-up runs only when a value is numeric, e.g. "120+", "98%", "R2.5m".
+ * Stats are sample figures for now (see `statsSample` below). The count-up
+ * runs only when a value is numeric, e.g. "120+", "98%", "R2.5m".
  */
 
 /** Flip to false once the client has approved the hero copy. */
@@ -32,9 +32,18 @@ export interface Stat {
   label: string;
 }
 
+/**
+ * SAMPLE FIGURES, NOT REAL. The labels are the client's; the values are
+ * plausible stand-ins at the client's request (CLAUDE.md, Decisions log,
+ * Phase 4). Each is a factual claim once live, so every value must be
+ * replaced with a verified figure before launch; the build warns while
+ * `statsSample` is true. Listed in PLACEHOLDERS.md.
+ */
+export const statsSample = true;
+
 export const stats: Stat[] = [
-  { value: '[STAT 1]', label: '[STAT 1 LABEL]' },
-  { value: '[STAT 2]', label: '[STAT 2 LABEL]' },
-  { value: '[STAT 3]', label: '[STAT 3 LABEL]' },
-  { value: '[STAT 4]', label: '[STAT 4 LABEL]' },
+  { value: '120+', label: 'Projects delivered' },
+  { value: '45+', label: 'Startups assisted' },
+  { value: 'R25m+', label: 'Revenue generated for clients' },
+  { value: '15', label: 'Industries served' },
 ];
