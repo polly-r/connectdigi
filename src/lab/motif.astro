@@ -1,0 +1,178 @@
+---
+// Dev-only: the node motif primitive and the options for applying it.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Logo from '../components/Logo.astro';
+import NodeNetwork from '../components/motif/NodeNetwork.astro';
+import MotifLink from '../components/motif/MotifLink.astro';
+import MotifButton from '../components/motif/MotifButton.astro';
+import NodeDivider from '../components/motif/NodeDivider.astro';
+import SubmitButton from '../components/motif/SubmitButton.astro';
+import type { MotifNetwork } from '../lib/node-motif';
+
+const sample: MotifNetwork = {
+  nodes: [
+    { id: 'a', x: 0, y: 10, size: 'xl', kind: 'ring' },
+    { id: 'b', x: 7, y: 4, size: 's' },
+    { id: 'c', x: 14, y: 8, size: 'm' },
+    { id: 'd', x: 22, y: 2, size: 'l', kind: 'ring' },
+    { id: 'e', x: 30, y: 9, size: 'l' },
+    { id: 'f', x: 37, y: 3, size: 'm', kind: 'ring' },
+  ],
+  links: [
+    ['a', 'b'],
+    ['b', 'c'],
+    ['c', 'd'],
+    ['d', 'e'],
+    ['e', 'f'],
+  ],
+  arcs: [{ from: 'a', to: 'f', radius: 30, sweep: 1 }],
+};
+
+const navItems = [
+  { label: 'Home', href: '#' },
+  { label: 'About', href: '#', current: true },
+  { label: 'Services', href: '#' },
+  { label: 'Connect', href: '#' },
+];
+
+const options = [
+  { variant: 'underline', title: 'A. Node underline', note: 'Ring at the start, connector draws under the text to a solid node.' },
+  { variant: 'lead', title: 'B. Leading node', note: 'A solid node and short connector draw in before the text.' },
+  { variant: 'arc', title: 'C. Arc underline', note: 'An arc under the text joins a ring to a solid node.' },
+] as const;
+
+const label = 'mt-2 text-small text-muted';
+---
+
+<BaseLayout title="Lab: node motif" description="Node motif lab (dev only)." noindex>
+  <div class="container-site space-y-20 py-12">
+    <header>
+      <h1 class="text-h2">Lab: node motif</h1>
+      <p class="mt-4 max-w-[65ch] text-muted">
+        One primitive in the logo's vocabulary: solid nodes, ring nodes, straight connectors, arc segments.
+        Proportions are measured from the logo (connector 1w; nodes 0.85w, 1.7w, 2.2w, 3w; ring band = half the
+        radius).
+      </p>
+    </header>
+
+    <section>
+      <h2 class="text-h3">1. Vocabulary vs the logo</h2>
+      <div class="mt-6 flex flex-wrap items-end gap-12">
+        <figure>
+          <Logo class="h-40 w-auto" />
+          <figcaption class={label}>Logo mark</figcaption>
+        </figure>
+        <figure>
+          <NodeNetwork {...sample} unit={4} class="text-accent" />
+          <figcaption class={label}>NodeNetwork, 4px per w</figcaption>
+        </figure>
+        <figure>
+          <NodeNetwork {...sample} unit={2} class="text-accent" />
+          <figcaption class={label}>2px per w</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-h3">2. Link hover: choose one</h2>
+      <p class="mt-2 max-w-[65ch] text-muted">
+        Hover or Tab through each row. "About" is marked as the current page and holds the drawn state. The motif
+        is accent; the text stays foreground.
+      </p>
+      <div class="mt-6 grid gap-6 md:grid-cols-3">
+        {
+          options.map((option) => (
+            <div class="border border-line p-6">
+              <h3 class="font-body text-body font-medium">{option.title}</h3>
+              <p class={label}>{option.note}</p>
+              <nav aria-label={option.title} class="mt-6">
+                <ul class:list={['flex flex-wrap gap-x-8 gap-y-4', option.variant === 'lead' && 'pl-6']}>
+                  {navItems.map((item) => (
+                    <li>
+                      <MotifLink href={item.href} variant={option.variant} current={item.current}>
+                        {item.label}
+                      </MotifLink>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-h3">3. Button hover</h2>
+      <p class="mt-2 max-w-[65ch] text-muted">The connector extends and the ring travels out on hover or focus.</p>
+      <div class="mt-6">
+        <MotifButton href="#">Start a project</MotifButton>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-h3">4. Form submit states</h2>
+      <div class="mt-6 flex flex-wrap items-center gap-6">
+        <figure>
+          <SubmitButton type="button" state="idle" />
+          <figcaption class={label}>Idle</figcaption>
+        </figure>
+        <figure>
+          <SubmitButton type="button" state="submitting" />
+          <figcaption class={label}>Submitting (static)</figcaption>
+        </figure>
+        <figure>
+          <SubmitButton type="button" state="success" />
+          <figcaption class={label}>Success (static)</figcaption>
+        </figure>
+      </div>
+      <h3 class="mt-10 font-body text-body font-medium">Live demo</h3>
+      <div class="mt-4 flex flex-wrap items-center gap-6">
+        <SubmitButton type="button" id="demo-submit" />
+        <button type="button" class="link" id="demo-reset">Reset</button>
+      </div>
+      <p class="mt-3 min-h-[1.5em] text-small text-muted" role="status" id="demo-status"></p>
+    </section>
+
+    <section>
+      <h2 class="text-h3">5. Section divider</h2>
+      <p class="mt-2 max-w-[65ch] text-muted">
+        Scroll down. Each divider draws in once, the first time it enters the viewport.
+      </p>
+    </section>
+  </div>
+
+  <div class="min-h-[90vh]"></div>
+
+  <div class="container-site space-y-24 pb-32">
+    <NodeDivider />
+    <p class="max-w-[65ch] text-muted">Content between sections.</p>
+    <NodeDivider />
+  </div>
+</BaseLayout>
+
+<script>
+  import { setSubmitState } from '../components/motif/submit-motif';
+
+  const button = document.getElementById('demo-submit');
+  const reset = document.getElementById('demo-reset');
+  const status = document.getElementById('demo-status');
+  let timer: number | undefined;
+
+  button?.addEventListener('click', () => {
+    if (!status || button.getAttribute('aria-disabled') === 'true') return;
+    setSubmitState(button, 'submitting');
+    status.textContent = 'Sending your message…';
+    timer = window.setTimeout(() => {
+      setSubmitState(button, 'success');
+      status.textContent = 'Message sent.';
+    }, 2400);
+  });
+
+  reset?.addEventListener('click', () => {
+    if (!button || !status) return;
+    window.clearTimeout(timer);
+    setSubmitState(button, 'idle');
+    status.textContent = '';
+  });
+</script>

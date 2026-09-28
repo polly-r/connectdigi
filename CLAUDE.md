@@ -372,6 +372,21 @@ Phase 2 (2026-09-28):
   risk if it goes live. None is a client. `src/data/clients.ts` has
   `standIn = true`; `scripts/check-stand-ins.mjs` warns on every build.
 
+Phase 3 (2026-09-28):
+- Motif proportions measured from the logo, in connector widths (w):
+  connectors/arcs 1w; node radii s 0.85w, m 1.7w, l 2.2w, xl 3w; ring band =
+  half the outer radius. Single source: `src/lib/node-motif.ts`.
+- The logo is not animated. The motif is drawn with transform and opacity
+  only: connectors are rotated rects/lines scaled in from their start
+  (scaleX), nodes scale from their centre. No stroke-dashoffset.
+- Link and button hovers are plain CSS transitions (no GSAP), shown on hover
+  (hover-capable devices), keyboard focus, and held for the current page.
+  GSAP (via `src/lib/gsap.ts`, gsap.matchMedia) is used for the divider
+  draw-in and the submit states. Link hover variant still to be chosen from
+  /lab/motif (A underline, B leading node, C arc underline).
+- Divider uses m and larger nodes: at 2px per w an s node disappears into
+  the line.
+
 ## Working agreement
 - Use plan mode at the start of each phase and wait for approval.
 - Commit at the end of each phase with a clear message.

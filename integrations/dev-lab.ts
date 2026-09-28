@@ -5,7 +5,7 @@ import type { AstroIntegration } from 'astro';
  * (outside src/pages) and are routed only under `astro dev`, so they never
  * reach a production build.
  */
-const labPages = ['logo', 'marquee'];
+const labPages = ['logo', 'marquee', 'motif'];
 
 export default function devLab(): AstroIntegration {
   return {

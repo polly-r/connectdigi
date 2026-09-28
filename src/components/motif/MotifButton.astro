@@ -1,0 +1,77 @@
+---
+/**
+ * Primary button (or button-styled link) with the node-motif hover: a short
+ * connector after the label extends and its ring node travels out, like an
+ * arrow drawn in the logo's vocabulary. CSS only, transform-based.
+ * White on accent (4.6:1) in both themes.
+ */
+import { ringGeometry } from '../../lib/node-motif';
+
+interface Props {
+  href?: string;
+  type?: 'button' | 'submit';
+  class?: string;
+}
+
+const { href, type = 'button', class: className } = Astro.props;
+
+const UNIT = 1.5;
+const WIDTH = 28;
+const ring = ringGeometry('l');
+const ringCx = WIDTH - ring.outer * UNIT;
+const REST = 0.4; // resting connector length, as a fraction of full
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag
+  href={href}
+  type={href ? undefined : type}
+  class:list={[
+    'mb inline-flex items-center gap-3 rounded-full bg-accent px-6 py-3 font-medium text-on-accent',
+    className,
+  ]}
+  style={`--mb-ring-rest: ${-(1 - REST) * ringCx}px; --mb-link-rest: ${REST}`}
+>
+  <span><slot /></span>
+  <svg class="mb-net" width={WIDTH} height="8" aria-hidden="true" focusable="false">
+    <line x1="0" y1="4" x2={ringCx} y2="4" stroke-width={UNIT} class="mb-link" />
+    <circle cx={ringCx} cy="4" r={ring.mid * UNIT} stroke-width={ring.band * UNIT} class="mb-ring" />
+  </svg>
+</Tag>
+
+<style>
+  .mb {
+    --nn-hole: var(--color-accent);
+  }
+
+  .mb-net {
+    overflow: visible;
+  }
+
+  .mb-link {
+    stroke: currentColor;
+    transform-box: fill-box;
+    transform-origin: left center;
+    transform: scaleX(var(--mb-link-rest));
+    transition: transform 200ms ease-in-out;
+  }
+
+  .mb-ring {
+    fill: var(--nn-hole);
+    stroke: currentColor;
+    transform: translateX(var(--mb-ring-rest));
+    transition: transform 200ms ease-in-out;
+  }
+
+  @media (hover: hover) {
+    .mb:hover .mb-link,
+    .mb:hover .mb-ring {
+      transform: none;
+    }
+  }
+
+  .mb:focus-visible .mb-link,
+  .mb:focus-visible .mb-ring {
+    transform: none;
+  }
+</style>

@@ -1,0 +1,82 @@
+---
+/**
+ * Section divider: a full-width line of nodes and connectors that draws in
+ * once, the first time it scrolls into view (./divider.ts, GSAP ScrollTrigger).
+ *
+ * Positions are percentages of the width, radii are px, so nodes stay round
+ * at any width with no stretching. Sizes follow src/lib/node-motif.ts at
+ * 2px per connector width. Accent in both themes (graphics, 3:1 rule).
+ * Without JS, or with reduced motion, it shows fully drawn.
+ */
+import { NODE_RADIUS, ringGeometry, type NodeKind, type NodeSize } from '../../lib/node-motif';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+
+const UNIT = 2;
+const HEIGHT = 14;
+const CY = HEIGHT / 2;
+
+const nodes: Array<{ at: number; size: NodeSize; kind?: NodeKind }> = [
+  // Smallest node is m: at 2px per w an s node (3.4px) disappears into the 2px line.
+  { at: 0, size: 'l', kind: 'ring' },
+  { at: 14, size: 'm' },
+  { at: 33, size: 'l' },
+  { at: 52, size: 'l', kind: 'ring' },
+  { at: 70, size: 'm' },
+  { at: 86, size: 'l' },
+  { at: 100, size: 'l', kind: 'ring' },
+];
+
+const segments = nodes.slice(1).map((node, i) => ({ from: nodes[i]!.at, to: node.at }));
+---
+
+<div class:list={['node-divider text-accent', className]} aria-hidden="true">
+  <svg width="100%" height={HEIGHT} class="block overflow-visible" focusable="false" data-node-divider>
+    {
+      segments.map(({ from, to }) => (
+        <line x1={`${from}%`} y1={CY} x2={`${to}%`} y2={CY} stroke-width={UNIT} class="nd-link" data-nn-link />
+      ))
+    }
+    {
+      nodes.map(({ at, size, kind }) => {
+        if (kind === 'ring') {
+          const { mid, band } = ringGeometry(size);
+          return <circle cx={`${at}%`} cy={CY} r={mid * UNIT} stroke-width={band * UNIT} class="nd-ring" data-nn-node />;
+        }
+        return <circle cx={`${at}%`} cy={CY} r={NODE_RADIUS[size] * UNIT} class="nd-solid" data-nn-node />;
+      })
+    }
+  </svg>
+</div>
+
+<style>
+  .nd-link {
+    stroke: currentColor;
+  }
+
+  .nd-solid {
+    fill: currentColor;
+  }
+
+  .nd-ring {
+    fill: var(--nn-hole, var(--color-bg));
+    stroke: currentColor;
+  }
+
+  /* Hidden until the script has set the start state (avoids a drawn flash). */
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html.js) [data-node-divider]:not([data-motif-ready]) {
+      opacity: 0;
+    }
+  }
+</style>
+
+<script>
+  import { init } from './divider';
+
+  init();
+</script>

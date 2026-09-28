@@ -1,0 +1,80 @@
+---
+/**
+ * Form submit button with the node-motif states:
+ *   idle        the label
+ *   submitting  "Sending…" + three nodes pulsing in turn along a connector
+ *   success     "Sent" + a check mark drawn in nodes
+ *
+ * State is set with setSubmitState() from ./submit-motif.ts. All three
+ * layers share one grid cell, so the button never changes size; only the
+ * visible layer counts towards the accessible name. aria-disabled (not
+ * `disabled`) keeps focus on the button while it's busy.
+ *
+ * Status announcements belong to the form (a role="status" region), not here.
+ */
+import NodeNetwork from './NodeNetwork.astro';
+import { CHECK, LOADER } from '../../lib/node-motif';
+import type { SubmitState } from './submit-motif';
+
+interface Props {
+  label?: string;
+  submittingLabel?: string;
+  successLabel?: string;
+  type?: 'button' | 'submit';
+  /** Starting state; normally idle (the lab shows each state side by side). */
+  state?: SubmitState;
+  class?: string;
+  id?: string;
+}
+
+const {
+  label = 'Send message',
+  submittingLabel = 'Sending…',
+  successLabel = 'Sent',
+  type = 'submit',
+  state = 'idle',
+  class: className,
+  id,
+} = Astro.props;
+---
+
+<button
+  id={id}
+  type={type}
+  class:list={['sm inline-grid rounded-full bg-accent px-6 py-3 font-medium text-on-accent', className]}
+  data-submit-motif
+  data-state={state}
+  aria-disabled={state === 'idle' ? 'false' : 'true'}
+>
+  <span class="sm-layer" data-layer="idle">{label}</span>
+  <span class="sm-layer inline-flex items-center gap-3" data-layer="submitting">
+    {submittingLabel}
+    <NodeNetwork {...LOADER} unit={1.5} />
+  </span>
+  <span class="sm-layer inline-flex items-center gap-3" data-layer="success">
+    {successLabel}
+    <NodeNetwork {...CHECK} unit={1.5} />
+  </span>
+</button>
+
+<style>
+  .sm {
+    --nn-hole: var(--color-accent);
+  }
+
+  .sm[aria-disabled='true'] {
+    cursor: default;
+  }
+
+  .sm-layer {
+    grid-area: 1 / 1;
+    place-self: center;
+    visibility: hidden;
+  }
+
+  .sm[data-state='idle'] [data-layer='idle'],
+  .sm[data-state='submitting'] [data-layer='submitting'],
+  .sm[data-state='success'] [data-layer='success'] {
+    visibility: visible;
+  }
+</style>

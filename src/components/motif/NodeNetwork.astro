@@ -1,0 +1,107 @@
+---
+/**
+ * Draws a node network in the logo's visual vocabulary: solid nodes, ring
+ * nodes, straight connectors and arc segments. Geometry is in connector
+ * widths (w); `unit` sets px per w. Proportions: src/lib/node-motif.ts.
+ *
+ * Colour is currentColor (set `color` on a parent, e.g. text-accent). Ring
+ * holes are filled with --nn-hole (defaults to the page background) so
+ * connectors running to a ring's centre don't show through it.
+ *
+ * Connectors are rects inside a group rotated to their angle, so a script
+ * can "draw" one in with scaleX from its start (transform only). Elements
+ * carry data-nn-node / data-nn-link / data-nn-arc, in the order given.
+ */
+import { NODE_RADIUS, ringGeometry, type MotifNetwork } from '../../lib/node-motif';
+
+interface Props extends MotifNetwork {
+  unit?: number;
+  /** Accessible name; omit for decorative use (hidden from assistive tech). */
+  label?: string;
+  class?: string;
+}
+
+const { nodes, links = [], arcs = [], unit = 2, label, class: className } = Astro.props;
+
+const byId = new Map(nodes.map((n) => [n.id, n]));
+const get = (id: string) => {
+  const node = byId.get(id);
+  if (!node) throw new Error(`NodeNetwork: unknown node "${id}"`);
+  return node;
+};
+const radiusOf = (id: string) => NODE_RADIUS[get(id).size ?? 'm'];
+
+// View box: every node plus its radius.
+const minX = Math.min(...nodes.map((n) => n.x - radiusOf(n.id)));
+const maxX = Math.max(...nodes.map((n) => n.x + radiusOf(n.id)));
+const minY = Math.min(...nodes.map((n) => n.y - radiusOf(n.id)));
+const maxY = Math.max(...nodes.map((n) => n.y + radiusOf(n.id)));
+const width = maxX - minX;
+const height = maxY - minY;
+const round = (n: number) => Math.round(n * 1000) / 1000;
+
+const linkShapes = links.map(([from, to]) => {
+  const a = get(from);
+  const b = get(to);
+  const length = Math.hypot(b.x - a.x, b.y - a.y);
+  const angle = (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI;
+  return { x: a.x, y: a.y, length: round(length), angle: round(angle) };
+});
+
+const arcShapes = arcs.map(({ from, to, radius, sweep = 0 }) => {
+  const a = get(from);
+  const b = get(to);
+  return `M${a.x} ${a.y} A${radius} ${radius} 0 0 ${sweep} ${b.x} ${b.y}`;
+});
+---
+
+<svg
+  viewBox={`${round(minX)} ${round(minY)} ${round(width)} ${round(height)}`}
+  width={round(width * unit)}
+  height={round(height * unit)}
+  class:list={['nn', className]}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+  focusable="false"
+>
+  {arcShapes.map((d) => <path d={d} class="nn-arc" data-nn-arc />)}
+  {
+    linkShapes.map(({ x, y, length, angle }) => (
+      <g transform={`translate(${x} ${y}) rotate(${angle})`}>
+        <rect x="0" y="-0.5" width={length} height="1" class="nn-link" data-nn-link />
+      </g>
+    ))
+  }
+  {
+    nodes.map(({ x, y, size = 'm', kind = 'solid' }) => {
+      if (kind === 'ring') {
+        const { mid, band } = ringGeometry(size);
+        return <circle cx={x} cy={y} r={mid} stroke-width={band} class="nn-ring" data-nn-node />;
+      }
+      return <circle cx={x} cy={y} r={NODE_RADIUS[size]} class="nn-solid" data-nn-node />;
+    })
+  }
+</svg>
+
+<style>
+  .nn {
+    overflow: visible;
+  }
+
+  .nn-solid,
+  .nn-link {
+    fill: currentColor;
+  }
+
+  .nn-ring {
+    fill: var(--nn-hole, var(--color-bg));
+    stroke: currentColor;
+  }
+
+  .nn-arc {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1;
+  }
+</style>
