@@ -26,6 +26,22 @@ coverAlt: Mock-up of a Ledgerline journal article titled "What your cash flow is
 detail: ../../assets/work/ledgerline-detail.svg
 detailAlt: Mock-up of a printed guide cover, "The founder's guide to getting paid", beside an inside page titled "Terms that work" with a pull quote.
 detailCaption: The guide gathers the most-read articles into one download that sales can share after a first call.
+testimonial:
+  quote: >-
+    Sales calls start further along now. Prospects arrive having read the guide, so we skip the basics and talk about their business.
+  role: Head of growth, Ledgerline
+chart:
+  type: line
+  title: Trial sign-ups per month
+  marker: { index: 2, label: Content programme began }
+  points:
+    - { label: Feb, value: 120 }
+    - { label: Mar, value: 132 }
+    - { label: Apr, value: 128 }
+    - { label: May, value: 171 }
+    - { label: Jun, value: 214 }
+    - { label: Jul, value: 236 }
+    - { label: Aug, value: 262 }
 ---
 
 ## The brief

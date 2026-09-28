@@ -27,6 +27,21 @@ detail: ../../assets/work/stride-physio-detail.svg
 detailAlt: Mock-up of the app's welcome screen, "Recover on your schedule", beside a lock screen showing appointment and exercise reminders.
 detailCaption: >-
   Reminders do most of the work: one for the next session, one for the evening's exercises.
+testimonial:
+  quote: >-
+    Reception spends far less time on the phone, and patients actually do their exercises between sessions.
+  role: Practice manager, Stride Physio
+chart:
+  type: bars
+  title: Missed appointments per month
+  marker: { index: 3, label: App launched }
+  points:
+    - { label: May, value: 38 }
+    - { label: Jun, value: 41 }
+    - { label: Jul, value: 36 }
+    - { label: Aug, value: 29 }
+    - { label: Sep, value: 26 }
+    - { label: Oct, value: 25 }
 ---
 
 ## The brief

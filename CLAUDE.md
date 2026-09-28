@@ -453,6 +453,18 @@ Phase 6 (2026-09-28):
   add `scroll-margin-top` to anchor targets or the offset doubles.
 - Result values in case study frontmatter may be bare YAML numbers; the schema
   coerces them to text. Quote or fold (`>-`) any value containing ": ".
+- Follow-up: the client asked for fake analytics, documents or testimonials.
+  Declined to fabricate evidence presented as real; on request for sample
+  testimonials and charts "to replace after", added them under the same
+  labelled-sample rules: each case study has an optional `testimonial`
+  (quote + role only, no personal name) and `chart` (line or bars, optional
+  marker). While `placeholder: true`: "Sample testimonial" tag and
+  "Illustrative data" caption, noindex page, build warning. Home shows three
+  of the quotes ("What clients say", after the client strip).
+- Charts (`ResultChart.astro`) are static HTML + SVG from frontmatter data,
+  accessible via a visually hidden table. Wrap hidden tables in a
+  `div.sr-only`: tables ignore sr-only's 1px size and clipping and cause
+  horizontal overflow.
 
 ## Working agreement
 - Use plan mode at the start of each phase and wait for approval.

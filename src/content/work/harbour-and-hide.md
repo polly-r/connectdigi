@@ -26,6 +26,24 @@ coverAlt: Mock-up of the Harbour & Hide home page on desktop and mobile, showing
 detail: ../../assets/work/harbour-and-hide-detail.svg
 detailAlt: Mock-up of a product page for "The Weekender" bag, with colour options, an Add to bag button and details sections.
 detailCaption: Product pages lead with the object and the details a buyer asks about before spending on leather.
+testimonial:
+  quote: >-
+    It finally looks as good as the bags do. Customers tell us the site is what made them trust us with a big purchase.
+  role: Founder, Harbour & Hide
+chart:
+  type: line
+  title: Online orders per month
+  marker: { index: 3, label: New store launched }
+  points:
+    - { label: Jan, value: 40 }
+    - { label: Feb, value: 44 }
+    - { label: Mar, value: 41 }
+    - { label: Apr, value: 47 }
+    - { label: May, value: 66 }
+    - { label: Jun, value: 78 }
+    - { label: Jul, value: 84 }
+    - { label: Aug, value: 91 }
+    - { label: Sep, value: 97 }
 ---
 
 ## The brief

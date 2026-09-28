@@ -33,6 +33,20 @@ const work = defineCollection({
       detail: image(),
       detailAlt: z.string(),
       detailCaption: z.string(),
+      // Client quote, attributed by role and company (no personal name
+      // without the person's consent). Labelled "Sample testimonial" while
+      // placeholder is true.
+      testimonial: z.object({ quote: z.string(), role: z.string() }).optional(),
+      // Results chart. Captioned "Illustrative data" while placeholder is true.
+      chart: z
+        .object({
+          type: z.enum(['line', 'bars']),
+          title: z.string(),
+          points: z.array(z.object({ label: z.coerce.string(), value: z.number() })).min(2).max(12),
+          // Marks a change point, e.g. launch: drawn at (line) or before (bars) this point.
+          marker: z.object({ index: z.number().int().min(1), label: z.string() }).optional(),
+        })
+        .optional(),
     }),
 });
 

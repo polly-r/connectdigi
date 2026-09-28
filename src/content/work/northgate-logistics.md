@@ -26,6 +26,21 @@ coverAlt: Mock-up of the Northgate operations dashboard, with summary cards, a l
 detail: ../../assets/work/northgate-logistics-detail.svg
 detailAlt: Diagram of the order-to-invoice automation, four steps from new order to assign vehicle, notify customer and update invoice, above a row of connected tools.
 detailCaption: Each step runs on its own; the team only steps in when something needs a decision.
+testimonial:
+  quote: >-
+    Month-end used to take three days of re-typing. Now it's an afternoon, and the phones are quiet enough to think.
+  role: Operations director, Northgate Logistics
+chart:
+  type: bars
+  title: Office hours spent on admin per week
+  marker: { index: 3, label: Automation live }
+  points:
+    - { label: Wk 1, value: 22 }
+    - { label: Wk 2, value: 21 }
+    - { label: Wk 3, value: 23 }
+    - { label: Wk 4, value: 14 }
+    - { label: Wk 5, value: 12 }
+    - { label: Wk 6, value: 11 }
 ---
 
 ## The brief

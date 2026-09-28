@@ -1,0 +1,201 @@
+---
+/**
+ * Results chart for a case study (line or bars), static, no JS.
+ *
+ * Built so it stays crisp at any width: the line/area is an SVG stretched to
+ * the plot (non-scaling stroke), while nodes, gridlines and labels are HTML
+ * positioned in %, so dots stay round and text stays readable at 360px.
+ * Colours come only from tokens: accent for the data (graphics, 3:1 rule),
+ * `control` for "before" bars, `line` for gridlines.
+ *
+ * The drawing is aria-hidden; screen readers get a visually hidden table.
+ * While the case study is a sample, the caption says "Illustrative data".
+ */
+interface Chart {
+  type: 'line' | 'bars';
+  title: string;
+  points: Array<{ label: string; value: number }>;
+  marker?: { index: number; label: string };
+}
+
+interface Props {
+  chart: Chart;
+  sample: boolean;
+}
+
+const { chart, sample } = Astro.props;
+const { type, title, points, marker } = chart;
+
+// Round the axis maximum up to 1, 2 or 5 × 10^n.
+const peak = Math.max(...points.map((p) => p.value));
+const magnitude = 10 ** Math.floor(Math.log10(peak));
+const step = [1, 2, 5, 10].find((m) => peak <= m * magnitude)! * magnitude;
+const max = step;
+const ticks = [0, max / 2, max];
+const format = (n: number) => (Number.isInteger(n) ? n.toLocaleString('en-ZA') : n.toLocaleString('en-ZA', { maximumFractionDigits: 1 }));
+
+const pct = (v: number) => (v / max) * 100;
+const xLine = (i: number) => (points.length === 1 ? 50 : (i / (points.length - 1)) * 100);
+const round = (n: number) => Math.round(n * 100) / 100;
+
+const linePath = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${round(xLine(i))} ${round(100 - pct(p.value))}`).join(' ');
+const areaPath = `${linePath} L100 100 L0 100 Z`;
+
+// Bars: marker sits in the gap before bar `marker.index`.
+const barMarkerLeft = marker && type === 'bars' ? (marker.index / points.length) * 100 : null;
+const lineMarkerLeft = marker && type === 'line' ? xLine(marker.index) : null;
+const markerLeft = barMarkerLeft ?? lineMarkerLeft;
+---
+
+<figure class="result-chart">
+  <figcaption class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+    <span class="font-display text-h3">{title}</span>
+    {sample && <span class="text-small text-muted">Illustrative data</span>}
+  </figcaption>
+
+  <div class="mt-8 flex gap-3" aria-hidden="true">
+    <!-- Y axis labels -->
+    <div class="relative w-10 shrink-0 text-right text-small text-muted chart-h">
+      {ticks.map((t) => <span class="absolute right-0 translate-y-1/2" style={`bottom:${pct(t)}%`}>{format(t)}</span>)}
+    </div>
+
+    <div class="min-w-0 flex-1">
+      <div class="relative chart-h">
+        {ticks.map((t) => <div class="absolute inset-x-0 border-t border-line" style={`bottom:${pct(t)}%`} />)}
+
+        {
+          markerLeft !== null && marker && (
+            <div class="chart-marker absolute inset-y-0" style={`left:${markerLeft}%`}>
+              <span class="chart-marker-label text-small text-muted">{marker.label}</span>
+            </div>
+          )
+        }
+
+        {
+          type === 'line' && (
+            <>
+              <svg class="absolute inset-0 h-full w-full overflow-visible" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <path d={areaPath} class="chart-area" />
+                <path d={linePath} class="chart-line" vector-effect="non-scaling-stroke" />
+              </svg>
+              {points.map((p, i) => (
+                <span
+                  class:list={['chart-node absolute', marker && i === marker.index ? 'chart-node--ring' : 'chart-node--solid']}
+                  style={`left:${xLine(i)}%; bottom:${pct(p.value)}%`}
+                />
+              ))}
+            </>
+          )
+        }
+
+        {
+          type === 'bars' && (
+            <div class="absolute inset-0 flex items-end gap-[6%] px-[3%]">
+              {points.map((p, i) => (
+                <div class="relative flex h-full flex-1 items-end">
+                  <div
+                    class:list={['w-full rounded-t-sm', marker && i < marker.index ? 'bg-control' : 'bg-accent']}
+                    style={`height:${pct(p.value)}%`}
+                  />
+                  <span class="absolute inset-x-0 text-center text-small" style={`bottom:calc(${pct(p.value)}% + 0.35rem)`}>
+                    {format(p.value)}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )
+        }
+      </div>
+
+      <!-- X axis labels -->
+      <div class:list={['mt-3 flex text-small text-muted', type === 'bars' ? 'gap-[6%] px-[3%]' : 'relative h-6']}>
+        {
+          points.map((p, i) =>
+            type === 'bars' ? (
+              <span class="flex-1 text-center">{p.label}</span>
+            ) : (
+              <span
+                class:list={[
+                  'absolute whitespace-nowrap',
+                  // Narrow screens: every other month, so labels never collide.
+                  points.length > 6 && i % 2 === 1 && 'max-md:hidden',
+                ]}
+                style={
+                  i === 0
+                    ? 'left:0'
+                    : i === points.length - 1
+                      ? 'right:0'
+                      : `left:${xLine(i)}%; transform:translateX(-50%)`
+                }
+              >
+                {p.label}
+              </span>
+            ),
+          )
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- The wrapper does the hiding: tables ignore sr-only's 1px size and clipping. -->
+  <div class="sr-only">
+    <table>
+      <caption>{title}{sample ? ' (illustrative data)' : ''}{marker ? `. ${marker.label} at ${points[marker.index]?.label}.` : ''}</caption>
+      <thead><tr><th scope="col">Period</th><th scope="col">Value</th></tr></thead>
+      <tbody>{points.map((p) => <tr><th scope="row">{p.label}</th><td>{format(p.value)}</td></tr>)}</tbody>
+    </table>
+  </div>
+</figure>
+
+<style>
+  .chart-h {
+    height: 14rem;
+  }
+
+  @media (width >= 48rem) {
+    .chart-h {
+      height: 18rem;
+    }
+  }
+
+  .chart-area {
+    fill: color-mix(in srgb, var(--color-accent) 14%, transparent);
+  }
+
+  .chart-line {
+    fill: none;
+    stroke: var(--color-accent);
+    stroke-width: 2.5;
+    stroke-linejoin: round;
+  }
+
+  /* Nodes sized from the motif (m solid, l ring) at 2.5px per connector width. */
+  .chart-node {
+    border-radius: 9999px;
+    translate: -50% 50%;
+  }
+
+  .chart-node--solid {
+    width: 0.53rem;
+    height: 0.53rem;
+    background: var(--color-accent);
+  }
+
+  .chart-node--ring {
+    width: 0.69rem;
+    height: 0.69rem;
+    background: var(--color-bg);
+    border: 0.17rem solid var(--color-accent);
+  }
+
+  .chart-marker {
+    border-left: 1px dashed var(--color-control);
+  }
+
+  .chart-marker-label {
+    position: absolute;
+    top: -0.25rem;
+    left: 0.5rem;
+    white-space: nowrap;
+  }
+</style>

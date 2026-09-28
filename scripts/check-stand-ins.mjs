@@ -50,7 +50,8 @@ const samples = readdirSync(workDir)
 if (samples.length) {
   warnings.push(
     `Case studies are SAMPLE projects with fictional clients (${samples.join(', ')}).`,
-    '  Replace with real projects in src/content/work/ and set placeholder: false.',
+    '  Their testimonials (also shown on Home) and results charts are SAMPLE data too.',
+    '  Replace with real projects, consented quotes and verified figures in src/content/work/, then set placeholder: false.',
   );
 }
 

@@ -1,0 +1,39 @@
+---
+/**
+ * Home "What clients say": quotes taken from case studies (src/content/work/),
+ * one per audience (luxury, local business, startup), each linking to its
+ * project. Sample quotes carry a visible "Sample testimonial" tag and the
+ * build warns until they are replaced with real, consented quotes.
+ */
+import { getCollection } from 'astro:content';
+import Testimonial from '../work/Testimonial.astro';
+
+const FEATURED = ['harbour-and-hide', 'tafel-bakehouse', 'ledgerline'];
+
+const work = await getCollection('work');
+const quotes = FEATURED.map((id) => work.find((entry) => entry.id === id)).filter(
+  (entry): entry is NonNullable<typeof entry> => !!entry?.data.testimonial,
+);
+---
+
+{
+  quotes.length > 0 && (
+    <section class="container-site pb-section" aria-labelledby="testimonials-title" data-reveal>
+      <h2 id="testimonials-title" class="font-body text-small font-normal text-muted">
+        What clients say
+      </h2>
+      <div class="mt-8 grid gap-x-gutter gap-y-14 md:grid-cols-3">
+        {quotes.map((entry) => (
+          <Testimonial
+            quote={entry.data.testimonial!.quote}
+            role={entry.data.testimonial!.role}
+            sample={entry.data.placeholder}
+            href={`/work/${entry.id}`}
+            size="compact"
+            class="border-t border-line pt-6"
+          />
+        ))}
+      </div>
+    </section>
+  )
+}

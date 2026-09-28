@@ -41,6 +41,14 @@ of them is in place (`scripts/check-stand-ins.mjs`).
       verified outcomes), swap `cover`/`detail` for real project images in
       `src/assets/work/`, and set `placeholder: false`. Keep one entry per
       service line (the Services page links each panel to its case study).
+- [ ] **Testimonials: SAMPLE quotes** (one per case study; three also shown on
+      Home under "What clients say"), attributed by role only and tagged
+      "Sample testimonial". Replace `testimonial` in each case study with a
+      real quote the client has approved in writing (name/company only with
+      consent). The tag disappears when `placeholder: false`.
+- [ ] **Results charts: SAMPLE data** (one per case study), captioned
+      "Illustrative data". Replace `chart.points` with verified figures and
+      say where they came from; the caption note disappears with `placeholder: false`.
 
 ## Company and social — `src/data/site.ts`
 

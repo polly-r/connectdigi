@@ -1,0 +1,40 @@
+---
+/**
+ * A client quote. Attributed by role and company only (a personal name needs
+ * that person's consent). While the case study is a sample, a visible
+ * "Sample testimonial" tag marks it as such.
+ */
+interface Props {
+  quote: string;
+  role: string;
+  sample: boolean;
+  /** Optional link to the case study the quote belongs to. */
+  href?: string;
+  size?: 'large' | 'compact';
+  class?: string;
+}
+
+const { quote, role, sample, href, size = 'large', class: className } = Astro.props;
+// Accent quote marks only at the large size (24px+): accent text below that
+// fails contrast on navy.
+const markClass = size === 'large' ? 'text-accent' : 'text-muted';
+---
+
+<figure class:list={['flex flex-col gap-6', className]}>
+  {
+    sample && (
+      <span class="inline-flex w-fit items-center rounded-full border border-control px-3 py-1 text-small text-muted">
+        Sample testimonial
+      </span>
+    )
+  }
+  <blockquote>
+    <p class:list={['font-display', size === 'large' ? 'text-h2' : 'text-h3']}>
+      <span aria-hidden="true" class={markClass}>“</span>{quote}<span aria-hidden="true" class={markClass}>”</span>
+    </p>
+  </blockquote>
+  <figcaption class="flex flex-wrap items-center gap-x-4 gap-y-2 text-small text-muted">
+    <span>{role}</span>
+    {href && <a href={href} class="link text-fg">Read the project</a>}
+  </figcaption>
+</figure>

@@ -27,6 +27,21 @@ detail: ../../assets/work/tafel-bakehouse-detail.svg
 detailAlt: >-
   Three phone screens showing Instagram stories reading "Fresh at 7am", "Sourdough Saturdays" and "New: rye & honey", each with an Order for collection button.
 detailCaption: A repeatable story format for each day of the week, so the team posts in minutes before the doors open.
+testimonial:
+  quote: >-
+    Our regulars check the stories before they leave home. The Saturday queue now starts on Instagram.
+  role: Operations lead, Tafel Bakehouse
+chart:
+  type: bars
+  title: Average weekly story views (thousands)
+  marker: { index: 3, label: New content rhythm }
+  points:
+    - { label: Mar, value: 1.2 }
+    - { label: Apr, value: 1.3 }
+    - { label: May, value: 1.2 }
+    - { label: Jun, value: 2.4 }
+    - { label: Jul, value: 3.3 }
+    - { label: Aug, value: 4.1 }
 ---
 
 ## The brief
