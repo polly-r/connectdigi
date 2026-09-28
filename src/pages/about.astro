@@ -19,27 +19,30 @@ const label = 'font-body text-small font-normal text-muted';
     <Wordmark />
   </section>
 
-  <section class="container-site pb-section" aria-labelledby="approach-title">
-    <h2 id="approach-title" class={label} data-reveal>Our approach</h2>
-    <ol class="mt-10 space-y-12 md:space-y-16">
-      {
-        manifesto.map((paragraph, i) => (
-          <li class="grid-site gap-y-3" data-reveal>
-            <span aria-hidden="true" class="col-span-4 font-display text-h3 text-muted md:col-span-2 lg:col-span-4">
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            <p
-              class:list={[
-                'col-span-4 max-w-[48ch] md:col-span-6 lg:col-span-7',
-                i === 0 ? 'font-display text-h2' : 'text-lead text-muted',
-              ]}
-            >
-              {paragraph}
-            </p>
-          </li>
-        ))
-      }
-    </ol>
+  <!--
+    Manifesto: a native horizontal scroll row (touch swipe, scrollbar or
+    shift+wheel, arrow keys once focused), cards snap to the content edge.
+    The region is focusable and named by the heading so keyboard and
+    screen-reader users can reach and scroll it.
+  -->
+  <section class="pb-section">
+    <div class="container-site">
+      <h2 id="approach-title" class={label} data-reveal>Our approach</h2>
+    </div>
+    <div class="manifesto-scroller mt-10" role="region" aria-labelledby="approach-title" tabindex="0">
+      <ol class="manifesto-track flex w-max gap-gutter">
+        {
+          manifesto.map((paragraph, i) => (
+            <li class="manifesto-card shrink-0 border-t border-line pt-6" data-reveal>
+              <span aria-hidden="true" class="block font-display text-h3 text-muted">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <p class="mt-6 max-w-[24ch] font-display text-h2">{paragraph}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
   </section>
 
   <section class="container-site pb-section" aria-labelledby="what-we-do-title" data-reveal>
@@ -79,6 +82,50 @@ const label = 'font-body text-small font-normal text-muted';
     </Marquee>
   </section>
 </BaseLayout>
+
+<style>
+  /*
+   * The row runs full width but starts and snaps at the content column's
+   * left edge (the container's gutter, or more on screens wider than it).
+   */
+  .manifesto-scroller {
+    --edge: max(var(--spacing-gutter), calc((100% - var(--container-site)) / 2 + var(--spacing-gutter)));
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--edge);
+    padding-bottom: 1.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-accent) transparent;
+  }
+
+  .manifesto-scroller:focus-visible {
+    outline-offset: -2px;
+  }
+
+  /* The track carries the edge padding, so the last card ends a gutter from the edge. */
+  .manifesto-track {
+    padding-inline: var(--edge);
+  }
+
+  /* Card widths as a share of the viewport (the track itself is max-content). */
+  .manifesto-card {
+    width: 82vw;
+    scroll-snap-align: start;
+  }
+
+  @media (width >= 48rem) {
+    .manifesto-card {
+      width: 58vw;
+    }
+  }
+
+  @media (width >= 64rem) {
+    .manifesto-card {
+      width: min(40vw, calc(var(--container-site) * 0.4));
+    }
+  }
+</style>
 
 <script>
   import { init as initHeadline } from '../lib/headline-reveal';

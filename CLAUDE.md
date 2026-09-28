@@ -410,7 +410,10 @@ Phase 4 (2026-09-28):
 
 Phase 5 (2026-09-28):
 - About: wordmark heading ("About" label + "The Connect Digital", one h1) →
-  manifesto (four draft paragraphs, ordered list) → "What we do" list of the
+  manifesto (four draft paragraphs, ordered list, as a native horizontal
+  scroll row: all four in the large display style, cards snap to the content
+  edge, focusable region named "Our approach"; not a pinned scroll-jacking
+  section, which would exceed the interaction budget) → "What we do" list of the
   five services linking to /services#<slug> → divider → "Let's talk ✲" CTA
   band linking to /connect.
 - Manifesto is draft copy, unmarked at the client's request (`aboutDraft` in
