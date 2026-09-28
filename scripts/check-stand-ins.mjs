@@ -3,6 +3,7 @@
 //   - brand logos used as stand-in clients (src/data/clients.ts)
 //   - example contact details (src/data/site.ts)
 //   - draft hero copy and sample stats (src/data/home.ts)
+//   - draft About manifesto (src/data/about.ts)
 // See PLACEHOLDERS.md.
 
 import { readFileSync } from 'node:fs';
@@ -34,6 +35,11 @@ if (/export const statsSample = true/.test(home)) {
     `Home stats are SAMPLE figures, not real (${values.join('; ')}).`,
     '  Replace with verified figures in src/data/home.ts, then set statsSample = false.',
   );
+}
+
+const about = read('src/data/about.ts');
+if (/export const aboutDraft = true/.test(about)) {
+  warnings.push('About manifesto is DRAFT copy. Replace in src/data/about.ts, then set aboutDraft = false.');
 }
 
 if (warnings.length) {

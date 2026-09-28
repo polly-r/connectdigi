@@ -1,12 +1,89 @@
 ---
-// Temporary holding page. About page, built in Phase 5
+// About. Structure reference: narrativearcstudio.com/about-us (structure only).
+// Interaction budget (CLAUDE.md): wordmark reveal, scroll reveal (incl. the
+// divider draw-in), CTA marquee, node hover.
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Placeholder from '../components/Placeholder.astro';
+import Wordmark from '../components/about/Wordmark.astro';
+import MotifLink from '../components/motif/MotifLink.astro';
+import NodeDivider from '../components/motif/NodeDivider.astro';
+import Marquee from '../components/marquee/Marquee.astro';
+import MarqueeItem from '../components/marquee/MarqueeItem.astro';
+import { manifesto } from '../data/about';
+import { services } from '../data/site';
+
+const label = 'font-body text-small font-normal text-muted';
 ---
 
 <BaseLayout title="About" description="About The Connect Digital: our approach to web, social, content and app work.">
-  <div class="container-site py-section">
-    <h1 class="text-h1">About</h1>
-    <Placeholder variant="block" class="mt-10" label="About page, built in Phase 5" />
+  <section class="container-site pt-16 pb-section md:pt-24" aria-labelledby="about-title">
+    <Wordmark />
+  </section>
+
+  <section class="container-site pb-section" aria-labelledby="approach-title">
+    <h2 id="approach-title" class={label} data-reveal>Our approach</h2>
+    <ol class="mt-10 space-y-12 md:space-y-16">
+      {
+        manifesto.map((paragraph, i) => (
+          <li class="grid-site gap-y-3" data-reveal>
+            <span aria-hidden="true" class="col-span-4 font-display text-h3 text-muted md:col-span-2 lg:col-span-4">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <p
+              class:list={[
+                'col-span-4 max-w-[48ch] md:col-span-6 lg:col-span-7',
+                i === 0 ? 'font-display text-h2' : 'text-lead text-muted',
+              ]}
+            >
+              {paragraph}
+            </p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="container-site pb-section" aria-labelledby="what-we-do-title" data-reveal>
+    <div class="grid-site gap-y-8">
+      <h2 id="what-we-do-title" class:list={[label, 'col-span-4 md:col-span-2 lg:col-span-4']}>What we do</h2>
+      <ul class="col-span-4 grid gap-x-gutter gap-y-6 sm:grid-cols-2 md:col-span-6 lg:col-span-7">
+        {
+          services.map((service) => (
+            <li>
+              <MotifLink href={`/services#${service.slug}`} unit={2} class="font-display text-h3">
+                {service.name}
+              </MotifLink>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <div class="container-site pb-section">
+    <NodeDivider />
   </div>
+
+  <section class="pb-section" aria-label="Get in touch">
+    <Marquee
+      label="Let's talk banner"
+      href="/connect"
+      linkLabel="Let's talk: go to Connect page"
+      speed={70}
+      mobileSpeed={46}
+      gap="0.35em"
+      class="border-y border-line py-6 md:py-10"
+    >
+      <MarqueeItem class="font-display text-display">
+        Let's talk <span aria-hidden="true" class="text-accent">✲</span>
+      </MarqueeItem>
+    </Marquee>
+  </section>
 </BaseLayout>
+
+<script>
+  import { init as initHeadline } from '../lib/headline-reveal';
+  import { init as initReveal } from '../lib/scroll-reveal';
+
+  initHeadline();
+  initReveal();
+</script>

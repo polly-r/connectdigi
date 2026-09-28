@@ -23,11 +23,11 @@ import NodeDivider from '../components/motif/NodeDivider.astro';
 </BaseLayout>
 
 <script>
-  import { init as initHero } from '../components/home/hero';
+  import { init as initHeadline } from '../lib/headline-reveal';
   import { init as initStats } from '../components/home/stats';
   import { init as initReveal } from '../lib/scroll-reveal';
 
-  initHero();
+  initHeadline();
   initStats();
   initReveal();
 </script>

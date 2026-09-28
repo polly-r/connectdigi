@@ -408,6 +408,23 @@ Phase 4 (2026-09-28):
   values 120+, 45+, R25m+, 15. `statsSample = true`; the build warns.
 - A second node divider sits between the services ticker and the stats.
 
+Phase 5 (2026-09-28):
+- About: wordmark heading ("About" label + "The Connect Digital", one h1) →
+  manifesto (four draft paragraphs, ordered list) → "What we do" list of the
+  five services linking to /services#<slug> → divider → "Let's talk ✲" CTA
+  band linking to /connect.
+- Manifesto is draft copy, unmarked at the client's request (`aboutDraft` in
+  `src/data/about.ts`; build warns). Approach and attitude only, no claims.
+- Wordmark line breaks are fixed, never browser wrapping: three stacked lines
+  below md, one line from md. Sized with container units against measured
+  Fraunces widths at opsz 144 ("The Connect Digital" 7.1866em, "Connect"
+  3.0611em, 2% margin). Re-measure if the display face changes.
+- The hero reveal became the shared `src/lib/headline-reveal.ts`
+  ([data-headline], [data-headline-after]); Home and About both use it.
+- Astro's HTML compression strips whitespace between tags. Where words sit in
+  separate elements, put explicit `{' '}` between them, or the accessible
+  name runs together.
+
 ## Working agreement
 - Use plan mode at the start of each phase and wait for approval.
 - Commit at the end of each phase with a clear message.

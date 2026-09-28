@@ -1,0 +1,78 @@
+---
+/**
+ * About page heading: a small "About" label over an oversized "The Connect
+ * Digital". One h1, so it's announced as "About The Connect Digital".
+ *
+ * Line breaks are set here, never left to the browser:
+ *   below md  three stacked lines (The / Connect / Digital), sized so the
+ *             longest word fills the width
+ *   md and up one line, sized to fill the width
+ *
+ * Sizing is CSS container units against measured Fraunces widths (optical
+ * size fixed at 144, weight 500, tracking -0.03em):
+ *   "The Connect Digital" = 7.1866em   "Connect" = 3.0611em
+ * with a 2% margin. RE-MEASURE THESE IF THE DISPLAY FACE CHANGES (Fraunces is
+ * provisional); the /lab and Phase 5 checks catch any overflow.
+ *
+ * Revealed by src/lib/headline-reveal.ts ([data-headline]).
+ */
+---
+
+<div class="wordmark-box">
+  <!-- Explicit {' '} spaces: Astro's HTML compression strips whitespace
+       between tags, which would make the accessible name "AboutTheConnectDigital". -->
+  <h1 id="about-title" class="wordmark" data-headline>
+    <span class="wordmark-label">About</span>{' '}
+    <span class="wordmark-name">
+      <span class="wordmark-line">The</span>{' '}
+      <span class="wordmark-line">Connect</span>{' '}
+      <span class="wordmark-line">Digital</span>
+    </span>
+  </h1>
+</div>
+
+<style>
+  .wordmark-box {
+    container-type: inline-size;
+  }
+
+  .wordmark {
+    text-wrap: nowrap;
+  }
+
+  .wordmark-label {
+    display: block;
+    margin-bottom: 1.5rem;
+    font-family: var(--font-body);
+    font-size: var(--text-small);
+    font-weight: 400;
+    line-height: var(--text-small--line-height);
+    color: var(--color-muted);
+  }
+
+  .wordmark-name {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-variation-settings: 'opsz' 144;
+    letter-spacing: -0.03em;
+    line-height: 0.9;
+    /* Longest word ("Connect", 3.0611em) fills the width, less 2%. */
+    font-size: calc(100cqi / 3.0611 * 0.98);
+  }
+
+  .wordmark-line {
+    display: block;
+  }
+
+  @media (width >= 48rem) {
+    .wordmark-name {
+      /* Whole name (7.1866em) on one line, less 2%. */
+      font-size: calc(100cqi / 7.1866 * 0.98);
+    }
+
+    .wordmark-line {
+      display: inline;
+    }
+  }
+</style>

@@ -98,13 +98,13 @@
   }
 
   /*
-   * Hero and scroll reveals start hidden (opacity only, so assistive tech
+   * Headline and scroll reveals start hidden (opacity only, so assistive tech
    * still reads them) until their script sets the start state. Failsafe: if
    * the script never runs, the content fades in after 2.5s anyway.
    */
   @media (prefers-reduced-motion: no-preference) {
-    html.js [data-hero-title]:not([data-hero-ready]),
-    html.js [data-hero-after]:not([data-hero-ready]),
+    html.js [data-headline]:not([data-headline-ready]),
+    html.js [data-headline-after]:not([data-headline-ready]),
     html.js [data-reveal]:not([data-reveal-ready]) {
       opacity: 0;
       animation: reveal-failsafe 0s 2.5s forwards;

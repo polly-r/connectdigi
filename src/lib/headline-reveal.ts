@@ -1,25 +1,26 @@
 /**
- * Hero reveal: once, on load. The headline is split into lines (SplitText),
- * each sliding up out of its own mask; then the intro and CTA fade up. The
- * split is reverted when the animation ends, leaving plain text.
+ * Headline reveal (Home hero, About wordmark): once, on load. The element
+ * marked [data-headline] is split into lines (SplitText), each sliding up out
+ * of its own mask; then any [data-headline-after] elements fade up. The split
+ * is reverted when the animation ends, leaving plain text.
  *
  * Screen readers: SplitText's aria "auto" labels the heading with its full
  * text while split. Reduced motion: nothing moves, text shows at once.
  * The CSS pre-hide (global.css) has a failsafe, so the text appears even if
  * this script never runs.
  */
-import { gsap, MOTION, REDUCED_MOTION, SplitText } from '../../lib/gsap';
+import { gsap, MOTION, REDUCED_MOTION, SplitText } from './gsap';
 
 let mm: gsap.MatchMedia | null = null;
 
 export function init(): void {
   destroy();
-  const title = document.querySelector<HTMLElement>('[data-hero-title]');
+  const title = document.querySelector<HTMLElement>('[data-headline]');
   if (!title) return;
-  const after = [...document.querySelectorAll<HTMLElement>('[data-hero-after]')];
+  const after = [...document.querySelectorAll<HTMLElement>('[data-headline-after]')];
   const show = () => {
-    title.dataset.heroReady = '';
-    for (const el of after) el.dataset.heroReady = '';
+    title.dataset.headlineReady = '';
+    for (const el of after) el.dataset.headlineReady = '';
   };
 
   mm = gsap.matchMedia();
