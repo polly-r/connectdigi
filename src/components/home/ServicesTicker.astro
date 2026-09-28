@@ -1,0 +1,26 @@
+---
+/**
+ * Home services ticker: the five service lines as plain text (no
+ * descriptions, no links; CLAUDE.md Decisions log, Phase 2), full width,
+ * with an accent node between items.
+ */
+import Marquee from '../marquee/Marquee.astro';
+import MarqueeItem from '../marquee/MarqueeItem.astro';
+import { services } from '../../data/site';
+---
+
+<section class="pb-section" aria-labelledby="services-ticker-title" data-reveal>
+  <h2 id="services-ticker-title" class="container-site font-body text-small font-normal text-muted">What we do</h2>
+  <Marquee label="Services" speed={50} mobileSpeed={33} gap="0.6em" class="mt-6 border-y border-line py-6 md:py-8">
+    {
+      services.map((service) => (
+        <MarqueeItem class="font-display text-h1">
+          <span class="inline-flex items-center gap-[0.6em]">
+            {service.short}
+            <span aria-hidden="true" class="inline-block size-[0.14em] rounded-full bg-accent" />
+          </span>
+        </MarqueeItem>
+      ))
+    }
+  </Marquee>
+</section>

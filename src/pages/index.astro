@@ -1,12 +1,30 @@
 ---
-// Temporary holding page. Home page, built in Phase 4
+// Home. Interaction budget (CLAUDE.md): hero reveal, marquees, node hover,
+// scroll reveal (incl. divider draw-in and stats count-up).
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Placeholder from '../components/Placeholder.astro';
+import Hero from '../components/home/Hero.astro';
+import ServicesTicker from '../components/home/ServicesTicker.astro';
+import Stats from '../components/home/Stats.astro';
+import ClientStrip from '../components/home/ClientStrip.astro';
+import NodeDivider from '../components/motif/NodeDivider.astro';
 ---
 
 <BaseLayout description="The Connect Digital is a digital marketing agency: web development, social media marketing, content creation, app development and tech solutions.">
-  <div class="container-site py-section">
-    <h1 class="text-h1">The Connect Digital</h1>
-    <Placeholder variant="block" class="mt-10" label="Home page, built in Phase 4" />
+  <Hero />
+  <ServicesTicker />
+  <Stats />
+  <div class="container-site pb-section">
+    <NodeDivider />
   </div>
+  <ClientStrip />
 </BaseLayout>
+
+<script>
+  import { init as initHero } from '../components/home/hero';
+  import { init as initStats } from '../components/home/stats';
+  import { init as initReveal } from '../lib/scroll-reveal';
+
+  initHero();
+  initStats();
+  initReveal();
+</script>

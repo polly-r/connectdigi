@@ -387,6 +387,20 @@ Phase 3 (2026-09-28):
 - Divider uses m and larger nodes: at 2px per w an s node disappears into
   the line.
 
+Phase 4 (2026-09-28):
+- Home hero uses draft copy in the brand's voice, shown unmarked at the
+  client's request ("Digital work that connects." + intro), with
+  `heroDraft = true` in `src/data/home.ts`; the build warns until replaced.
+- Home order: hero (headline, intro, "Start a project" CTA) → services
+  ticker (full width) → stats → divider → client strip.
+- Reveals pre-hide with opacity only (content stays in the accessibility
+  tree) and have a CSS failsafe that shows content after 2.5s if scripts
+  never run. The hero split is reverted after the reveal.
+- A stat counts up only if it is a number with an optional prefix/suffix of
+  up to 3 characters ("120+", "98%", "R2.5m"); "[STAT 1]" placeholders stay
+  static. Rule: `NUMERIC_STAT` in `src/data/home.ts`.
+- Footer has no top margin; each page supplies its own bottom padding.
+
 ## Working agreement
 - Use plan mode at the start of each phase and wait for approval.
 - Commit at the end of each phase with a clear message.

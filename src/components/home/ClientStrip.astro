@@ -1,0 +1,24 @@
+---
+/**
+ * Home client logo strip. Starts moving only once scrolled into view.
+ * Logos: src/data/clients.ts, currently STAND-INS (not clients); the build
+ * warns until they are replaced.
+ */
+import Marquee from '../marquee/Marquee.astro';
+import MarqueeItem from '../marquee/MarqueeItem.astro';
+import ClientLogo from '../ClientLogo.astro';
+import { clients } from '../../data/clients';
+---
+
+<section class="container-site pb-section" aria-labelledby="clients-title" data-reveal>
+  <h2 id="clients-title" class="font-body text-small font-normal text-muted">Clients</h2>
+  <Marquee label="Clients" speed={40} mobileSpeed={26} startOnView gap="4rem" class="mt-8">
+    {
+      clients.map((logo) => (
+        <MarqueeItem>
+          <ClientLogo logo={logo} />
+        </MarqueeItem>
+      ))
+    }
+  </Marquee>
+</section>

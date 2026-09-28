@@ -1,0 +1,23 @@
+---
+/**
+ * Home hero: display headline revealed line by line (./hero.ts), intro and CTA.
+ * Plain text in the HTML, so it reads and is announced correctly before and
+ * without JS. Copy: src/data/home.ts (draft).
+ */
+import MotifButton from '../motif/MotifButton.astro';
+import { hero } from '../../data/home';
+---
+
+<section class="container-site pt-16 pb-section md:pt-24 lg:pt-32" aria-labelledby="hero-title">
+  <h1 id="hero-title" class="max-w-[13ch] font-display text-display" data-hero-title>
+    {hero.headline}
+  </h1>
+  <div class="mt-10 grid-site gap-y-8 md:mt-14">
+    <p class="col-span-4 max-w-[38ch] text-lead text-muted md:col-span-5" data-hero-after>
+      {hero.intro}
+    </p>
+    <div class="col-span-4 flex items-start md:col-span-3 md:justify-end lg:col-span-4 lg:col-start-9" data-hero-after>
+      <MotifButton href={hero.cta.href}>{hero.cta.label}</MotifButton>
+    </div>
+  </div>
+</section>
