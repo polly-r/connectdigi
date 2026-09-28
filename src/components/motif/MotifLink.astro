@@ -1,122 +1,66 @@
 ---
 /**
- * Link with the node-motif hover (CSS only, transform + opacity).
- * Triggers: hover (mouse devices only), keyboard focus, and aria-current
- * (the current page shows the drawn state and holds it).
+ * Navigation link with the node-motif hover (CSS only, transform-based):
+ * a ring at the start of the text, then a connector draws under it to a
+ * solid node. Triggers: hover (mouse devices only) and keyboard focus; the
+ * current page (`current`) shows it drawn and holds it.
  *
- * Variants (options under review, see /lab/motif):
- *   underline  ring at the start, connector draws under the text to a solid node
- *   lead       a solid node and short connector draw in before the text
- *   arc        an arc under the text joins a ring to a solid node
+ * The motif sits under the text only, so the link itself can be a wide block
+ * (pass layout classes via `class`). Sizes follow src/lib/node-motif.ts at
+ * `unit` px per connector width. The motif is accent; the text stays
+ * foreground (dark-mode contrast rule).
  *
- * Sizes follow src/lib/node-motif.ts at 1.5px per connector width.
- * The motif is accent; the text stays foreground (dark-mode contrast rule).
+ * For navigation lists only. Links inside running text keep the plain
+ * underline (`link` utility) so they're recognisable at rest.
  */
 import { NODE_RADIUS, ringGeometry } from '../../lib/node-motif';
 
 interface Props {
   href: string;
-  variant?: 'underline' | 'lead' | 'arc';
   current?: boolean;
+  /** px per connector width. */
+  unit?: number;
   class?: string;
 }
 
-const { href, variant = 'underline', current = false, class: className } = Astro.props;
+const { href, current = false, unit = 1.5, class: className } = Astro.props;
 
-const UNIT = 1.5;
 const ring = ringGeometry('l');
-const ringR = ring.mid * UNIT;
-const ringBand = ring.band * UNIT;
-const solidR = NODE_RADIUS.m * UNIT;
-const stroke = UNIT;
+const ringR = ring.mid * unit;
+const ringBand = ring.band * unit;
+const solidR = NODE_RADIUS.m * unit;
+const height = Math.ceil(ring.outer * unit * 2 + 2);
+const cy = height / 2;
 ---
 
-<a
-  href={href}
-  aria-current={current ? 'page' : undefined}
-  class:list={['ml', `ml--${variant}`, className]}
->
-  <slot />
-  {
-    variant === 'underline' && (
-      <svg class="ml-net ml-net--under" height="8" aria-hidden="true" focusable="false">
-        <line x1="0" y1="4" x2="100%" y2="4" stroke-width={stroke} class="ml-part ml-link" />
-        <circle cx="0" cy="4" r={ringR} stroke-width={ringBand} class="ml-part ml-ring" />
-        <circle cx="100%" cy="4" r={solidR} class="ml-part ml-end" />
-      </svg>
-    )
-  }
-  {
-    variant === 'lead' && (
-      <svg class="ml-net ml-net--lead" width="18" height="8" aria-hidden="true" focusable="false">
-        <line x1={solidR} y1="4" x2="18" y2="4" stroke-width={stroke} class="ml-part ml-link" />
-        <circle cx={solidR} cy="4" r={solidR} class="ml-part ml-solid" />
-      </svg>
-    )
-  }
-  {
-    variant === 'arc' && (
-      <>
-        <svg
-          class="ml-net ml-net--under ml-net--arc"
-          height="10"
-          viewBox="0 0 100 10"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path
-            d="M0 1 A160.25 160.25 0 0 0 100 1"
-            stroke-width={stroke}
-            vector-effect="non-scaling-stroke"
-            class="ml-part ml-link ml-arc"
-          />
-        </svg>
-        <svg class="ml-net ml-net--under ml-net--arc-nodes" height="10" aria-hidden="true" focusable="false">
-          <circle cx="0" cy="1" r={ringR} stroke-width={ringBand} class="ml-part ml-ring" />
-          <circle cx="100%" cy="1" r={solidR} class="ml-part ml-end" />
-        </svg>
-      </>
-    )
-  }
+<a href={href} aria-current={current ? 'page' : undefined} class:list={['ml', className]}>
+  <span class="ml-text">
+    <slot />
+    <svg class="ml-net" height={height} style={`bottom: ${-height / 2 - 2}px`} aria-hidden="true" focusable="false">
+      <line x1="0" y1={cy} x2="100%" y2={cy} stroke-width={unit} class="ml-part ml-link" />
+      <circle cx="0" cy={cy} r={ringR} stroke-width={ringBand} class="ml-part ml-ring" />
+      <circle cx="100%" cy={cy} r={solidR} class="ml-part ml-end" />
+    </svg>
+  </span>
 </a>
 
 <style>
-  .ml {
+  .ml-text {
     position: relative;
     display: inline-block;
   }
 
   .ml-net {
     position: absolute;
+    left: 0;
+    width: 100%;
     overflow: visible;
     pointer-events: none;
     color: var(--color-accent);
   }
 
-  .ml-net--under {
-    left: 0;
-    width: 100%;
-    bottom: -0.35em;
-  }
-
-  .ml-net--arc,
-  .ml-net--arc-nodes {
-    bottom: -0.6em;
-  }
-
-  .ml-net--lead {
-    right: calc(100% + 0.4em);
-    top: 50%;
-    translate: 0 -50%;
-  }
-
   .ml-link {
     stroke: currentColor;
-  }
-
-  .ml-arc {
-    fill: none;
   }
 
   .ml-ring {
@@ -124,10 +68,8 @@ const stroke = UNIT;
     stroke: currentColor;
   }
 
-  .ml-solid,
   .ml-end {
     fill: currentColor;
-    stroke: none;
   }
 
   /* Resting state: hidden. Leaving: everything retracts together, quickly. */
@@ -143,7 +85,7 @@ const stroke = UNIT;
     transform: scaleX(0);
   }
 
-  /* Entering: start node, then the connector draws, then the end node. */
+  /* Entering: ring, then the connector draws, then the end node. */
   @media (hover: hover) {
     .ml:hover .ml-part {
       transform: none;

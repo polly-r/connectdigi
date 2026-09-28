@@ -35,12 +35,6 @@ const navItems = [
   { label: 'Connect', href: '#' },
 ];
 
-const options = [
-  { variant: 'underline', title: 'A. Node underline', note: 'Ring at the start, connector draws under the text to a solid node.' },
-  { variant: 'lead', title: 'B. Leading node', note: 'A solid node and short connector draw in before the text.' },
-  { variant: 'arc', title: 'C. Arc underline', note: 'An arc under the text joins a ring to a solid node.' },
-] as const;
-
 const label = 'mt-2 text-small text-muted';
 ---
 
@@ -74,32 +68,24 @@ const label = 'mt-2 text-small text-muted';
     </section>
 
     <section>
-      <h2 class="text-h3">2. Link hover: choose one</h2>
+      <h2 class="text-h3">2. Link hover (option A, chosen)</h2>
       <p class="mt-2 max-w-[65ch] text-muted">
-        Hover or Tab through each row. "About" is marked as the current page and holds the drawn state. The motif
-        is accent; the text stays foreground.
+        Hover or Tab through the row. "About" is marked as the current page and holds the drawn state. The motif
+        is accent; the text stays foreground. Used on the header and footer navigation.
       </p>
-      <div class="mt-6 grid gap-6 md:grid-cols-3">
-        {
-          options.map((option) => (
-            <div class="border border-line p-6">
-              <h3 class="font-body text-body font-medium">{option.title}</h3>
-              <p class={label}>{option.note}</p>
-              <nav aria-label={option.title} class="mt-6">
-                <ul class:list={['flex flex-wrap gap-x-8 gap-y-4', option.variant === 'lead' && 'pl-6']}>
-                  {navItems.map((item) => (
-                    <li>
-                      <MotifLink href={item.href} variant={option.variant} current={item.current}>
-                        {item.label}
-                      </MotifLink>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            </div>
-          ))
-        }
-      </div>
+      <nav aria-label="Lab navigation" class="mt-6 border border-line p-6">
+        <ul class="flex flex-wrap gap-x-8 gap-y-4">
+          {
+            navItems.map((item) => (
+              <li>
+                <MotifLink href={item.href} current={item.current}>
+                  {item.label}
+                </MotifLink>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
     </section>
 
     <section>

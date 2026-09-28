@@ -1,5 +1,6 @@
 ---
 import Logo from './Logo.astro';
+import MotifLink from './motif/MotifLink.astro';
 import { mainNav, site } from '../data/site';
 
 const current = Astro.url.pathname.replace(/\/$/, '') || '/';
@@ -18,13 +19,9 @@ const isCurrent = (href: string) => current === href;
         {
           mainNav.map((item) => (
             <li>
-              <a
-                href={item.href}
-                aria-current={isCurrent(item.href) ? 'page' : undefined}
-                class="py-2 decoration-accent decoration-[0.08em] underline-offset-[0.35em] hover:underline aria-[current=page]:underline aria-[current=page]:decoration-[0.15em]"
-              >
+              <MotifLink href={item.href} current={isCurrent(item.href)} class="py-2">
                 {item.label}
-              </a>
+              </MotifLink>
             </li>
           ))
         }
@@ -82,13 +79,9 @@ const isCurrent = (href: string) => current === href;
         {
           mainNav.map((item) => (
             <li class="border-b border-line">
-              <a
-                href={item.href}
-                aria-current={isCurrent(item.href) ? 'page' : undefined}
-                class="block py-4 font-display text-h2 decoration-accent decoration-[0.06em] underline-offset-[0.2em] aria-[current=page]:underline"
-              >
+              <MotifLink href={item.href} current={isCurrent(item.href)} unit={2} class="block py-4 font-display text-h2">
                 {item.label}
-              </a>
+              </MotifLink>
             </li>
           ))
         }
