@@ -5,6 +5,7 @@
 //   - draft hero copy and sample stats (src/data/home.ts)
 //   - draft About manifesto (src/data/about.ts)
 //   - draft Services copy (src/data/services.ts) and sample case studies (src/content/work/)
+//   - the contact form's MOCK adapter (PUBLIC_FORM_ADAPTER not "http")
 // See PLACEHOLDERS.md.
 
 import { readdirSync, readFileSync } from 'node:fs';
@@ -58,6 +59,21 @@ if (samples.length) {
 const about = read('src/data/about.ts');
 if (/export const aboutDraft = true/.test(about)) {
   warnings.push('About manifesto is DRAFT copy. Replace in src/data/about.ts, then set aboutDraft = false.');
+}
+
+// Contact form adapter: from the environment, or .env / .env.production.
+const envFiles = ['.env', '.env.production']
+  .map((name) => {
+    try {
+      return read(name);
+    } catch {
+      return '';
+    }
+  })
+  .join('\n');
+const adapter = process.env.PUBLIC_FORM_ADAPTER ?? envFiles.match(/^PUBLIC_FORM_ADAPTER=(.*)$/m)?.[1]?.trim() ?? 'mock';
+if (adapter !== 'http') {
+  warnings.push('Contact form uses the MOCK adapter: messages go NOWHERE. Set PUBLIC_FORM_ADAPTER=http and PUBLIC_FORM_ENDPOINT (see .env.example).');
 }
 
 if (warnings.length) {

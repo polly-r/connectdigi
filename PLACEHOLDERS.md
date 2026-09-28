@@ -18,6 +18,10 @@ of them is in place (`scripts/check-stand-ins.mjs`).
 - [ ] **Client logos: stand-in brand logos, NOT clients.** Spotify, Airbnb,
       Shopify, Stripe, Netflix, Nike. Replace with real, approved client logos
       in `src/data/clients.ts`, then set `standIn = false`.
+- [ ] **Contact form sends NOTHING yet (mock adapter).** Choose a form
+      provider, then set `PUBLIC_FORM_ADAPTER=http` and `PUBLIC_FORM_ENDPOINT`
+      (see `.env.example` and `src/lib/submit-contact.ts`). Update the Privacy
+      Policy with the provider in the same change.
 - [ ] **Contact email** (example value `hello@example.com`): `site.contact.email`
 - [ ] **Contact phone** (example value `+27 00 000 0000`): `site.contact.phone`
 - [ ] **Business address** (example value `Street, City, South Africa`): `site.contact.address`
@@ -82,6 +86,10 @@ of them is in place (`scripts/check-stand-ins.mjs`).
       "In numbers", "Clients"): draft UI copy, confirm wording
 - [ ] About section labels ("Our approach", "What we do") and the CTA band
       text ("Let's talk"): draft UI copy, confirm wording
+- [ ] Connect intro ("Tell us what you're working on. We'll reply by email."),
+      form heading, consent wording and thank-you text: draft UI copy, confirm
+      wording (consent wording also needs legal review with the Privacy Policy)
+- [ ] Booking tool (optional): set `PUBLIC_BOOKING_URL` to show the embed on Connect
 - [ ] Services intro line and closing prompt ("Not sure which you need? Tell us
       the problem."): draft UI copy, confirm wording
 
@@ -94,7 +102,6 @@ of them is in place (`scripts/check-stand-ins.mjs`).
 
 Each shows a block `Placeholder` and is linked from the nav/footer so links never 404.
 
-- [ ] Connect: `src/pages/connect.astro` (Phase 7)
 - [ ] Privacy Policy: `src/pages/privacy.astro` (Phase 8)
 
 ## Not built yet (added as each phase lands)

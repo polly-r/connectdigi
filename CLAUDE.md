@@ -466,6 +466,28 @@ Phase 6 (2026-09-28):
   `div.sr-only`: tables ignore sr-only's 1px size and clipping and cause
   horizontal overflow.
 
+Phase 7 (2026-09-29):
+- Errors use no new colour: a 2px foreground border, a warning icon and the
+  message in words. Service select is required with a "Not sure yet" option.
+  After success the form is replaced by a thank-you panel ("Send another
+  message" resets it).
+- Validation: on blur; once a field has shown an error, live on every change.
+  Failed submit: all errors, "N fields need attention." in a status region,
+  focus to the first invalid field. Values are read from the form on submit
+  (covers autofill without input events).
+- `src/lib/submit-contact.ts`: `ContactPayload`, `SubmitResult`,
+  `ContactAdapter`; adapters `mock` (default, sends nothing; dev-only
+  "[mock-fail]" in the message simulates failure) and `http` (JSON POST to
+  `PUBLIC_FORM_ENDPOINT`). `PUBLIC_FORM_ADAPTER` selects. 15s timeout.
+  The build warns while the mock adapter is active.
+- Without JS the form is hidden and a noscript note gives the email address
+  (a no-JS submit has nowhere to go on a static host).
+- Contact details and social icons are shared components
+  (`ContactDetails.astro`, `SocialLinks.astro`) used by the footer and Connect.
+- Testing note: Playwright screenshots hide the caret by injecting an inline
+  style, which trips React's hydration check if taken mid-hydration; use
+  `caret: 'initial'` for screenshots of pages with React islands.
+
 ## Working agreement
 - Use plan mode at the start of each phase and wait for approval.
 - Commit at the end of each phase with a clear message.

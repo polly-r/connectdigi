@@ -1,10 +1,10 @@
 ---
-import Icon from './Icon.astro';
+import ContactDetails from './ContactDetails.astro';
 import Logo from './Logo.astro';
 import MotifLink from './motif/MotifLink.astro';
-import { isTbc, mainNav, site } from '../data/site';
+import SocialLinks from './SocialLinks.astro';
+import { mainNav, site } from '../data/site';
 
-const { email, phone, address } = site.contact;
 const current = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isCurrent = (href: string) => current === href;
 const year = new Date().getFullYear();
@@ -41,44 +41,12 @@ const year = new Date().getFullYear();
 
     <div class="col-span-4 md:col-span-4 lg:col-span-4">
       <h2 class="font-body text-small font-normal text-muted">Contact</h2>
-      <address class="not-italic">
-        <ul class="mt-3 space-y-3">
-          <li class="flex items-start gap-3">
-            <Icon name="email" class="mt-[0.3em] size-4 shrink-0 text-accent" />
-            <a href={`mailto:${email}`} class="link"><span class="sr-only">Email: </span>{email}</a>
-          </li>
-          <li class="flex items-start gap-3">
-            <Icon name="phone" class="mt-[0.3em] size-4 shrink-0 text-accent" />
-            <a href={`tel:${phone.replace(/\s/g, '')}`} class="link"><span class="sr-only">Phone: </span>{phone}</a>
-          </li>
-          <li class="flex items-start gap-3">
-            <Icon name="location" class="mt-[0.3em] size-4 shrink-0 text-accent" />
-            <span><span class="sr-only">Address: </span>{address}</span>
-          </li>
-        </ul>
-      </address>
+      <ContactDetails class="mt-3" />
     </div>
 
     <div class="col-span-4 md:col-span-2 lg:col-span-2">
       <h2 class="font-body text-small font-normal text-muted">Social</h2>
-      <ul class="mt-2 -ml-3 flex gap-1">
-        {
-          site.social.map(({ network, label, href }) => (
-            <li>
-              {isTbc(href) ? (
-                // Profile URL not supplied yet: shown, but not a link.
-                <span class="grid size-11 place-items-center" title={`${label}: link to come`}>
-                  <Icon name={network} label={`${label} (link to come)`} class="size-5" />
-                </span>
-              ) : (
-                <a href={href} class="grid size-11 place-items-center rounded-full hover:bg-line" rel="me noopener">
-                  <Icon name={network} label={label} class="size-5" />
-                </a>
-              )}
-            </li>
-          ))
-        }
-      </ul>
+      <SocialLinks class="mt-2" />
     </div>
   </div>
 

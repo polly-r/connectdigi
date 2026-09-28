@@ -1,0 +1,32 @@
+---
+/**
+ * Email, phone and address from src/data/site.ts, each with an icon and a
+ * screen-reader prefix. Used in the footer and on the Connect page.
+ */
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+const { email, phone, address } = site.contact;
+---
+
+<address class:list={['not-italic', className]}>
+  <ul class="space-y-3">
+    <li class="flex items-start gap-3">
+      <Icon name="email" class="mt-[0.3em] size-4 shrink-0 text-accent" />
+      <a href={`mailto:${email}`} class="link"><span class="sr-only">Email: </span>{email}</a>
+    </li>
+    <li class="flex items-start gap-3">
+      <Icon name="phone" class="mt-[0.3em] size-4 shrink-0 text-accent" />
+      <a href={`tel:${phone.replace(/\s/g, '')}`} class="link"><span class="sr-only">Phone: </span>{phone}</a>
+    </li>
+    <li class="flex items-start gap-3">
+      <Icon name="location" class="mt-[0.3em] size-4 shrink-0 text-accent" />
+      <span><span class="sr-only">Address: </span>{address}</span>
+    </li>
+  </ul>
+</address>

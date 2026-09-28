@@ -1,0 +1,33 @@
+---
+/**
+ * Social icons from src/data/site.ts. An icon becomes a link once its
+ * profile URL is supplied; until then it shows, but isn't a link.
+ * Used in the footer and on the Connect page.
+ */
+import Icon from './Icon.astro';
+import { isTbc, site } from '../data/site';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<ul class:list={['-ml-3 flex gap-1', className]}>
+  {
+    site.social.map(({ network, label, href }) => (
+      <li>
+        {isTbc(href) ? (
+          <span class="grid size-11 place-items-center" title={`${label}: link to come`}>
+            <Icon name={network} label={`${label} (link to come)`} class="size-5" />
+          </span>
+        ) : (
+          <a href={href} class="grid size-11 place-items-center rounded-full hover:bg-line" rel="me noopener">
+            <Icon name={network} label={label} class="size-5" />
+          </a>
+        )}
+      </li>
+    ))
+  }
+</ul>

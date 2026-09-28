@@ -1,12 +1,46 @@
 ---
-// Temporary holding page. Connect page and contact form, built in Phase 7
+// Connect. Interaction budget (CLAUDE.md): inline validation, submit
+// micro-interaction, node hover. No reveals on this page.
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Placeholder from '../components/Placeholder.astro';
+import ContactForm from '../components/connect/ContactForm';
+import BookingEmbed from '../components/connect/BookingEmbed.astro';
+import ContactDetails from '../components/ContactDetails.astro';
+import SocialLinks from '../components/SocialLinks.astro';
+import { services, site } from '../data/site';
+
+const serviceOptions = services.map((s) => ({ value: s.slug, label: s.name }));
+const label = 'font-body text-small font-normal text-muted';
 ---
 
 <BaseLayout title="Connect" description="Get in touch with The Connect Digital about your next project.">
-  <div class="container-site py-section">
-    <h1 class="text-h1">Connect</h1>
-    <Placeholder variant="block" class="mt-10" label="Connect page and contact form, built in Phase 7" />
+  <section class="container-site pt-16 pb-12 md:pt-24 md:pb-16">
+    <h1 class="text-display">Connect</h1>
+    <p class="mt-8 max-w-[44ch] text-lead text-muted">
+      Tell us what you're working on. We'll reply by email.
+    </p>
+  </section>
+
+  <div class="container-site pb-section grid-site gap-y-16">
+    <div class="col-span-4 md:col-span-8 lg:col-span-7">
+      <noscript>
+        <p class="text-lead">
+          This form needs JavaScript. You can email us instead at
+          <a href={`mailto:${site.contact.email}`} class="link">{site.contact.email}</a>.
+        </p>
+      </noscript>
+      <!-- Hidden without JS: a no-JS submit has nowhere to go on a static host. -->
+      <div data-requires-js>
+        <ContactForm client:load services={serviceOptions} contactEmail={site.contact.email} privacyHref="/privacy" />
+      </div>
+    </div>
+
+    <aside class="col-span-4 md:col-span-8 lg:col-span-4 lg:col-start-9" aria-labelledby="other-ways-title">
+      <h2 id="other-ways-title" class={label}>Other ways to reach us</h2>
+      <ContactDetails class="mt-4" />
+      <h3 class={label + ' mt-10'}>Social</h3>
+      <SocialLinks class="mt-2" />
+    </aside>
   </div>
+
+  <BookingEmbed />
 </BaseLayout>

@@ -1,0 +1,29 @@
+---
+/**
+ * Booking embed. Renders only when PUBLIC_BOOKING_URL is set; otherwise
+ * nothing at all. The booking tool is a third party that receives personal
+ * data and may set cookies: adding one means updating the Privacy Policy.
+ */
+const url = import.meta.env.PUBLIC_BOOKING_URL;
+---
+
+{
+  url && (
+    <section class="container-site pb-section" aria-labelledby="booking-title">
+      <h2 id="booking-title" class="font-body text-small font-normal text-muted">
+        Or book a call
+      </h2>
+      <iframe
+        src={url}
+        title="Book a call with The Connect Digital"
+        loading="lazy"
+        class="mt-6 h-[44rem] w-full rounded-md border border-line bg-bg"
+      />
+      <p class="mt-3 text-small">
+        <a href={url} class="link" target="_blank" rel="noopener">
+          Open the booking page in a new tab
+        </a>
+      </p>
+    </section>
+  )
+}
