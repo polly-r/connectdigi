@@ -1,0 +1,158 @@
+/* ServiceAccordion styles. Colours come only from the site tokens. */
+
+.sa-item {
+  border-top: 1px solid var(--color-line);
+}
+
+.sa-item:last-child {
+  border-bottom: 1px solid var(--color-line);
+}
+
+.sa-heading {
+  margin: 0;
+}
+
+.sa-button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-block: 1.5rem;
+  text-align: left;
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  line-height: var(--text-h2--line-height);
+  letter-spacing: var(--text-h2--letter-spacing);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+@media (width >= 48rem) {
+  .sa-button {
+    padding-block: 2rem;
+  }
+}
+
+/* Node icon: ring when closed, filled solid node when open. */
+.sa-icon {
+  flex: none;
+  overflow: visible;
+  color: var(--color-accent);
+}
+
+.sa-icon-ring {
+  fill: none;
+  stroke: currentColor;
+}
+
+.sa-icon-fill {
+  fill: currentColor;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0);
+  transition: transform 200ms ease-out;
+}
+
+.sa-button[aria-expanded='true'] .sa-icon-fill {
+  transform: scale(1);
+}
+
+@media (hover: hover) {
+  .sa-button:hover .sa-icon-fill {
+    transform: scale(0.45);
+  }
+
+  .sa-button[aria-expanded='true']:hover .sa-icon-fill {
+    transform: scale(1);
+  }
+}
+
+/* Panel content */
+.sa-panel-inner {
+  display: grid;
+  gap: 2rem;
+  padding-bottom: 2.5rem;
+}
+
+@media (width >= 64rem) {
+  .sa-panel-inner {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--spacing-gutter);
+    padding-bottom: 3.5rem;
+  }
+
+  .sa-description {
+    grid-column: 1 / span 6;
+  }
+
+  .sa-included {
+    grid-column: 8 / span 5;
+  }
+
+  .sa-case {
+    grid-column: 1 / span 6;
+  }
+}
+
+.sa-description {
+  max-width: 48ch;
+  font-size: var(--text-lead);
+  line-height: var(--text-lead--line-height);
+  color: var(--color-muted);
+}
+
+.sa-label {
+  display: block;
+  margin: 0 0 0.75rem;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: 400;
+  color: var(--color-muted);
+}
+
+.sa-included ul {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.sa-included li {
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--color-line);
+}
+
+/* Opening: content fades and rises in (height changes instantly). */
+@media (prefers-reduced-motion: no-preference) {
+  .sa[data-ready] .sa-panel:not([hidden]) .sa-panel-inner {
+    animation: sa-in 260ms ease-out;
+  }
+}
+
+@keyframes sa-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+}
+
+/*
+ * Before hydration (JS on): keep panels closed so they don't flash open and
+ * snap shut. Failsafe: if hydration never happens, show them after 2.5s.
+ * Without JS, every panel shows (server render is all open).
+ * Collapsed with max-height/visibility, not display:none: animations don't
+ * run on display:none elements, so the failsafe could never fire.
+ */
+html.js .sa:not([data-ready]) [data-panel] {
+  max-height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  animation: sa-failsafe 0s 2.5s forwards;
+}
+
+@keyframes sa-failsafe {
+  to {
+    max-height: none;
+    overflow: visible;
+    visibility: visible;
+  }
+}

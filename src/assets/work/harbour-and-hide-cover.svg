@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000"><defs><filter id="shadow" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#000" flood-opacity="0.14"/></filter></defs><rect x="0" y="0" width="1600" height="1000" rx="0" fill="#EFE7DD" /><g transform="translate(110 100)" filter="url(#shadow)">
+    <rect x="0" y="0" width="1160" height="790" rx="16" fill="#FFFFFF" />
+    <clipPath id="clip0"><rect x="0" y="44" width="1160" height="746" rx="0"/></clipPath>
+    <path d="M16 0H1144Q1160 0 1160 16V44H0V16Q0 0 16 0Z" fill="#F3F3F3"/>
+    <circle cx="24" cy="22" r="6" fill="#E0E0E0" /><circle cx="44" cy="22" r="6" fill="#E0E0E0" /><circle cx="64" cy="22" r="6" fill="#E0E0E0" />
+    <rect x="410" y="11" width="340" height="22" rx="11" fill="#FFFFFF" /><text x="580" y="27" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="12" font-weight="400" fill="#8A8A8A" text-anchor="middle" letter-spacing="0">harbourandhide.example</text>
+    <g clip-path="url(#clip0)"><g transform="translate(0 44)"><rect x="0" y="0" width="1160" height="746" rx="0" fill="#F7F2EB" /><text x="48" y="44" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="18" font-weight="600" fill="#2B211B" text-anchor="start" letter-spacing="4">HARBOUR &amp; HIDE</text>
+    <text x="800" y="44" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="15" font-weight="400" fill="#2B211B" text-anchor="start" letter-spacing="0">Bags</text><text x="890" y="44" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="15" font-weight="400" fill="#2B211B" text-anchor="start" letter-spacing="0">Wallets</text><text x="980" y="44" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="15" font-weight="400" fill="#2B211B" text-anchor="start" letter-spacing="0">Journal</text>
+    <circle cx="1100" cy="39" r="14" fill="none" stroke="#2B211B" stroke-width="2"/>
+     <text x="48" y="190" font-family="Georgia, 'Times New Roman', serif" font-size="66" font-weight="400" fill="#2B211B" text-anchor="start" letter-spacing="0">Made to be</text>
+     <text x="48" y="262" font-family="Georgia, 'Times New Roman', serif" font-size="66" font-weight="400" fill="#2B211B" text-anchor="start" letter-spacing="0">carried.</text>
+     <rect x="48" y="300" width="380" height="10" rx="5" fill="#D8CEC2" /><rect x="48" y="320" width="380" height="10" rx="5" fill="#D8CEC2" /><rect x="48" y="340" width="228" height="10" rx="5" fill="#D8CEC2" />
+     <rect x="48" y="380" width="210" height="56" rx="28" fill="#2B211B" /><text x="153" y="414" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="16" font-weight="400" fill="#FFF" text-anchor="middle" letter-spacing="0">Shop the collection</text>
+     <rect x="560" y="84" width="552" height="380" rx="12" fill="#E4D5C1" /><path d="M737 225.625 Q737 98.125 836 98.125 Q935 98.125 935 225.625" fill="none" stroke="#2B211B" stroke-width="12.5" stroke-linecap="round"/>
+    <path d="M716 215 H956 L973.5 416.875 Q973.5 431.75 958.5 431.75 H713.5 Q698.5 431.75 698.5 416.875 Z" fill="#A0672F"/>
+    <rect x="808.5" y="257.5" width="55" height="32.5" rx="6.25" fill="#2B211B" />
+    <path d="M708.5 321.25 H963.5" stroke="#2B211B" stroke-opacity="0.25" stroke-width="3.75"/>
+     <rect x="48" y="500" width="336" height="160" rx="10" fill="#E4D5C1" /><rect x="166" y="560" width="100" height="64" rx="8" fill="#2B211B" />
+           <rect x="48" y="680" width="120" height="11" rx="5.5" fill="#2B211B" /><rect x="48" y="702" width="54" height="9" rx="4.5" fill="#D8CEC2" /><rect x="412" y="500" width="336" height="160" rx="10" fill="#E4D5C1" /><path d="M536.44 557.275 Q536.44 501.175 580 501.175 Q623.56 501.175 623.56 557.275" fill="none" stroke="#2B211B" stroke-width="5.5" stroke-linecap="round"/>
+    <path d="M527.2 552.6 H632.8 L640.5 641.425 Q640.5 647.97 633.9 647.97 H526.1 Q519.5 647.97 519.5 641.425 Z" fill="#6E4B2E"/>
+    <rect x="567.9" y="571.3" width="24.200000000000003" height="14.3" rx="2.75" fill="#2B211B" />
+    <path d="M523.9 599.35 H636.1" stroke="#2B211B" stroke-opacity="0.25" stroke-width="1.6500000000000001"/>
+           <rect x="412" y="680" width="120" height="11" rx="5.5" fill="#2B211B" /><rect x="412" y="702" width="54" height="9" rx="4.5" fill="#D8CEC2" /><rect x="776" y="500" width="336" height="160" rx="10" fill="#E4D5C1" /><rect x="894" y="560" width="100" height="64" rx="8" fill="#A0672F" />
+           <rect x="776" y="680" width="120" height="11" rx="5.5" fill="#2B211B" /><rect x="776" y="702" width="54" height="9" rx="4.5" fill="#D8CEC2" /></g></g>
+  </g><g transform="translate(1220 360)" filter="url(#shadow)">
+    <rect x="0" y="0" width="290" height="580" rx="46" fill="#15171A" />
+    <rect x="12" y="12" width="266" height="556" rx="36" fill="#FFFFFF" />
+    <clipPath id="clip1"><rect x="12" y="12" width="266" height="556" rx="36"/></clipPath>
+    <g clip-path="url(#clip1)"><g transform="translate(12 12)"><rect x="0" y="0" width="266" height="556" rx="0" fill="#F7F2EB" /><text x="22" y="76" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="11" font-weight="600" fill="#2B211B" text-anchor="start" letter-spacing="2">HARBOUR &amp; HIDE</text>
+       <rect x="22" y="100" width="222" height="210" rx="10" fill="#E4D5C1" /><path d="M77.56 173.35000000000002 Q77.56 101.95000000000002 133 101.95000000000002 Q188.44 101.95000000000002 188.44 173.35000000000002" fill="none" stroke="#2B211B" stroke-width="7" stroke-linecap="round"/>
+    <path d="M65.8 167.4 H200.2 L210 280.45 Q210 288.78 201.6 288.78 H64.4 Q56 288.78 56 280.45 Z" fill="#A0672F"/>
+    <rect x="117.6" y="191.2" width="30.799999999999997" height="18.2" rx="3.5" fill="#2B211B" />
+    <path d="M61.6 226.9 H204.4" stroke="#2B211B" stroke-opacity="0.25" stroke-width="2.0999999999999996"/>
+       <text x="22" y="356" font-family="Georgia, 'Times New Roman', serif" font-size="30" font-weight="400" fill="#2B211B" text-anchor="start" letter-spacing="0">Made to be</text><text x="22" y="390" font-family="Georgia, 'Times New Roman', serif" font-size="30" font-weight="400" fill="#2B211B" text-anchor="start" letter-spacing="0">carried.</text>
+       <rect x="22" y="412" width="200" height="8" rx="4" fill="#D8CEC2" /><rect x="22" y="428" width="120" height="8" rx="4" fill="#D8CEC2" /><rect x="22" y="460" width="160" height="42" rx="21" fill="#2B211B" /></g></g>
+    <rect x="97" y="22" width="96" height="26" rx="13" fill="#15171A" />
+  </g></svg>

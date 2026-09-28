@@ -1,0 +1,151 @@
+---
+/**
+ * Case study page, one per entry in the `work` collection.
+ * Entries with `placeholder: true` are SAMPLE projects: they show a visible
+ * "Sample project" tag and an "illustrative figures" note, get noindex, and
+ * are left out of the sitemap (astro.config.mjs). Interaction budget:
+ * scroll reveal and node hover.
+ */
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MotifButton from '../../components/motif/MotifButton.astro';
+import MotifLink from '../../components/motif/MotifLink.astro';
+import NodeDivider from '../../components/motif/NodeDivider.astro';
+import { services } from '../../data/site';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('work');
+  const order = services.map((s) => s.slug);
+  const sorted = [...entries].sort((a, b) => order.indexOf(a.data.service) - order.indexOf(b.data.service));
+  return sorted.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: { entry, next: sorted[(i + 1) % sorted.length]! },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<'work'>;
+  next: CollectionEntry<'work'>;
+}
+
+const { entry, next } = Astro.props;
+const { Content } = await render(entry);
+const data = entry.data;
+const service = services.find((s) => s.slug === data.service)!;
+const nextService = services.find((s) => s.slug === next.data.service)!;
+const label = 'font-body text-small font-normal text-muted';
+---
+
+<BaseLayout title={`${data.client}: ${service.name}`} description={data.summary} noindex={data.placeholder}>
+  <article>
+    <header class="container-site pt-16 md:pt-24">
+      <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-small">
+        {
+          data.placeholder && (
+            <span class="inline-flex items-center rounded-full border border-control px-3 py-1 text-muted">
+              Sample project
+            </span>
+          )
+        }
+        <a href={`/services#${service.slug}`} class="link">{service.name}</a>
+      </div>
+      <h1 class="mt-6 max-w-[20ch] text-h1">{data.title}</h1>
+      <p class="mt-5 text-small text-muted">{data.client} · {data.sector}</p>
+      <p class="mt-8 max-w-[52ch] text-lead text-muted">{data.summary}</p>
+    </header>
+
+    <figure class="container-site mt-12 md:mt-16">
+      <Image src={data.cover} alt={data.coverAlt} loading="eager" class="h-auto w-full rounded-sm" />
+    </figure>
+
+    <section class="container-site mt-12 grid-site gap-y-8 md:mt-16" aria-label="Project facts" data-reveal>
+      <dl class="col-span-4 grid gap-6 md:col-span-8 md:grid-cols-3 lg:col-span-12">
+        <div class="border-t border-line pt-4">
+          <dt class={label}>Service</dt>
+          <dd class="mt-2">{service.name}</dd>
+        </div>
+        <div class="border-t border-line pt-4">
+          <dt class={label}>Timeline</dt>
+          <dd class="mt-2">{data.duration}</dd>
+        </div>
+        <div class="border-t border-line pt-4">
+          <dt class={label}>Deliverables</dt>
+          <dd class="mt-2">
+            <ul class="space-y-1">{data.deliverables.map((d) => <li>{d}</li>)}</ul>
+          </dd>
+        </div>
+      </dl>
+    </section>
+
+    <div class="container-site mt-section grid-site">
+      <div class="case-body col-span-4 md:col-span-7 lg:col-span-7 lg:col-start-4" data-reveal>
+        <Content />
+      </div>
+    </div>
+
+    <section class="container-site mt-section" aria-labelledby="outcomes-title" data-reveal>
+      <h2 id="outcomes-title" class={label}>Outcomes</h2>
+      <dl class="mt-8 grid gap-x-gutter gap-y-10 md:grid-cols-3">
+        {
+          data.results.map(({ value, label: text }) => (
+            <div class="flex flex-col-reverse justify-end gap-2 border-t border-line pt-6">
+              <dt class="text-small text-muted">{text}</dt>
+              <dd class="font-display text-h1">{value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      {data.placeholder && <p class="mt-8 text-small text-muted">Illustrative figures for a sample project.</p>}
+    </section>
+
+    <figure class="container-site mt-section" data-reveal>
+      <Image src={data.detail} alt={data.detailAlt} class="h-auto w-full rounded-sm" />
+      <figcaption class="mt-4 max-w-[60ch] text-small text-muted">{data.detailCaption}</figcaption>
+    </figure>
+
+    <div class="container-site py-section">
+      <NodeDivider />
+    </div>
+
+    <nav class="container-site pb-section" aria-labelledby="next-title">
+      <div class="grid-site items-end gap-y-10">
+        <div class="col-span-4 md:col-span-5 lg:col-span-8">
+          <h2 id="next-title" class={label}>Next project · {nextService.name}</h2>
+          <p class="mt-4 font-display text-h2">
+            <MotifLink href={`/work/${next.id}`} unit={2}>{next.data.client}</MotifLink>
+          </p>
+        </div>
+        <div class="col-span-4 md:col-span-3 md:justify-self-end lg:col-span-4">
+          <MotifButton href="/connect">Start a project</MotifButton>
+        </div>
+      </div>
+    </nav>
+  </article>
+</BaseLayout>
+
+<style>
+  .case-body :global(h2) {
+    margin-top: 3rem;
+    font-size: var(--text-h3);
+    line-height: var(--text-h3--line-height);
+  }
+
+  .case-body :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  .case-body :global(p) {
+    margin-top: 1.25rem;
+    max-width: 62ch;
+    font-size: var(--text-lead);
+    line-height: var(--text-lead--line-height);
+    color: var(--color-muted);
+  }
+</style>
+
+<script>
+  import { init as initReveal } from '../../lib/scroll-reveal';
+
+  initReveal();
+</script>

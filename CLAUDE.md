@@ -159,8 +159,12 @@ headshots.
 
 ### Case studies
 - Astro content collection `work`, route `/work/[slug]`.
-- Schema includes `placeholder: boolean`. Placeholder entries render with a
-  visible banner in dev and production, and Services links to them normally.
+- Schema includes `placeholder: boolean`. Placeholder entries are currently
+  SAMPLE projects (fictional clients, illustrative figures and mock-up
+  imagery; client decision, Decisions log, Phase 6). They render a visible
+  "Sample project" tag and an "illustrative figures" note in dev and
+  production, and Services links to them normally. Never present invented
+  clients, results or "evidence" (analytics, documents, testimonials) as real.
 - While `placeholder: true`, the page gets `<meta name="robots"
   content="noindex">` and is left out of the sitemap. Visitors still see it;
   search engines just don't index filler. Flipping the flag to `false` with
@@ -427,6 +431,28 @@ Phase 5 (2026-09-28):
 - Astro's HTML compression strips whitespace between tags. Where words sit in
   separate elements, put explicit `{' '}` between them, or the accessible
   name runs together.
+
+Phase 6 (2026-09-28):
+- The client asked for believable case studies with supporting evidence and
+  no placeholders. Declined to present invented clients/results as real or to
+  fabricate evidence; agreed instead on LABELLED SAMPLE PROJECTS: five
+  fictional clients (Harbour & Hide, Tafel Bakehouse, Ledgerline, Stride
+  Physio, Northgate Logistics), full write-ups, illustrative outcome figures
+  with an on-page note, and mock-up illustrations of the delivered work
+  (`scripts/build-sample-art.mjs` → `src/assets/work/`). Each page: "Sample
+  project" tag, noindex, excluded from the sitemap, build warning.
+- Services copy (descriptions, "What's included") is draft, unmarked, with
+  `servicesDraft` in `src/data/services.ts` and a build warning.
+- ServiceAccordion: disclosure pattern only (no tabs), all panels closed by
+  default, several can be open, deep-linkable (/services#<slug>), hash updated
+  on open. Content fades/rises in; height changes instantly (transform and
+  opacity only). Server render is all open (no-JS readable); with JS, panels
+  are collapsed until hydration with a 2.5s failsafe (max-height/visibility,
+  not display:none, which would stop the failsafe animation running).
+- The page's `scroll-padding-top` already clears the sticky header; don't also
+  add `scroll-margin-top` to anchor targets or the offset doubles.
+- Result values in case study frontmatter may be bare YAML numbers; the schema
+  coerces them to text. Quote or fold (`>-`) any value containing ": ".
 
 ## Working agreement
 - Use plan mode at the start of each phase and wait for approval.

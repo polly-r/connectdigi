@@ -4,9 +4,10 @@
 //   - example contact details (src/data/site.ts)
 //   - draft hero copy and sample stats (src/data/home.ts)
 //   - draft About manifesto (src/data/about.ts)
+//   - draft Services copy (src/data/services.ts) and sample case studies (src/content/work/)
 // See PLACEHOLDERS.md.
 
-import { readFileSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 
 const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
 const warnings = [];
@@ -34,6 +35,22 @@ if (/export const statsSample = true/.test(home)) {
   warnings.push(
     `Home stats are SAMPLE figures, not real (${values.join('; ')}).`,
     '  Replace with verified figures in src/data/home.ts, then set statsSample = false.',
+  );
+}
+
+const services = read('src/data/services.ts');
+if (/export const servicesDraft = true/.test(services)) {
+  warnings.push('Services descriptions and "What\'s included" lists are DRAFT copy. Replace in src/data/services.ts, then set servicesDraft = false.');
+}
+
+const workDir = new URL('../src/content/work/', import.meta.url);
+const samples = readdirSync(workDir)
+  .filter((f) => f.endsWith('.md') && /^placeholder:\s*true\s*$/m.test(readFileSync(new URL(f, workDir), 'utf8')))
+  .map((f) => f.replace(/\.md$/, ''));
+if (samples.length) {
+  warnings.push(
+    `Case studies are SAMPLE projects with fictional clients (${samples.join(', ')}).`,
+    '  Replace with real projects in src/content/work/ and set placeholder: false.',
   );
 }
 

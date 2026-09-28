@@ -1,12 +1,59 @@
 ---
-// Temporary holding page. Services page, built in Phase 6
+// Services. Interaction budget (CLAUDE.md): accordion, node hover, scroll
+// reveal (incl. the divider draw-in). No headline reveal on this page.
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Placeholder from '../components/Placeholder.astro';
+import ServiceAccordion, { type AccordionItem } from '../components/services/ServiceAccordion';
+import MotifButton from '../components/motif/MotifButton.astro';
+import NodeDivider from '../components/motif/NodeDivider.astro';
+import { services } from '../data/site';
+import { serviceDetails } from '../data/services';
+
+const work = await getCollection('work');
+
+const items: AccordionItem[] = services.map((service) => {
+  const study = work.find((entry) => entry.data.service === service.slug);
+  if (!study) throw new Error(`No case study for service "${service.slug}" in src/content/work/`);
+  return {
+    slug: service.slug,
+    name: service.name,
+    ...serviceDetails[service.slug],
+    caseStudy: { href: `/work/${study.id}`, client: study.data.client, sample: study.data.placeholder },
+  };
+});
 ---
 
-<BaseLayout title="Services" description="Web development, social media marketing, content creation, app development and tech solutions from The Connect Digital.">
-  <div class="container-site py-section">
-    <h1 class="text-h1">Services</h1>
-    <Placeholder variant="block" class="mt-10" label="Services page, built in Phase 6" />
+<BaseLayout
+  title="Services"
+  description="Web development, social media marketing, content creation, app development and tech solutions from The Connect Digital."
+>
+  <section class="container-site pt-16 pb-12 md:pt-24 md:pb-16">
+    <h1 class="text-display">Services</h1>
+    <p class="mt-8 max-w-[44ch] text-lead text-muted">
+      Five ways we help, often combined. Open any of them to see what's included and a project it shaped.
+    </p>
+  </section>
+
+  <section class="container-site pb-section" aria-label="Service lines">
+    <ServiceAccordion client:load items={items} />
+  </section>
+
+  <div class="container-site pb-section">
+    <NodeDivider />
   </div>
+
+  <section class="container-site pb-section" data-reveal>
+    <div class="grid-site items-end gap-y-8">
+      <h2 class="col-span-4 max-w-[18ch] text-h2 md:col-span-5 lg:col-span-8">Not sure which you need? Tell us the problem.</h2>
+      <div class="col-span-4 md:col-span-3 md:justify-self-end lg:col-span-4">
+        <MotifButton href="/connect">Start a project</MotifButton>
+      </div>
+    </div>
+  </section>
 </BaseLayout>
+
+<script>
+  import { init as initReveal } from '../lib/scroll-reveal';
+
+  initReveal();
+</script>

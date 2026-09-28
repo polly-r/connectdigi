@@ -31,6 +31,16 @@ of them is in place (`scripts/check-stand-ins.mjs`).
       A value counts up if it's a number with a short prefix/suffix (`120+`, `R25m+`).
 - [ ] **About manifesto: DRAFT copy** (four paragraphs on approach, no claims).
       Replace in `src/data/about.ts`, then set `aboutDraft = false`.
+- [ ] **Services descriptions and "What's included" lists: DRAFT copy.**
+      Replace in `src/data/services.ts`, then set `servicesDraft = false`.
+- [ ] **Case studies: SAMPLE projects with fictional clients** (Harbour & Hide,
+      Tafel Bakehouse, Ledgerline, Stride Physio, Northgate Logistics), with
+      illustrative figures and mock-up imagery. Each page shows a "Sample
+      project" tag, is noindex and out of the sitemap. To replace one: edit its
+      Markdown in `src/content/work/` (brief, what we did, result, deliverables,
+      verified outcomes), swap `cover`/`detail` for real project images in
+      `src/assets/work/`, and set `placeholder: false`. Keep one entry per
+      service line (the Services page links each panel to its case study).
 
 ## Company and social — `src/data/site.ts`
 
@@ -64,6 +74,8 @@ of them is in place (`scripts/check-stand-ins.mjs`).
       "In numbers", "Clients"): draft UI copy, confirm wording
 - [ ] About section labels ("Our approach", "What we do") and the CTA band
       text ("Let's talk"): draft UI copy, confirm wording
+- [ ] Services intro line and closing prompt ("Not sure which you need? Tell us
+      the problem."): draft UI copy, confirm wording
 
 ## SEO copy
 
@@ -74,12 +86,10 @@ of them is in place (`scripts/check-stand-ins.mjs`).
 
 Each shows a block `Placeholder` and is linked from the nav/footer so links never 404.
 
-- [ ] Services: `src/pages/services.astro` (Phase 6)
 - [ ] Connect: `src/pages/connect.astro` (Phase 7)
 - [ ] Privacy Policy: `src/pages/privacy.astro` (Phase 8)
 
 ## Not built yet (added as each phase lands)
 
-- [ ] Case studies, one placeholder per service line (Phase 6, `src/content/work/`)
 - [ ] Testimonials (no location yet)
 - [ ] Privacy Policy last-updated date (Phase 8)

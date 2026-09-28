@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000"><defs><filter id="shadow" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#000" flood-opacity="0.14"/></filter></defs><rect x="0" y="0" width="1600" height="1000" rx="0" fill="#F6E3C9" /><g transform="translate(190 80)" filter="url(#shadow)">
+    <rect x="0" y="0" width="360" height="840" rx="46" fill="#15171A" />
+    <rect x="12" y="12" width="336" height="816" rx="36" fill="#FFFFFF" />
+    <clipPath id="clip4"><rect x="12" y="12" width="336" height="816" rx="36"/></clipPath>
+    <g clip-path="url(#clip4)"><g transform="translate(12 12)"><rect x="0" y="0" width="336" height="816" rx="0" fill="#C8792F" />
+         <rect x="18" y="58" width="96" height="4" rx="2" fill="#FFF8EE" /><rect x="120" y="58" width="96" height="4" rx="2" fill="rgba(255,248,238,0.35)" /><rect x="222" y="58" width="96" height="4" rx="2" fill="rgba(255,248,238,0.35)" />
+         <circle cx="34" cy="96" r="14" fill="#FFF8EE" /><text x="58" y="101" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="600" fill="#FFF8EE" text-anchor="start" letter-spacing="0">tafelbakehouse</text>
+         <text x="30" y="250" font-family="Georgia, 'Times New Roman', serif" font-size="50" font-weight="400" fill="#FFF8EE" text-anchor="start" letter-spacing="0">Fresh</text><text x="30" y="308" font-family="Georgia, 'Times New Roman', serif" font-size="50" font-weight="400" fill="#FFF8EE" text-anchor="start" letter-spacing="0">at 7am</text>
+         <ellipse cx="168" cy="520" rx="101.2" ry="66" fill="#FFF8EE"/>
+    <path d="M102 489.2 Q124 520 146 550.8" stroke="#EBC48F" stroke-width="11" fill="none" stroke-linecap="round"/><path d="M146 489.2 Q168 520 190 550.8" stroke="#EBC48F" stroke-width="11" fill="none" stroke-linecap="round"/><path d="M190 489.2 Q212 520 234 550.8" stroke="#EBC48F" stroke-width="11" fill="none" stroke-linecap="round"/>
+         <rect x="30" y="700" width="276" height="54" rx="27" fill="#FFF8EE" /><text x="168" y="734" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="15" font-weight="400" fill="#3A2A1E" text-anchor="middle" letter-spacing="0">Order for collection</text></g></g>
+    <rect x="132" y="22" width="96" height="26" rx="13" fill="#15171A" />
+  </g><g transform="translate(620 80)" filter="url(#shadow)">
+    <rect x="0" y="0" width="360" height="840" rx="46" fill="#15171A" />
+    <rect x="12" y="12" width="336" height="816" rx="36" fill="#FFFFFF" />
+    <clipPath id="clip5"><rect x="12" y="12" width="336" height="816" rx="36"/></clipPath>
+    <g clip-path="url(#clip5)"><g transform="translate(12 12)"><rect x="0" y="0" width="336" height="816" rx="0" fill="#3A2A1E" />
+         <rect x="18" y="58" width="96" height="4" rx="2" fill="#FFF8EE" /><rect x="120" y="58" width="96" height="4" rx="2" fill="#FFF8EE" /><rect x="222" y="58" width="96" height="4" rx="2" fill="rgba(255,248,238,0.35)" />
+         <circle cx="34" cy="96" r="14" fill="#FFF8EE" /><text x="58" y="101" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="600" fill="#FFF8EE" text-anchor="start" letter-spacing="0">tafelbakehouse</text>
+         <text x="30" y="250" font-family="Georgia, 'Times New Roman', serif" font-size="50" font-weight="400" fill="#FFF8EE" text-anchor="start" letter-spacing="0">Sourdough</text><text x="30" y="308" font-family="Georgia, 'Times New Roman', serif" font-size="50" font-weight="400" fill="#FFF8EE" text-anchor="start" letter-spacing="0">Saturdays</text>
+         <ellipse cx="168" cy="520" rx="101.2" ry="66" fill="#C8792F"/>
+    <path d="M102 489.2 Q124 520 146 550.8" stroke="#EBC48F" stroke-width="11" fill="none" stroke-linecap="round"/><path d="M146 489.2 Q168 520 190 550.8" stroke="#EBC48F" stroke-width="11" fill="none" stroke-linecap="round"/><path d="M190 489.2 Q212 520 234 550.8" stroke="#EBC48F" stroke-width="11" fill="none" stroke-linecap="round"/>
+         <rect x="30" y="700" width="276" height="54" rx="27" fill="#FFF8EE" /><text x="168" y="734" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="15" font-weight="400" fill="#3A2A1E" text-anchor="middle" letter-spacing="0">Order for collection</text></g></g>
+    <rect x="132" y="22" width="96" height="26" rx="13" fill="#15171A" />
+  </g><g transform="translate(1050 80)" filter="url(#shadow)">
+    <rect x="0" y="0" width="360" height="840" rx="46" fill="#15171A" />
+    <rect x="12" y="12" width="336" height="816" rx="36" fill="#FFFFFF" />
+    <clipPath id="clip6"><rect x="12" y="12" width="336" height="816" rx="36"/></clipPath>
+    <g clip-path="url(#clip6)"><g transform="translate(12 12)"><rect x="0" y="0" width="336" height="816" rx="0" fill="#7A9A62" />
+         <rect x="18" y="58" width="96" height="4" rx="2" fill="#FFF8EE" /><rect x="120" y="58" width="96" height="4" rx="2" fill="#FFF8EE" /><rect x="222" y="58" width="96" height="4" rx="2" fill="#FFF8EE" />
+         <circle cx="34" cy="96" r="14" fill="#FFF8EE" /><text x="58" y="101" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="600" fill="#FFF8EE" text-anchor="start" letter-spacing="0">tafelbakehouse</text>
+         <text x="30" y="250" font-family="Georgia, 'Times New Roman', serif" font-size="50" font-weight="400" fill="#FFF8EE" text-anchor="start" letter-spacing="0">New:</text><text x="30" y="308" font-family="Georgia, 'Times New Roman', serif" font-size="50" font-weight="400" fill="#FFF8EE" text-anchor="start" letter-spacing="0">rye &amp; honey</text>
+         <ellipse cx="168" cy="520" rx="101.2" ry="66" fill="#9C4A24"/>
+    <path d="M102 489.2 Q124 520 146 550.8" stroke="#EBC48F" stroke-width="11" fill="none" stroke-linecap="round"/><path d="M146 489.2 Q168 520 190 550.8" stroke="#EBC48F" stroke-width="11" fill="none" stroke-linecap="round"/><path d="M190 489.2 Q212 520 234 550.8" stroke="#EBC48F" stroke-width="11" fill="none" stroke-linecap="round"/>
+         <rect x="30" y="700" width="276" height="54" rx="27" fill="#FFF8EE" /><text x="168" y="734" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="15" font-weight="400" fill="#3A2A1E" text-anchor="middle" letter-spacing="0">Order for collection</text></g></g>
+    <rect x="132" y="22" width="96" height="26" rx="13" fill="#15171A" />
+  </g></svg>
