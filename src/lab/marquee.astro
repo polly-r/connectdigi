@@ -1,0 +1,81 @@
+---
+// Dev-only: the three Marquee uses, for review and testing.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Marquee from '../components/marquee/Marquee.astro';
+import MarqueeItem from '../components/marquee/MarqueeItem.astro';
+import Placeholder from '../components/Placeholder.astro';
+import { services } from '../data/site';
+
+const logoTiles = Array.from({ length: 6 }, (_, i) => `client logo ${i + 1}`);
+---
+
+<BaseLayout title="Lab: marquee" description="Marquee lab (dev only)." noindex>
+  <div class="container-site py-12">
+    <h1 class="text-h2">Lab: Marquee</h1>
+    <p class="mt-4 max-w-[65ch] text-muted">
+      Three instances of one component. Hover (mouse), tap (touch) or the button pauses each one; focus pauses the
+      CTA band. Reduced motion shows each as a static wrapped row.
+    </p>
+
+    <h2 class="mt-16 text-small font-normal text-muted" style="font-family: var(--font-body)">
+      1. Services ticker (speed 50, mobile 32)
+    </h2>
+  </div>
+
+  <Marquee label="Services" class="container-site mt-4">
+    {
+      services.map((service) => (
+        <MarqueeItem>
+          <span class="inline-flex items-center gap-(--marquee-gap) font-display text-h1">
+            {service.short}
+            <span aria-hidden="true" class="inline-block size-3 rounded-full bg-accent" />
+          </span>
+        </MarqueeItem>
+      ))
+    }
+  </Marquee>
+
+  <div class="container-site flex min-h-[120vh] flex-col justify-center py-12">
+    <p class="max-w-[65ch] text-muted">
+      Scroll on. The logo strip below uses <code>startOnView</code>: it stays paused until it first enters the
+      viewport.
+    </p>
+  </div>
+
+  <div class="container-site">
+    <h2 class="text-small font-normal text-muted" style="font-family: var(--font-body)">
+      2. Client logo strip (startOnView, speed 40)
+    </h2>
+  </div>
+
+  <Marquee label="Clients" speed={40} startOnView gap="1.5rem" class="container-site mt-4">
+    {
+      logoTiles.map((label) => (
+        <MarqueeItem>
+          <Placeholder variant="block" label={label} class="h-20 min-h-0 w-44" />
+        </MarqueeItem>
+      ))
+    }
+  </Marquee>
+
+  <div class="container-site mt-24">
+    <h2 class="text-small font-normal text-muted" style="font-family: var(--font-body)">
+      3. CTA band (link to /connect, speed 70)
+    </h2>
+  </div>
+
+  <Marquee
+    label="Let's talk banner"
+    href="/connect"
+    linkLabel="Let's talk: go to Connect page"
+    speed={70}
+    gap="0.35em"
+    class="container-site mt-4 border-y border-line py-6"
+  >
+    <MarqueeItem class="font-display text-display">
+      Let's talk <span aria-hidden="true" class="text-accent">✲</span>
+    </MarqueeItem>
+  </Marquee>
+
+  <div class="min-h-[120vh]"></div>
+</BaseLayout>

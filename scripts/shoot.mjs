@@ -46,7 +46,7 @@ for (const scheme of values.schemes.split(',')) {
       errors++;
       console.log(`  page error [${scheme} ${width}]: ${err.message}`);
     });
-    await page.goto(url, { waitUntil: 'networkidle' });
+    await page.goto(url, { waitUntil: 'load' });
     // Astro's dev toolbar floats over content in dev; keep it out of shots.
     await page.addStyleTag({ content: 'astro-dev-toolbar { display: none !important; }' });
     await page.evaluate(() => document.fonts.ready);

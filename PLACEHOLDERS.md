@@ -29,11 +29,6 @@ content-handover checklist: tick an item once the real content is in.
 - [ ] Analytics tool (or none): `site.providers.analytics`
 - [ ] Retention periods (enquiries, server logs, bookings): `site.retention`
 
-## Service copy — `src/data/site.ts`
-
-- [ ] One-line descriptions for the five service lines: `services[].description`
-      (used by the Home ticker; full Services copy is added in Phase 6)
-
 ## Brand and design
 
 - [ ] Typeface sign-off: Fraunces is provisional (`--font-display` in `src/styles/global.css`)

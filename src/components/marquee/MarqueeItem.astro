@@ -1,0 +1,16 @@
+---
+/**
+ * One item in a Marquee. Its trailing spacing (--marquee-gap) is part of the
+ * item, so every copy of the set ends with the same gap and the loop point
+ * lines up exactly.
+ */
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<li class:list={['marquee-item', className]}>
+  <slot />
+</li>

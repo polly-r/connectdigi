@@ -77,14 +77,14 @@ export const site = {
 
 /**
  * The five service lines. Slugs are fixed (anchors on /services, case-study
- * URLs, contact form select values); descriptions are placeholders.
+ * URLs, contact form select values); `short` is the Home ticker label.
  */
 export const services = [
-  { slug: 'web', name: 'Web development', short: 'Web Dev', description: tbc('web development one-liner') },
-  { slug: 'social', name: 'Social media marketing', short: 'Social', description: tbc('social media one-liner') },
-  { slug: 'content', name: 'Content creation', short: 'Content', description: tbc('content creation one-liner') },
-  { slug: 'apps', name: 'App development', short: 'App Dev', description: tbc('app development one-liner') },
-  { slug: 'tech', name: 'Tech solutions', short: 'Tech Solutions', description: tbc('tech solutions one-liner') },
+  { slug: 'web', name: 'Web development', short: 'Web Dev' },
+  { slug: 'social', name: 'Social media marketing', short: 'Social' },
+  { slug: 'content', name: 'Content creation', short: 'Content' },
+  { slug: 'apps', name: 'App development', short: 'App Dev' },
+  { slug: 'tech', name: 'Tech solutions', short: 'Tech Solutions' },
 ] as const;
 
 export type ServiceSlug = (typeof services)[number]['slug'];

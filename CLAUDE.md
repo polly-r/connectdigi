@@ -127,9 +127,9 @@ not a catalogue.
 - Hero headline in the display face, revealed with SplitText (lines or words,
   masked). One reveal on load, no looping.
 - Services ticker: Web Dev / Social / Content / App Dev / Tech Solutions, via
-  `Marquee`. Continuous leftward loop with no visible jump. Hover (or focus, or
-  tap on touch) pauses the ticker and reveals a one-line description for that
-  item. Descriptions are placeholder copy until supplied.
+  `Marquee`. Continuous leftward loop with no visible jump. Hover (or tap on
+  touch) pauses the ticker. Items are plain text: no descriptions, no links
+  (Decisions log, Phase 2).
 - Client logo strip via `Marquee`, animation starting only when scrolled into
   view. Renders placeholder logo tiles until real client logos are supplied.
 - Stats: build and render the component with clearly labelled placeholder
@@ -248,15 +248,15 @@ Implementation:
   all three, not only the logo strip). `startOnView` additionally keeps it
   paused until first entry.
 - Pause/play via `animation-play-state` driven by a data attribute.
-- Hover pause applies only under `@media (hover: hover)`. On touch, tapping an
-  item pauses and shows its description; tapping elsewhere resumes. Focus
-  within the marquee also pauses it.
+- Hover pause applies only under `@media (hover: hover)`. On touch, tapping the
+  marquee pauses it; tapping elsewhere resumes. Focus within the marquee (for
+  example the CTA band's link) also pauses it.
 - **Visible pause/play button** (`showControl`). WCAG 2.2.2 requires a way to
   pause any auto-moving content that runs longer than five seconds.
 - `prefers-reduced-motion: reduce`: no animation and no clones. Render the
   single set as a static wrapped row.
-- Per-item descriptions come from `MarqueeItem` props, so the Home-only reveal
-  behaviour does not leak into the other two uses.
+- No per-item descriptions (dropped in Phase 2). `MarqueeItem` is a plain
+  list item.
 
 ## Interaction rules
 - Every GSAP animation and every marquee has a `prefers-reduced-motion`
@@ -344,6 +344,15 @@ Phase 1 (2026-09-23):
   only; the accent token and the `NodeNetwork` motif rules are unchanged.
 - `playwright-core` (dev only) drives the installed Microsoft Edge for
   screenshots and checks (`scripts/shoot.mjs`). No browser download.
+
+Phase 2 (2026-09-28):
+- Services ticker has no descriptions and its items are plain text (not
+  buttons, not links). The Marquee has no description feature.
+- Marquee extras: optional `href` + `linkLabel` put one link over the strip
+  (used by the CTA band; the moving text is then hidden from screen readers).
+  The pause/play button sits beside the strip, outside the focus-pause area;
+  it shows "Play" while paused by the button or by a tap, and "Pause"
+  otherwise.
 
 ## Working agreement
 - Use plan mode at the start of each phase and wait for approval.
