@@ -29,6 +29,20 @@ npm run check      # type and template checks (astro check)
 
 Dev-only review pages (never built): `/lab/logo`, `/lab/marquee`, `/lab/motif`.
 
+## Preview on GitHub Pages
+
+Every push to `main` rebuilds a shareable preview at
+`https://<user>.github.io/<repo>/` (`.github/workflows/preview.yml`). This is
+a preview, not the final hosting: it shows the site exactly as it stands,
+samples included, and the contact form sends nothing.
+
+- One-time setup: repo **Settings → Pages → Source: GitHub Actions**.
+- Progress and errors: the repo's **Actions** tab.
+- Because the preview lives in a sub-folder, write internal links as
+  `url('/about')` (from `src/lib/url.ts`), never a bare `'/about'`. To test a
+  sub-folder build locally: `PREVIEW_BASE_PATH=/theconnect npm run build`,
+  then `npm run preview` with the same variable.
+
 ## Where things live
 
 | What | Where |

@@ -7,6 +7,7 @@ import NodeNetwork from '../components/motif/NodeNetwork.astro';
 import MotifButton from '../components/motif/MotifButton.astro';
 import MotifLink from '../components/motif/MotifLink.astro';
 import type { MotifNetwork } from '../lib/node-motif';
+import { url } from '../lib/url';
 
 const broken: MotifNetwork = {
   nodes: [
@@ -27,9 +28,9 @@ const broken: MotifNetwork = {
 };
 
 const suggestions = [
-  { label: 'Home', href: '/' },
-  { label: 'Services', href: '/services' },
-  { label: 'About', href: '/about' },
+  { label: 'Home', href: url('/') },
+  { label: 'Services', href: url('/services') },
+  { label: 'About', href: url('/about') },
 ];
 ---
 
@@ -53,7 +54,7 @@ const suggestions = [
       }
     </ul>
     <div class="mt-12">
-      <MotifButton href="/connect">Get in touch</MotifButton>
+      <MotifButton href={url('/connect')}>Get in touch</MotifButton>
     </div>
   </section>
 </BaseLayout>

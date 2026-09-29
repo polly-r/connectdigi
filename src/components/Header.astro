@@ -2,14 +2,15 @@
 import Logo from './Logo.astro';
 import MotifLink from './motif/MotifLink.astro';
 import { mainNav, site } from '../data/site';
+import { pagePath, url } from '../lib/url';
 
-const current = Astro.url.pathname.replace(/\/$/, '') || '/';
+const current = pagePath(Astro.url.pathname);
 const isCurrent = (href: string) => current === href;
 ---
 
 <header class="sticky top-0 z-40 border-b border-line bg-bg">
   <div class="container-site flex h-(--header-h) items-center justify-between gap-4">
-    <a href="/" class="flex items-center gap-2.5 sm:gap-3" data-menu-inert>
+    <a href={url('/')} class="flex items-center gap-2.5 sm:gap-3" data-menu-inert>
       <Logo class="h-9 w-auto shrink-0 md:h-11" />
       <span class="font-display text-body leading-tight font-medium sm:text-lead">{site.name}</span>
     </a>
@@ -19,7 +20,7 @@ const isCurrent = (href: string) => current === href;
         {
           mainNav.map((item) => (
             <li>
-              <MotifLink href={item.href} current={isCurrent(item.href)} class="py-2">
+              <MotifLink href={url(item.href)} current={isCurrent(item.href)} class="py-2">
                 {item.label}
               </MotifLink>
             </li>
@@ -79,7 +80,7 @@ const isCurrent = (href: string) => current === href;
         {
           mainNav.map((item) => (
             <li class="border-b border-line">
-              <MotifLink href={item.href} current={isCurrent(item.href)} unit={2} class="block py-4 font-display text-h2">
+              <MotifLink href={url(item.href)} current={isCurrent(item.href)} unit={2} class="block py-4 font-display text-h2">
                 {item.label}
               </MotifLink>
             </li>

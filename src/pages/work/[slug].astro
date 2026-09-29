@@ -10,6 +10,7 @@ import { getCollection, render, type CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import MotifButton from '../../components/motif/MotifButton.astro';
+import { url } from '../../lib/url';
 import MotifLink from '../../components/motif/MotifLink.astro';
 import NodeDivider from '../../components/motif/NodeDivider.astro';
 import ResultChart from '../../components/work/ResultChart.astro';
@@ -50,7 +51,7 @@ const label = 'font-body text-small font-normal text-muted';
             </span>
           )
         }
-        <a href={`/services#${service.slug}`} class="link">{service.name}</a>
+        <a href={url(`/services#${service.slug}`)} class="link">{service.name}</a>
       </div>
       <h1 class="mt-6 max-w-[20ch] text-h1">{data.title}</h1>
       <p class="mt-5 text-small text-muted">{data.client} · {data.sector}</p>
@@ -135,11 +136,11 @@ const label = 'font-body text-small font-normal text-muted';
         <div class="col-span-4 md:col-span-5 lg:col-span-8">
           <h2 id="next-title" class={label}>Next project · {nextService.name}</h2>
           <p class="mt-4 font-display text-h2">
-            <MotifLink href={`/work/${next.id}`} unit={2}>{next.data.client}</MotifLink>
+            <MotifLink href={url(`/work/${next.id}`)} unit={2}>{next.data.client}</MotifLink>
           </p>
         </div>
         <div class="col-span-4 md:col-span-3 md:justify-self-end lg:col-span-4">
-          <MotifButton href="/connect">Start a project</MotifButton>
+          <MotifButton href={url('/connect')}>Start a project</MotifButton>
         </div>
       </div>
     </nav>

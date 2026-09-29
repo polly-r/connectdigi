@@ -12,6 +12,7 @@
 import LegalPage from '../layouts/LegalPage.astro';
 import Fact from '../components/legal/Fact.astro';
 import { site } from '../data/site';
+import { url } from '../lib/url';
 
 const { legal, contact, policies } = site;
 
@@ -119,7 +120,7 @@ const sections = [
     <p>
       When you contact us, please make sure the information you give is accurate and that you're entitled to share
       it. Don't send confidential information until we've agreed how it will be handled. We use what you send as our{' '}
-      <a href="/privacy">Privacy Policy</a> describes.
+      <a href={url('/privacy')}>Privacy Policy</a> describes.
     </p>
   </section>
 
@@ -154,7 +155,7 @@ const sections = [
     <h2 id="privacy-h">Privacy</h2>
     <p>
       How we collect and use personal information, and your rights under POPIA, are explained in our{' '}
-      <a href="/privacy">Privacy Policy</a>.
+      <a href={url('/privacy')}>Privacy Policy</a>.
     </p>
   </section>
 
@@ -178,7 +179,7 @@ const sections = [
     <h2 id="contact-h">Contact</h2>
     <p>
       Questions about these terms? Email us at <Fact value={contact.email} email /> or use the{' '}
-      <a href="/connect">contact form</a>.
+      <a href={url('/connect')}>contact form</a>.
     </p>
   </section>
 </LegalPage>

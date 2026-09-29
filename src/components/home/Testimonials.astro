@@ -7,6 +7,7 @@
  */
 import { getCollection } from 'astro:content';
 import Testimonial from '../work/Testimonial.astro';
+import { url } from '../../lib/url';
 
 const FEATURED = ['harbour-and-hide', 'tafel-bakehouse', 'ledgerline'];
 
@@ -28,7 +29,7 @@ const quotes = FEATURED.map((id) => work.find((entry) => entry.id === id)).filte
             quote={entry.data.testimonial!.quote}
             role={entry.data.testimonial!.role}
             sample={entry.data.placeholder}
-            href={`/work/${entry.id}`}
+            href={url(`/work/${entry.id}`)}
             size="compact"
             class="border-t border-line pt-6"
           />

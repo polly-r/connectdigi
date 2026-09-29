@@ -17,13 +17,23 @@ const sampleWork = readdirSync(WORK_DIR)
   .filter((file) => file.endsWith('.md') && /^placeholder:\s*true\s*$/m.test(readFileSync(`${WORK_DIR}/${file}`, 'utf8')))
   .map((file) => `/work/${file.replace(/\.md$/, '')}`);
 
+// The site builds for the root of SITE_URL. Only the GitHub Pages preview
+// (.github/workflows/preview.yml) sets these two, to build for
+// https://<user>.github.io/<repo>/. The launch build leaves them unset.
+const site = process.env.PREVIEW_SITE_URL || SITE_URL;
+const base = process.env.PREVIEW_BASE_PATH || '/';
+const basePrefix = base.replace(/\/$/, '');
+
 // https://astro.build/config
 export default defineConfig({
-  site: SITE_URL,
+  site,
+  base,
   output: 'static',
   integrations: [
     react(),
-    sitemap({ filter: (page) => !sampleWork.includes(new URL(page).pathname.replace(/\/$/, '')) }),
+    sitemap({
+      filter: (page) => !sampleWork.includes(new URL(page).pathname.slice(basePrefix.length).replace(/\/$/, '')),
+    }),
     devLab(),
   ],
 

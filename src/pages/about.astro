@@ -10,6 +10,7 @@ import Marquee from '../components/marquee/Marquee.astro';
 import MarqueeItem from '../components/marquee/MarqueeItem.astro';
 import { manifesto } from '../data/about';
 import { services } from '../data/site';
+import { url } from '../lib/url';
 
 const label = 'font-body text-small font-normal text-muted';
 ---
@@ -52,7 +53,7 @@ const label = 'font-body text-small font-normal text-muted';
         {
           services.map((service) => (
             <li>
-              <MotifLink href={`/services#${service.slug}`} unit={2} class="font-display text-h3">
+              <MotifLink href={url(`/services#${service.slug}`)} unit={2} class="font-display text-h3">
                 {service.name}
               </MotifLink>
             </li>
@@ -69,7 +70,7 @@ const label = 'font-body text-small font-normal text-muted';
   <section class="pb-section" aria-label="Get in touch">
     <Marquee
       label="Let's talk banner"
-      href="/connect"
+      href={url('/connect')}
       linkLabel="Let's talk: go to Connect page"
       speed={70}
       mobileSpeed={46}

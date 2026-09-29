@@ -317,6 +317,9 @@ for the Privacy Policy.
 - Tailwind classes over custom CSS, except where GSAP or the marquee keyframe
   needs to target something directly.
 - Colours only through the tokens above.
+- Internal links and `public/` files through `url()` from `src/lib/url.ts`
+  (`url('/about')`), never a bare `'/about'`, so the site also works from a
+  sub-folder (the GitHub Pages preview).
 
 ## Definition of done (every feature)
 - Works at 360px, 768px and 1280px+.
@@ -530,6 +533,16 @@ Phase 9 (2026-09-29):
   match `:hover`, so `Marquee` has an opt-in `activeItem` prop: the script
   finds the item under the pointer by position and marks it
   `[data-marquee-active]`.
+- Follow-up (2026-09-30): the client wants a shareable preview on GitHub
+  Pages. It is a PREVIEW, not the hosting decision: the repo is public (free
+  Pages needs that), and `.github/workflows/preview.yml` rebuilds it on every
+  push to main at `https://<user>.github.io/<repo>/`, with the stand-ins
+  visible as they are. The workflow sets `PREVIEW_SITE_URL` and
+  `PREVIEW_BASE_PATH`; astro.config uses them for `site` and `base`, and
+  without them builds exactly as before (host-agnostic `dist/` at the root).
+  Indexing left as is at the client's choice (only samples and 404 are
+  noindex). The mock form adapter is active on the preview: submissions show
+  success but go nowhere.
 
 ## Working agreement
 - Use plan mode at the start of each phase and wait for approval.

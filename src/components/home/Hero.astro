@@ -7,6 +7,7 @@
  */
 import MotifButton from '../motif/MotifButton.astro';
 import { hero } from '../../data/home';
+import { url } from '../../lib/url';
 ---
 
 <section class="container-site pt-16 pb-section md:pt-24 lg:pt-32" aria-labelledby="hero-title">
@@ -18,7 +19,7 @@ import { hero } from '../../data/home';
       {hero.intro}
     </p>
     <div class="col-span-4 flex items-start md:col-span-3 md:justify-end lg:col-span-4 lg:col-start-9" data-headline-after>
-      <MotifButton href={hero.cta.href}>{hero.cta.label}</MotifButton>
+      <MotifButton href={url(hero.cta.href)}>{hero.cta.label}</MotifButton>
     </div>
   </div>
 </section>
