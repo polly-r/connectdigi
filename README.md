@@ -105,7 +105,9 @@ Every stand-in is listed in [PLACEHOLDERS.md](PLACEHOLDERS.md). By kind:
   `statsSample = false`. A value counts up automatically if it's a number with
   a short prefix or suffix (`120+`, `98%`, `R25m+`).
 - **Client logos**: replace the entries in `src/data/clients.ts` (each is a
-  name plus one SVG path on a 24×24 viewBox), then set `standIn = false`.
+  name, one SVG path on a 24×24 viewBox and the brand colour shown on hover),
+  then set `standIn = false`. Add `colorOnDark: 'fg'` to any logo whose
+  colour is too dark to see on the navy background.
 - **Case studies**: each file in `src/content/work/` is one project, one per
   service line. Replace the text, `results`, `testimonial` (a quote the client
   approved in writing) and `chart.points` (verified figures), swap `cover` and

@@ -12,7 +12,7 @@ import { clients } from '../../data/clients';
 
 <section class="container-site pb-section" aria-labelledby="clients-title" data-reveal>
   <h2 id="clients-title" class="font-body text-small font-normal text-muted">Clients</h2>
-  <Marquee label="Clients" speed={40} mobileSpeed={26} startOnView gap="4rem" class="mt-8">
+  <Marquee label="Clients" speed={40} mobileSpeed={26} startOnView activeItem gap="4rem" class="mt-8">
     {
       clients.map((logo) => (
         <MarqueeItem>

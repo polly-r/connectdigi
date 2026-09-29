@@ -131,7 +131,8 @@ not a catalogue.
   touch) pauses the ticker. Items are plain text: no descriptions, no links
   (Decisions log, Phase 2).
 - Client logo strip via `Marquee`, animation starting only when scrolled into
-  view. Currently shows STAND-IN logos of well-known brands (client decision,
+  view. Logos are grey (muted) and show in their brand colour on hover, or
+  on tap on touch (Decisions log, Phase 9 follow-up). Currently shows STAND-IN logos of well-known brands (client decision,
   Decisions log, Phase 2); none is a client, and all must be replaced with real
   client logos before launch (`src/data/clients.ts`).
 - Stats: currently SAMPLE figures under the client's labels (client decision,
@@ -518,6 +519,17 @@ Phase 9 (2026-09-29):
   running, tokens/fonts, the form adapter, placeholders and which Privacy
   Policy sections change per provider decision. PLACEHOLDERS.md is now the
   client-facing content-request checklist, with a developer appendix.
+- Follow-up: client logos show grey and turn to their brand colour on hover
+  (or tap on touch). A coloured copy of the logo path fades in over the grey
+  one (opacity only). Counts as part of Home's "marquees" interaction (the
+  strip's own hover response, like hover-pause), so the budget is unchanged.
+  Brand colours are logo artwork, not UI colours: they live in
+  `src/data/clients.ts` (Simple Icons, same release as the paths), not as
+  tokens. `colorOnDark: 'fg'` shows a logo white in dark mode when its brand
+  colour is too dark for navy (Nike). Marquee clones are inert and never
+  match `:hover`, so `Marquee` has an opt-in `activeItem` prop: the script
+  finds the item under the pointer by position and marks it
+  `[data-marquee-active]`.
 
 ## Working agreement
 - Use plan mode at the start of each phase and wait for approval.

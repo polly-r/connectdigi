@@ -39,6 +39,7 @@ class Marquee {
   private seamPad = 0;
   private running = false;
   private touchStartedInside = false;
+  private active: HTMLElement | null = null;
   private resizeTimer: number | undefined;
   private teardown: Array<() => void> = [];
   private motionTeardown: Array<() => void> = [];
@@ -57,6 +58,7 @@ class Marquee {
     this.reducedMotion.addEventListener('change', onReducedMotionChange);
     this.teardown.push(() => this.reducedMotion.removeEventListener('change', onReducedMotionChange));
 
+    if (this.root.hasAttribute('data-active-item')) this.trackActiveItem();
     if (!this.reducedMotion.matches) this.start();
   }
 
@@ -64,6 +66,70 @@ class Marquee {
     this.stop();
     for (const fn of this.teardown) fn();
     this.teardown = [];
+  }
+
+  /**
+   * [data-active-item]: mark the item under the mouse, or the tapped item on
+   * touch, with [data-marquee-active]. Found by position, because clones are
+   * inert and never match :hover. The strip is paused while hovered or
+   * tapped, so the marked item stays under the pointer.
+   */
+  private trackActiveItem(): void {
+    let mouse: { x: number; y: number } | null = null;
+
+    const onPointerMove = (event: PointerEvent) => {
+      if (event.pointerType !== 'mouse') return;
+      mouse = { x: event.clientX, y: event.clientY };
+      this.setActive(this.itemAt(mouse.x, mouse.y));
+    };
+    const onPointerLeave = (event: PointerEvent) => {
+      if (event.pointerType !== 'mouse') return;
+      mouse = null;
+      this.setActive(null);
+    };
+    // Touch or pen: a tap marks the item; a tap anywhere else clears it
+    // (the same gestures that pause and resume the strip).
+    const onPointerUp = (event: PointerEvent) => {
+      if (event.pointerType !== 'mouse') this.setActive(this.itemAt(event.clientX, event.clientY));
+    };
+    const onDocumentPointerDown = (event: PointerEvent) => {
+      if (event.pointerType !== 'mouse' && !this.viewport.contains(event.target as Node)) this.setActive(null);
+    };
+    // Scrolling with a still mouse moves the strip under the pointer.
+    const onScroll = () => {
+      if (mouse) this.setActive(this.itemAt(mouse.x, mouse.y));
+    };
+
+    this.viewport.addEventListener('pointermove', onPointerMove);
+    this.viewport.addEventListener('pointerleave', onPointerLeave);
+    this.viewport.addEventListener('pointerup', onPointerUp);
+    document.addEventListener('pointerdown', onDocumentPointerDown, true);
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    this.teardown.push(
+      () => this.viewport.removeEventListener('pointermove', onPointerMove),
+      () => this.viewport.removeEventListener('pointerleave', onPointerLeave),
+      () => this.viewport.removeEventListener('pointerup', onPointerUp),
+      () => document.removeEventListener('pointerdown', onDocumentPointerDown, true),
+      () => window.removeEventListener('scroll', onScroll),
+      () => this.setActive(null),
+    );
+  }
+
+  /** The item whose content is at a viewport point (the trailing gap doesn't count). */
+  private itemAt(x: number, y: number): HTMLElement | null {
+    for (const item of this.track.querySelectorAll<HTMLElement>('.marquee-item')) {
+      const box = (item.firstElementChild ?? item).getBoundingClientRect();
+      if (x >= box.left && x <= box.right && y >= box.top && y <= box.bottom) return item;
+    }
+    return null;
+  }
+
+  private setActive(item: HTMLElement | null): void {
+    if (item === this.active) return;
+    this.active?.removeAttribute('data-marquee-active');
+    item?.setAttribute('data-marquee-active', '');
+    this.active = item;
   }
 
   /** Clone, animate and observe. */

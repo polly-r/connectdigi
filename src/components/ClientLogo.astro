@@ -1,7 +1,13 @@
 ---
 /**
  * One client logo for the logo strip, drawn in the muted text colour so a
- * set of logos reads as one quiet row in both themes.
+ * set of logos reads as one quiet row in both themes. On hover (or tap on
+ * touch) it shows in its brand colour: a second, coloured copy of the path
+ * fades in over the grey one (opacity only).
+ *
+ * The strip's clones are inert and never match :hover, so the Marquee marks
+ * the logo under the pointer with [data-marquee-active] (see `activeItem` in
+ * Marquee.astro). The :hover rule covers the no-JS case.
  * Data: src/data/clients.ts (currently stand-ins, see that file).
  */
 import type { ClientLogo } from '../data/clients';
@@ -16,11 +22,51 @@ const { logo, class: className } = Astro.props;
 
 <svg
   viewBox="0 0 24 24"
-  fill="currentColor"
   role="img"
   aria-label={logo.name}
   focusable="false"
-  class:list={['h-9 w-auto text-muted md:h-10', className]}
+  class:list={['client-logo h-9 w-auto text-muted md:h-10', className]}
+  style={`--logo-brand: ${logo.color}`}
+  data-color-on-dark={logo.colorOnDark}
 >
-  <path d={logo.path} />
+  <path class="client-logo-base" d={logo.path} />
+  <path class="client-logo-brand" d={logo.path} />
 </svg>
+
+<style>
+  .client-logo-base,
+  .client-logo-brand {
+    transition: opacity 200ms ease;
+  }
+
+  .client-logo-base {
+    fill: currentColor;
+  }
+
+  .client-logo-brand {
+    fill: var(--logo-brand);
+    opacity: 0;
+  }
+
+  :global(.dark) .client-logo[data-color-on-dark='fg'] .client-logo-brand {
+    fill: var(--color-fg);
+  }
+
+  :global([data-marquee-active]) > .client-logo .client-logo-brand {
+    opacity: 1;
+  }
+
+  :global([data-marquee-active]) > .client-logo .client-logo-base {
+    opacity: 0;
+  }
+
+  @media (hover: hover) {
+    .client-logo:hover .client-logo-brand {
+      opacity: 1;
+    }
+
+    .client-logo:hover .client-logo-base {
+      opacity: 0;
+    }
+  }
+</style>

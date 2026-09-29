@@ -25,6 +25,12 @@ interface Props {
   href?: string;
   /** Accessible name for the link. Required with `href`. */
   linkLabel?: string;
+  /**
+   * Mark the item under the mouse (or the tapped item on touch) with
+   * [data-marquee-active], clones included: they are inert, so :hover never
+   * matches them. Used by the logo strip's colour-on-hover.
+   */
+  activeItem?: boolean;
   class?: string;
 }
 
@@ -38,6 +44,7 @@ const {
   gap = '2.5rem',
   href,
   linkLabel,
+  activeItem = false,
   class: className,
 } = Astro.props;
 
@@ -53,6 +60,7 @@ if (href && !linkLabel) throw new Error(`Marquee "${label}": \`linkLabel\` is re
   data-direction={direction}
   data-pause-on-hover={pauseOnHover ? '' : undefined}
   data-start-on-view={startOnView ? '' : undefined}
+  data-active-item={activeItem ? '' : undefined}
 >
   <div class="marquee-viewport" data-marquee-viewport>
     <div class="marquee-track" data-marquee-track>

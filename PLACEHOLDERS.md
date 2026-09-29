@@ -71,7 +71,8 @@ parts that must be genuine.
 - [ ] ⚠ **Client logos.** The logo strip currently shows *stand-in logos of
       well-known brands that are not your clients* (Spotify, Airbnb, Shopify,
       Stripe, Netflix, Nike). Send logos of real clients (SVG or high-resolution
-      PNG) who have agreed to be shown.
+      PNG) who have agreed to be shown, in full colour: they appear grey and
+      turn to their brand colour when hovered.
 - [ ] ⚠ **Numbers.** The Home page shows *sample figures* under your four labels.
       Send your real figures, and what each is based on:
   - Projects delivered (sample shown: 120+)
