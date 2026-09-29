@@ -54,9 +54,10 @@ export const site = {
     { network: 'linkedin', label: 'LinkedIn', href: tbc('LinkedIn profile URL') },
   ],
 
-  /** Company facts for the Privacy Policy (POPIA). */
+  /** Company facts for the Privacy Policy (POPIA) and Terms of Service (ECTA s43). */
   legal: {
     registeredName: tbc('registered company name'),
+    legalStatus: tbc('legal form, e.g. private company (Pty) Ltd or sole proprietor'),
     registrationNumber: tbc('company registration number'),
     registeredAddress: tbc('registered address'),
     informationOfficer: {
@@ -64,21 +65,43 @@ export const site = {
       email: tbc('Information Officer email'),
       phone: tbc('Information Officer phone'),
     },
+    paiaManual: tbc('where the PAIA manual is available (link, or "on request")'),
   },
 
-  /** Third parties that will receive personal information. Decided later. */
+  /**
+   * Third parties (operators) that receive personal information, and where
+   * each stores it (for the cross-border section). Decided later.
+   */
   providers: {
     form: tbc('contact form provider'),
     hosting: tbc('hosting provider'),
+    email: tbc('email provider'),
+    crm: tbc('CRM or project tool enquiries are copied into'),
+    /** Decided: enquiries may be answered on WhatsApp. */
+    messaging: 'WhatsApp (Meta Platforms)',
     booking: tbc('booking tool, or none'),
     analytics: tbc('analytics tool, or none'),
+  },
+  providerLocations: {
+    form: tbc('where the form provider stores data'),
+    hosting: tbc('where the host stores logs'),
+    email: tbc('where the email provider stores data'),
+    crm: tbc('where the CRM or project tool stores data'),
   },
 
   /** How long each kind of data is kept. */
   retention: {
-    enquiries: tbc('retention period for contact form enquiries'),
+    enquiries: tbc('retention period for enquiries (form, email, CRM)'),
+    whatsapp: tbc('retention period for WhatsApp conversations'),
+    clientRecords: tbc('retention period for client project records'),
     serverLogs: tbc('retention period for hosting server logs'),
     bookings: tbc('retention period for booking data'),
+  },
+
+  /** Effective dates of the legal pages. Set when the final text is approved. */
+  policies: {
+    privacyEffective: tbc('Privacy Policy effective date'),
+    termsEffective: tbc('Terms of Service effective date'),
   },
 } as const;
 

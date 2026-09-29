@@ -23,6 +23,10 @@ if (/export const standIn = true/.test(clients)) {
 }
 
 const site = read('src/data/site.ts');
+const missingFacts = (site.match(/tbc\('/g) ?? []).length;
+if (missingFacts > 0) {
+  warnings.push(`${missingFacts} company facts in src/data/site.ts are still [TBC] (legal pages, providers, retention, social links).`);
+}
 if (/example\.com|000 0000/.test(site)) {
   warnings.push('Footer contact details are EXAMPLE values (example.com, 000 number). Replace in src/data/site.ts.');
 }

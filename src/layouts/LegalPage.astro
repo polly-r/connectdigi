@@ -1,0 +1,147 @@
+---
+/**
+ * Layout for the legal pages (Privacy Policy, Terms of Service): title,
+ * effective date, a linked table of contents and readable long-form text.
+ * The table of contents sits above the text on small screens and in a
+ * sticky column from lg. Interaction budget: node hover only (no reveals
+ * on legal text).
+ *
+ * Page content is a series of <section id="…"> blocks with h2 headings; the
+ * `sections` prop must list the same ids in the same order.
+ */
+import BaseLayout from './BaseLayout.astro';
+import Fact from '../components/legal/Fact.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  effective: string;
+  sections: Array<{ id: string; title: string }>;
+}
+
+const { title, description, effective, sections } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="container-site pt-16 pb-section md:pt-24">
+    <header class="max-w-[48rem]">
+      <h1 class="text-h1">{title}</h1>
+      <p class="mt-6 text-small text-muted">Effective date: <Fact value={effective} /></p>
+      <slot name="intro" />
+    </header>
+
+    <div class="mt-12 grid-site gap-y-12 md:mt-16">
+      <nav class="col-span-4 md:col-span-8 lg:col-span-3" aria-labelledby="toc-title">
+        <div class="lg:sticky lg:top-[calc(var(--header-h)+2rem)]">
+          <h2 id="toc-title" class="font-body text-small font-normal text-muted">Contents</h2>
+          <ol class="mt-4 space-y-2 text-small">
+            {
+              sections.map((s, i) => (
+                <li class="flex gap-2">
+                  <span class="w-6 shrink-0 text-muted" aria-hidden="true">
+                    {i + 1}.
+                  </span>
+                  <a href={`#${s.id}`} class="link">
+                    {s.title}
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </nav>
+
+      <div class="legal-body col-span-4 md:col-span-8 lg:col-span-8 lg:col-start-5">
+        <slot />
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .legal-body {
+    max-width: 44rem;
+    counter-reset: legal-section;
+  }
+
+  .legal-body :global(section) {
+    padding-top: 2.5rem;
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .legal-body :global(section:first-child) {
+    padding-top: 0;
+    margin-top: 0;
+    border-top: 0;
+  }
+
+  .legal-body :global(h2) {
+    counter-increment: legal-section;
+    font-size: var(--text-h3);
+    line-height: var(--text-h3--line-height);
+  }
+
+  .legal-body :global(h2)::before {
+    content: counter(legal-section) '. ';
+    color: var(--color-muted);
+  }
+
+  .legal-body :global(h3) {
+    margin-top: 1.75rem;
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    font-weight: 600;
+  }
+
+  .legal-body :global(p),
+  .legal-body :global(ul),
+  .legal-body :global(ol) {
+    margin-top: 1rem;
+  }
+
+  .legal-body :global(ul) {
+    list-style: disc;
+    padding-left: 1.25rem;
+  }
+
+  .legal-body :global(li + li) {
+    margin-top: 0.4rem;
+  }
+
+  .legal-body :global(a:not(.link)) {
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent);
+    text-underline-offset: 0.2em;
+  }
+
+  /*
+   * Tables fit the width and wrap, so every column stays visible at 360px.
+   * The wrapper only scrolls if a single word can't fit (a safety net).
+   */
+  .legal-body :global(.table-wrap) {
+    margin-top: 1.25rem;
+    overflow-x: auto;
+  }
+
+  .legal-body :global(table) {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    font-size: var(--text-small);
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
+  .legal-body :global(th),
+  .legal-body :global(td) {
+    padding: 0.75rem 0.75rem 0.75rem 0;
+    border-bottom: 1px solid var(--color-line);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .legal-body :global(th) {
+    font-weight: 600;
+  }
+</style>

@@ -1,0 +1,28 @@
+---
+/**
+ * A company-specific fact in legal text: the real value once supplied, or a
+ * visible inline placeholder while it's still "[TBC: …]" in src/data/site.ts.
+ */
+import Placeholder from '../Placeholder.astro';
+import { isTbc, tbcLabel } from '../../data/site';
+
+interface Props {
+  value: string;
+  /** Render a real email value as a mailto link. */
+  email?: boolean;
+}
+
+const { value, email = false } = Astro.props;
+---
+
+{
+  isTbc(value) ? (
+    <Placeholder label={tbcLabel(value)} />
+  ) : email ? (
+    <a href={`mailto:${value}`} class="link">
+      {value}
+    </a>
+  ) : (
+    value
+  )
+}

@@ -1,0 +1,184 @@
+---
+/*
+ * DRAFT TERMS OF SERVICE: NOT LEGAL ADVICE.
+ * Terms of use for this website (not a client contract: engagements are
+ * governed by a separate written proposal or agreement). Written for South
+ * Africa: the Consumer Protection Act (CPA) and the Electronic Communications
+ * and Transactions Act (ECTA, incl. the section 43 disclosures). The final
+ * text needs review by the client and, ideally, a legal professional before
+ * launch. Company facts come from src/data/site.ts and show as visible
+ * placeholders until supplied.
+ */
+import LegalPage from '../layouts/LegalPage.astro';
+import Fact from '../components/legal/Fact.astro';
+import { site } from '../data/site';
+
+const { legal, contact, policies } = site;
+
+const sections = [
+  { id: 'about', title: 'About these terms' },
+  { id: 'legal-information', title: 'Legal information' },
+  { id: 'using-the-site', title: 'Using this website' },
+  { id: 'content', title: 'Information on this website' },
+  { id: 'work-with-us', title: 'Quotes and client work' },
+  { id: 'intellectual-property', title: 'Intellectual property' },
+  { id: 'messages', title: 'Messages you send us' },
+  { id: 'links', title: 'Links to other websites' },
+  { id: 'availability', title: 'Availability and changes' },
+  { id: 'liability', title: 'Liability' },
+  { id: 'privacy', title: 'Privacy' },
+  { id: 'law', title: 'Governing law' },
+  { id: 'changes', title: 'Changes to these terms' },
+  { id: 'contact', title: 'Contact' },
+];
+---
+
+<LegalPage
+  title="Terms of Service"
+  description="The terms for using The Connect Digital's website."
+  effective={policies.termsEffective}
+  sections={sections}
+>
+  <p slot="intro" class="mt-8 max-w-[44rem] text-lead text-muted">
+    These terms apply when you use this website. Please read them; by using the site you agree to them.
+  </p>
+
+  <section id="about" aria-labelledby="about-h">
+    <h2 id="about-h">About these terms</h2>
+    <p>
+      This website is run by {site.name} ("we", "us"). These terms cover your use of the website only. Any work we do
+      for you is governed by a separate written proposal or agreement, which takes priority over these terms if they
+      differ.
+    </p>
+    <p>
+      Nothing in these terms limits any right you have under the Consumer Protection Act, 2008, or any other law that
+      can't be excluded by agreement.
+    </p>
+  </section>
+
+  <section id="legal-information" aria-labelledby="legal-information-h">
+    <h2 id="legal-information-h">Legal information</h2>
+    <p>As required by section 43 of the Electronic Communications and Transactions Act, 2002:</p>
+    <ul>
+      <li>Full name: <Fact value={legal.registeredName} />, trading as {site.name}</li>
+      <li>Legal status: <Fact value={legal.legalStatus} /></li>
+      <li>Registration number: <Fact value={legal.registrationNumber} /></li>
+      <li>Physical address (and address for legal notices): <Fact value={legal.registeredAddress} /></li>
+      <li>Email: <Fact value={contact.email} email /></li>
+      <li>Telephone: <Fact value={contact.phone} /></li>
+      <li>Website: {site.url.replace(/^https:\/\//, '')}</li>
+    </ul>
+  </section>
+
+  <section id="using-the-site" aria-labelledby="using-the-site-h">
+    <h2 id="using-the-site-h">Using this website</h2>
+    <p>You're welcome to browse and share this website. Please don't:</p>
+    <ul>
+      <li>use it for anything unlawful, or to send spam or harmful material;</li>
+      <li>try to gain unauthorised access to it, interfere with how it works, or overload it;</li>
+      <li>copy large parts of it, or use automated tools to scrape it, without our permission;</li>
+      <li>pretend to be someone else when you contact us.</li>
+    </ul>
+  </section>
+
+  <section id="content" aria-labelledby="content-h">
+    <h2 id="content-h">Information on this website</h2>
+    <p>
+      The information here describes our services in general terms. It isn't professional advice for your particular
+      situation, and it isn't an offer we're bound by: what we'll do, and at what price, is set out in a written
+      proposal.
+    </p>
+    <p>
+      We try to keep the site accurate and up to date, but we can't guarantee that everything on it is complete or
+      current at all times.
+    </p>
+  </section>
+
+  <section id="work-with-us" aria-labelledby="work-with-us-h">
+    <h2 id="work-with-us-h">Quotes and client work</h2>
+    <p>
+      Sending an enquiry doesn't create a contract. If we agree to work together, we'll confirm the scope, timeline,
+      fees and terms in writing before any work starts, and that agreement will govern the project.
+    </p>
+  </section>
+
+  <section id="intellectual-property" aria-labelledby="intellectual-property-h">
+    <h2 id="intellectual-property-h">Intellectual property</h2>
+    <p>
+      The content of this website, including its text, design, graphics and our logo, belongs to us or to the people
+      who licensed it to us, and is protected by copyright and trade mark law. You may view it and share links to it,
+      but you may not reuse it commercially without our written permission.
+    </p>
+    <p>
+      Other names and logos shown on this website are the trade marks of their respective owners.
+    </p>
+  </section>
+
+  <section id="messages" aria-labelledby="messages-h">
+    <h2 id="messages-h">Messages you send us</h2>
+    <p>
+      When you contact us, please make sure the information you give is accurate and that you're entitled to share
+      it. Don't send confidential information until we've agreed how it will be handled. We use what you send as our{' '}
+      <a href="/privacy">Privacy Policy</a> describes.
+    </p>
+  </section>
+
+  <section id="links" aria-labelledby="links-h">
+    <h2 id="links-h">Links to other websites</h2>
+    <p>
+      Links to other websites, including social media, are there for convenience. We don't control those sites and
+      aren't responsible for their content or how they handle your information; their own terms and privacy policies
+      apply.
+    </p>
+  </section>
+
+  <section id="availability" aria-labelledby="availability-h">
+    <h2 id="availability-h">Availability and changes</h2>
+    <p>
+      We may update, change or take down any part of the website at any time. We aim to keep it available, but we
+      don't promise it will always be available or free of errors.
+    </p>
+  </section>
+
+  <section id="liability" aria-labelledby="liability-h">
+    <h2 id="liability-h">Liability</h2>
+    <p>
+      To the extent the law allows, we're not liable for any loss or damage arising from your use of, or inability to
+      use, this website or from relying on its general information. This doesn't exclude liability that can't be
+      excluded by law, including under the Consumer Protection Act, or liability for our gross negligence or wilful
+      misconduct.
+    </p>
+  </section>
+
+  <section id="privacy" aria-labelledby="privacy-h">
+    <h2 id="privacy-h">Privacy</h2>
+    <p>
+      How we collect and use personal information, and your rights under POPIA, are explained in our{' '}
+      <a href="/privacy">Privacy Policy</a>.
+    </p>
+  </section>
+
+  <section id="law" aria-labelledby="law-h">
+    <h2 id="law-h">Governing law</h2>
+    <p>
+      These terms are governed by the law of the Republic of South Africa, and South African courts have jurisdiction
+      over any dispute about them.
+    </p>
+  </section>
+
+  <section id="changes" aria-labelledby="changes-h">
+    <h2 id="changes-h">Changes to these terms</h2>
+    <p>
+      We may update these terms from time to time. The effective date at the top shows when they last changed. The
+      version on this page when you use the site is the one that applies.
+    </p>
+  </section>
+
+  <section id="contact" aria-labelledby="contact-h">
+    <h2 id="contact-h">Contact</h2>
+    <p>
+      Questions about these terms? Email us at <Fact value={contact.email} email /> or use the{' '}
+      <a href="/connect">contact form</a>.
+    </p>
+  </section>
+</LegalPage>

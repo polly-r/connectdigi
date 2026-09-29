@@ -1,12 +1,315 @@
 ---
-// Temporary holding page. Privacy Policy, built in Phase 8
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Placeholder from '../components/Placeholder.astro';
+/*
+ * DRAFT PRIVACY POLICY: NOT LEGAL ADVICE.
+ * Written from the site's data-flow inventory (CLAUDE.md, Decisions log,
+ * Phase 8). The final text needs review by the client and, ideally, a legal
+ * professional before launch. Every company-specific fact comes from
+ * src/data/site.ts and shows as a visible placeholder until supplied.
+ * Keep in sync with the site: any new data flow (analytics, an embed, a new
+ * provider) means updating this page in the same change.
+ */
+import LegalPage from '../layouts/LegalPage.astro';
+import Fact from '../components/legal/Fact.astro';
+import { site } from '../data/site';
+import { informationRegulator as ir } from '../data/regulator';
+
+const { legal, providers, providerLocations, retention, contact, policies } = site;
+const io = legal.informationOfficer;
+
+const sections = [
+  { id: 'who-we-are', title: 'Who we are' },
+  { id: 'what-we-collect', title: 'What we collect and how' },
+  { id: 'why-we-use-it', title: 'Why we use it, and our lawful basis' },
+  { id: 'consent', title: 'Consent, and withdrawing it' },
+  { id: 'sharing', title: 'Who we share it with' },
+  { id: 'cross-border', title: 'Transfers outside South Africa' },
+  { id: 'retention', title: 'How long we keep it' },
+  { id: 'security', title: 'How we protect it' },
+  { id: 'your-rights', title: 'Your rights' },
+  { id: 'cookies', title: 'Cookies and local storage' },
+  { id: 'direct-marketing', title: 'Direct marketing' },
+  { id: 'children', title: 'Children' },
+  { id: 'complaints', title: 'Complaints' },
+  { id: 'changes', title: 'Changes to this policy' },
+];
 ---
 
-<BaseLayout title="Privacy Policy" description="How The Connect Digital collects, uses and protects personal information, in line with POPIA.">
-  <div class="container-site py-section">
-    <h1 class="text-h1">Privacy Policy</h1>
-    <Placeholder variant="block" class="mt-10" label="Privacy Policy, built in Phase 8" />
-  </div>
-</BaseLayout>
+<LegalPage
+  title="Privacy Policy"
+  description="How The Connect Digital collects, uses and protects personal information, in line with POPIA."
+  effective={policies.privacyEffective}
+  sections={sections}
+>
+  <p slot="intro" class="mt-8 max-w-[44rem] text-lead text-muted">
+    This policy explains what personal information {site.name} collects through this website and when you contact
+    us, why, who it's shared with, and your rights under the Protection of Personal Information Act, 2013 (POPIA).
+  </p>
+
+  <section id="who-we-are" aria-labelledby="who-we-are-h">
+    <h2 id="who-we-are-h">Who we are</h2>
+    <p>
+      {site.name} is the "responsible party" for the personal information described here: we decide why and how it
+      is processed.
+    </p>
+    <ul>
+      <li>Registered name: <Fact value={legal.registeredName} /></li>
+      <li>Registration number: <Fact value={legal.registrationNumber} /></li>
+      <li>Address: <Fact value={legal.registeredAddress} /></li>
+      <li>Email: <Fact value={contact.email} email /></li>
+    </ul>
+    <h3>Information Officer</h3>
+    <p>Our Information Officer handles privacy questions and requests:</p>
+    <ul>
+      <li>Name: <Fact value={io.name} /></li>
+      <li>Email: <Fact value={io.email} email /></li>
+      <li>Phone: <Fact value={io.phone} /></li>
+    </ul>
+  </section>
+
+  <section id="what-we-collect" aria-labelledby="what-we-collect-h">
+    <h2 id="what-we-collect-h">What we collect and how</h2>
+    <h3>Information you give us</h3>
+    <ul>
+      <li>
+        <strong>Contact form:</strong> your name, email address, company (optional), the service you're interested in,
+        your message, and a record that you agreed to this policy, with the date, time and page you sent it from.
+      </li>
+      <li>
+        <strong>Email, phone and WhatsApp:</strong> whatever you choose to send us, and your contact details, when you
+        email or call us or when we reply to an enquiry on WhatsApp.
+      </li>
+      <li>
+        <strong>Working with us:</strong> if you become a client, the contact details and project information needed
+        to deliver the work.
+      </li>
+    </ul>
+    <p>
+      Please don't send us special personal information (for example health, religious or biometric information) or
+      information about children. We don't need it to answer an enquiry.
+    </p>
+    <h3>Information collected automatically</h3>
+    <p>
+      When you visit the site, our hosting provider automatically records standard server logs: your IP address, the
+      date and time, the page requested, the page you came from, and your browser and device type. We use no
+      analytics, advertising or tracking tools, and the site sets no cookies.
+    </p>
+    <h3>Information stored on your device</h3>
+    <p>
+      If you use the light/dark theme switch, your choice is saved in your browser (see{' '}
+      <a href="#cookies">Cookies and local storage</a>). It never leaves your device.
+    </p>
+  </section>
+
+  <section id="why-we-use-it" aria-labelledby="why-we-use-it-h">
+    <h2 id="why-we-use-it-h">Why we use it, and our lawful basis</h2>
+    <p>We only use personal information for the purposes below, each with a lawful basis under section 11 of POPIA.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">Purpose</th><th scope="col">Information</th><th scope="col">Lawful basis</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Replying to your enquiry and discussing a possible project</td>
+            <td>Form details, emails, calls, WhatsApp messages</td>
+            <td>Your consent (s11(1)(a)), and taking steps you asked for before a contract (s11(1)(b))</td>
+          </tr>
+          <tr>
+            <td>Delivering work and managing our relationship if you become a client</td>
+            <td>Contact and project information</td>
+            <td>Performing our contract with you (s11(1)(b))</td>
+          </tr>
+          <tr>
+            <td>Keeping the website secure and working</td>
+            <td>Server logs</td>
+            <td>Our legitimate interest in running a secure site (s11(1)(f))</td>
+          </tr>
+          <tr>
+            <td>Meeting legal, tax and accounting obligations</td>
+            <td>Client and invoicing records</td>
+            <td>Complying with the law (s11(1)(c))</td>
+          </tr>
+          <tr>
+            <td>Publishing a client testimonial or case study</td>
+            <td>Name, role, company, quote, project details</td>
+            <td>Your written consent (s11(1)(a))</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>We don't use your information for automated decision-making or profiling.</p>
+  </section>
+
+  <section id="consent" aria-labelledby="consent-h">
+    <h2 id="consent-h">Consent, and withdrawing it</h2>
+    <p>
+      When you send the contact form, you agree to us using your details to reply to your enquiry, as this policy
+      describes. That consent covers replying only, not marketing.
+    </p>
+    <p>
+      You can withdraw your consent at any time by emailing our Information Officer at <Fact value={io.email} email />.
+      We'll stop using your information for that purpose. Withdrawing consent doesn't affect anything we did lawfully
+      before, and we may need to keep some records where the law requires it.
+    </p>
+  </section>
+
+  <section id="sharing" aria-labelledby="sharing-h">
+    <h2 id="sharing-h">Who we share it with</h2>
+    <p>
+      <strong>We don't sell, rent or trade personal information.</strong> We share it only with service providers
+      ("operators") who process it on our behalf, under agreements that require them to keep it secure and
+      confidential (POPIA sections 20 and 21):
+    </p>
+    <ul>
+      <li>Contact form provider: <Fact value={providers.form} /></li>
+      <li>Website hosting provider (server logs): <Fact value={providers.hosting} /></li>
+      <li>Email provider: <Fact value={providers.email} /></li>
+      <li>CRM or project tool we keep enquiries and client records in: <Fact value={providers.crm} /></li>
+      <li>Messaging, when we reply on WhatsApp: {providers.messaging}</li>
+    </ul>
+    <p>
+      We may also share information with professional advisers (such as accountants or lawyers) under a duty of
+      confidentiality, or where the law requires it, for example to a regulator or under a court order.
+    </p>
+  </section>
+
+  <section id="cross-border" aria-labelledby="cross-border-h">
+    <h2 id="cross-border-h">Transfers outside South Africa</h2>
+    <p>Some of our providers store information outside South Africa:</p>
+    <ul>
+      <li>Contact form provider: <Fact value={providerLocations.form} /></li>
+      <li>Hosting provider: <Fact value={providerLocations.hosting} /></li>
+      <li>Email provider: <Fact value={providerLocations.email} /></li>
+      <li>CRM or project tool: <Fact value={providerLocations.crm} /></li>
+      <li>WhatsApp: operated by Meta, with servers in several countries.</li>
+    </ul>
+    <p>
+      Under section 72 of POPIA, we only transfer personal information abroad where the recipient is bound by law,
+      binding corporate rules or an agreement that gives it a level of protection similar to POPIA, where the transfer
+      is needed to reply to you or perform our contract with you, or where you have agreed to it.
+    </p>
+  </section>
+
+  <section id="retention" aria-labelledby="retention-h">
+    <h2 id="retention-h">How long we keep it</h2>
+    <p>We keep personal information only as long as we need it for the purposes above, or as the law requires:</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">Information</th><th scope="col">Kept for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Enquiries (form, email, CRM) that don't become projects</td><td><Fact value={retention.enquiries} /></td></tr>
+          <tr><td>WhatsApp conversations</td><td><Fact value={retention.whatsapp} /></td></tr>
+          <tr><td>Client project and invoicing records</td><td><Fact value={retention.clientRecords} /></td></tr>
+          <tr><td>Hosting server logs</td><td><Fact value={retention.serverLogs} /></td></tr>
+          <tr><td>Theme preference on your device</td><td>Until you clear your browser's site data</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      When information is no longer needed, we delete it or de-identify it so it can no longer be linked to you,
+      including in the tools our providers run for us.
+    </p>
+  </section>
+
+  <section id="security" aria-labelledby="security-h">
+    <h2 id="security-h">How we protect it</h2>
+    <p>We take reasonable technical and organisational steps to keep personal information safe (POPIA section 19), including:</p>
+    <ul>
+      <li>encrypted connections (HTTPS) to this site;</li>
+      <li>access to enquiries and client records only for people who need it;</li>
+      <li>strong passwords and two-factor sign-in on the tools that hold your information;</li>
+      <li>choosing providers that commit to appropriate security.</li>
+    </ul>
+    <p>
+      No system is completely secure. If we have reasonable grounds to believe your information has been accessed
+      without authorisation, we'll tell you and the Information Regulator as POPIA requires (section 22).
+    </p>
+  </section>
+
+  <section id="your-rights" aria-labelledby="your-rights-h">
+    <h2 id="your-rights-h">Your rights</h2>
+    <p>Under POPIA you have the right to:</p>
+    <ul>
+      <li>ask whether we hold personal information about you, and for a copy of it;</li>
+      <li>ask us to correct information that is inaccurate, out of date or incomplete;</li>
+      <li>ask us to delete information we no longer have a right to keep;</li>
+      <li>object to us using your information, on reasonable grounds;</li>
+      <li>withdraw your consent;</li>
+      <li>complain to the Information Regulator (see <a href="#complaints">Complaints</a>).</li>
+    </ul>
+    <p>
+      To make a request, email our Information Officer at <Fact value={io.email} email />. We may need to confirm
+      your identity before acting on it, and we'll respond within a reasonable time. You can use the forms prescribed
+      under the POPIA regulations, but an email is enough. Requests for access to records are handled under the
+      Promotion of Access to Information Act (PAIA); our PAIA manual is available: <Fact value={legal.paiaManual} />.
+    </p>
+  </section>
+
+  <section id="cookies" aria-labelledby="cookies-h">
+    <h2 id="cookies-h">Cookies and local storage</h2>
+    <p>
+      <strong>This site sets no cookies</strong> and uses no analytics, advertising or tracking tools. Fonts are hosted
+      on our own site, so your browser doesn't contact any font service either.
+    </p>
+    <p>
+      The only thing stored on your device is your light/dark theme choice, saved in your browser's local storage
+      under the name <code>theme</code>, and only if you use the theme switch. It contains "light" or "dark", is never
+      sent to us or anyone else, and you can remove it by clearing this site's data in your browser settings.
+    </p>
+    <p>
+      If we ever add a booking tool, analytics or anything else that uses cookies, we'll update this section before it
+      goes live.
+    </p>
+  </section>
+
+  <section id="direct-marketing" aria-labelledby="direct-marketing-h">
+    <h2 id="direct-marketing-h">Direct marketing</h2>
+    <p>
+      We don't use the details you send through the contact form, by email or on WhatsApp for marketing. We'd only send
+      you marketing, such as a newsletter, if you separately opt in to it (POPIA section 69), and every message would
+      include an easy way to unsubscribe.
+    </p>
+  </section>
+
+  <section id="children" aria-labelledby="children-h">
+    <h2 id="children-h">Children</h2>
+    <p>
+      This site and our services are for businesses and adults, not for children under 18. We don't knowingly collect
+      personal information about children. If you believe a child has sent us their details, contact our Information
+      Officer and we'll delete them.
+    </p>
+  </section>
+
+  <section id="complaints" aria-labelledby="complaints-h">
+    <h2 id="complaints-h">Complaints</h2>
+    <p>
+      If you're unhappy with how we've handled your personal information, please tell our Information Officer first
+      (<Fact value={io.email} email />) so we can try to put it right.
+    </p>
+    <p>You also have the right to complain to the Information Regulator at any time:</p>
+    <ul>
+      <li>{ir.name}</li>
+      <li>Address: {ir.address}</li>
+      <li>Telephone: {ir.phone} (toll-free: {ir.tollFree})</li>
+      <li>POPIA complaints: <a href={`mailto:${ir.complaintsEmail}`}>{ir.complaintsEmail}</a></li>
+      <li>General enquiries: <a href={`mailto:${ir.enquiriesEmail}`}>{ir.enquiriesEmail}</a></li>
+      <li>Online complaints: <a href={ir.complaintsPortal}>the Regulator's eServices portal</a></li>
+      <li>Website: <a href={ir.website}>{ir.website.replace(/^https:\/\//, '').replace(/\/$/, '')}</a></li>
+    </ul>
+    <p class="text-small text-muted">
+      Contact details from the Regulator's website, checked {ir.retrieved}. Please check its website for the latest
+      details.
+    </p>
+  </section>
+
+  <section id="changes" aria-labelledby="changes-h">
+    <h2 id="changes-h">Changes to this policy</h2>
+    <p>
+      We'll update this policy when the way we handle personal information changes, for example if we add a new
+      provider, a booking tool or analytics. The effective date at the top shows when it last changed. For significant
+      changes that affect information we already hold, we'll let you know directly where we can.
+    </p>
+  </section>
+</LegalPage>

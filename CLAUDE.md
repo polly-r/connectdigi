@@ -8,7 +8,7 @@ before acting.
 Marketing site for The Connect Digital, a digital marketing agency offering web
 development, social media marketing, content creation, app development and
 general tech solutions. Pages: Home, About, Services, Connect, Privacy Policy,
-plus case-study pages (see Pages).
+Terms of Service, plus case-study pages (see Pages).
 
 ## Audience
 Tech startups, local businesses and, as a growth goal, luxury brands. The visual
@@ -487,6 +487,24 @@ Phase 7 (2026-09-29):
 - Testing note: Playwright screenshots hide the caret by injecting an inline
   style, which trips React's hydration check if taken mid-hydration; use
   `caret: 'initial'` for screenshots of pages with React islands.
+
+Phase 8 (2026-09-29):
+- Data-flow inventory confirmed by the client: theme preference in
+  localStorage (device only); hosting server logs; contact form (mock now,
+  provider later); company email; a CRM or project tool enquiries are copied
+  into; replies on WhatsApp (Meta, cross-border); booking tool optional/off;
+  real testimonials/case studies later (written consent). No analytics, no
+  cookies, fonts self-hosted, no third-party requests (verified in dist).
+  No mailing list yet (direct marketing needs separate opt-in).
+- Information Regulator details from inforegulator.org.za (contact-us and
+  complaints pages), retrieved 29 September 2026, in `src/data/regulator.ts`.
+- Privacy Policy (`/privacy`, 14 sections) and, at the client's request, a
+  Terms of Service page (`/terms`, website terms under SA law: CPA, ECTA s43
+  disclosures). Both use `LegalPage.astro` (linked table of contents,
+  sticky from lg) and `Fact.astro` (value or visible placeholder). Both are
+  drafts needing client and legal review. Footer links to both.
+- Astro's HTML compression also strips the newline between a line of text and
+  a link on the next line; end such lines with `{' '}`.
 
 ## Working agreement
 - Use plan mode at the start of each phase and wait for approval.

@@ -5,9 +5,11 @@ visible in dev and production builds (marked `[TBC: …]` or drawn with the
 `Placeholder` component) and are replaced by hand. Use this file as the
 content-handover checklist: tick an item once the real content is in.
 
-> **Legal review:** the Privacy Policy (built in Phase 8) is a draft, not legal
-> advice. Its final text needs review by the client and, ideally, a legal
-> professional before launch.
+> **Legal review:** the Privacy Policy (`/privacy`) and Terms of Service
+> (`/terms`) are drafts, not legal advice. Their final text needs review by
+> the client and, ideally, a legal professional before launch. Re-check the
+> Information Regulator's details on its website (`src/data/regulator.ts`,
+> last checked 29 September 2026) at the same time.
 
 ## ⚠ Must replace before launch (look real, are not)
 
@@ -60,17 +62,25 @@ of them is in place (`scripts/check-stand-ins.mjs`).
 - [ ] Facebook, Instagram, LinkedIn profile URLs: `site.social[].href`
       (icons show in the footer now; they become links once a URL is set)
 
-## Privacy Policy facts — `src/data/site.ts`
+## Legal pages: company facts — `src/data/site.ts`
+
+Shown as visible placeholders on `/privacy` and `/terms` until supplied.
 
 - [ ] Registered company name: `site.legal.registeredName`
+- [ ] Legal form (e.g. (Pty) Ltd, sole proprietor): `site.legal.legalStatus`
 - [ ] Company registration number: `site.legal.registrationNumber`
-- [ ] Registered address: `site.legal.registeredAddress`
+- [ ] Registered / physical address (also the address for legal notices): `site.legal.registeredAddress`
 - [ ] Information Officer name, email, phone: `site.legal.informationOfficer`
-- [ ] Contact form provider: `site.providers.form`
-- [ ] Hosting provider: `site.providers.hosting`
+      (the Information Officer must also be registered with the Information Regulator)
+- [ ] Where the PAIA manual is available: `site.legal.paiaManual`
+- [ ] Contact form provider and where it stores data: `site.providers.form`, `site.providerLocations.form`
+- [ ] Hosting provider and where it stores logs: `site.providers.hosting`, `site.providerLocations.hosting`
+- [ ] Email provider and where it stores data: `site.providers.email`, `site.providerLocations.email`
+- [ ] CRM or project tool enquiries are copied into, and where it stores data: `site.providers.crm`, `site.providerLocations.crm`
 - [ ] Booking tool (or none): `site.providers.booking`
-- [ ] Analytics tool (or none): `site.providers.analytics`
-- [ ] Retention periods (enquiries, server logs, bookings): `site.retention`
+- [ ] Analytics tool (or none): `site.providers.analytics` (the policy currently states none; adding one means updating it)
+- [ ] Retention periods (enquiries, WhatsApp, client records, server logs, bookings): `site.retention`
+- [ ] Effective dates, set when the final text is approved: `site.policies.privacyEffective`, `site.policies.termsEffective`
 
 ## Brand and design
 
@@ -102,9 +112,7 @@ of them is in place (`scripts/check-stand-ins.mjs`).
 
 Each shows a block `Placeholder` and is linked from the nav/footer so links never 404.
 
-- [ ] Privacy Policy: `src/pages/privacy.astro` (Phase 8)
 
 ## Not built yet (added as each phase lands)
 
 - [ ] Testimonials (no location yet)
-- [ ] Privacy Policy last-updated date (Phase 8)
