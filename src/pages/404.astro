@@ -1,0 +1,65 @@
+---
+// Custom 404. Interaction budget (CLAUDE.md, Decisions log, Phase 0): node
+// hover plus a single motif draw on load. A network with one connection
+// missing: the link you followed doesn't lead anywhere.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NodeNetwork from '../components/motif/NodeNetwork.astro';
+import MotifButton from '../components/motif/MotifButton.astro';
+import MotifLink from '../components/motif/MotifLink.astro';
+import type { MotifNetwork } from '../lib/node-motif';
+
+const broken: MotifNetwork = {
+  nodes: [
+    { id: 'a', x: 0, y: 8, size: 'l', kind: 'ring' },
+    { id: 'b', x: 9, y: 2, size: 'm' },
+    { id: 'c', x: 18, y: 9, size: 'l' },
+    // gap: no connector between c and d
+    { id: 'd', x: 32, y: 3, size: 'm', kind: 'ring' },
+    { id: 'e', x: 41, y: 10, size: 'm' },
+    { id: 'f', x: 50, y: 4, size: 'xl', kind: 'ring' },
+  ],
+  links: [
+    ['a', 'b'],
+    ['b', 'c'],
+    ['d', 'e'],
+    ['e', 'f'],
+  ],
+};
+
+const suggestions = [
+  { label: 'Home', href: '/' },
+  { label: 'Services', href: '/services' },
+  { label: 'About', href: '/about' },
+];
+---
+
+<BaseLayout title="Page not found" description="This page doesn't exist or has moved." noindex>
+  <section class="container-site pt-16 pb-section md:pt-24">
+    <div class="max-w-full overflow-hidden text-accent">
+      <NodeNetwork {...broken} unit={6} class="h-auto max-w-full" data-draw-network />
+    </div>
+    <p class="mt-12 text-small text-muted">Error 404</p>
+    <h1 class="mt-3 max-w-[16ch] text-h1">This connection doesn't go anywhere.</h1>
+    <p class="mt-6 max-w-[44ch] text-lead text-muted">
+      The page you're looking for doesn't exist or has moved. Try one of these instead, or get in touch.
+    </p>
+    <ul class="mt-10 flex flex-wrap gap-x-8 gap-y-4">
+      {
+        suggestions.map((s) => (
+          <li>
+            <MotifLink href={s.href}>{s.label}</MotifLink>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="mt-12">
+      <MotifButton href="/connect">Get in touch</MotifButton>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { init } from '../components/motif/draw-network';
+
+  init();
+</script>

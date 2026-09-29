@@ -506,6 +506,19 @@ Phase 8 (2026-09-29):
 - Astro's HTML compression also strips the newline between a line of text and
   a link on the next line; end such lines with `{' '}`.
 
+Phase 9 (2026-09-29):
+- Custom 404 (`src/pages/404.astro`, builds to `dist/404.html`): a node
+  network with one connection missing, drawn once on load
+  (`draw-network.ts`), links back into the site; noindex, not in sitemap.
+- "Fraunces Fallback" @font-face (Georgia etc. at size-adjust 87%) keeps
+  fitted headlines from overflowing while Fraunces loads or if it fails; the
+  wordmark box also clips horizontally as a last resort. Re-measure both if
+  the display face changes.
+- QA runs against the production build (`astro preview`). README documents
+  running, tokens/fonts, the form adapter, placeholders and which Privacy
+  Policy sections change per provider decision. PLACEHOLDERS.md is now the
+  client-facing content-request checklist, with a developer appendix.
+
 ## Working agreement
 - Use plan mode at the start of each phase and wait for approval.
 - Commit at the end of each phase with a clear message.

@@ -19,9 +19,11 @@ interface Props extends MotifNetwork {
   /** Accessible name; omit for decorative use (hidden from assistive tech). */
   label?: string;
   class?: string;
+  /** data-* hooks for scripts (e.g. data-draw-network) are passed to the <svg>. */
+  [attr: `data-${string}`]: string | boolean | undefined;
 }
 
-const { nodes, links = [], arcs = [], unit = 2, label, class: className } = Astro.props;
+const { nodes, links = [], arcs = [], unit = 2, label, class: className, ...dataAttributes } = Astro.props;
 
 const byId = new Map(nodes.map((n) => [n.id, n]));
 const get = (id: string) => {
@@ -64,6 +66,7 @@ const arcShapes = arcs.map(({ from, to, radius, sweep = 0 }) => {
   aria-label={label}
   aria-hidden={label ? undefined : 'true'}
   focusable="false"
+  {...dataAttributes}
 >
   {arcShapes.map((d) => <path d={d} class="nn-arc" data-nn-arc />)}
   {

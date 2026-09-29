@@ -9,7 +9,8 @@
  * The CSS pre-hide (global.css) has a failsafe, so the text appears even if
  * this script never runs.
  */
-import { gsap, MOTION, REDUCED_MOTION, SplitText } from './gsap';
+import type { SplitText } from 'gsap/SplitText';
+import { gsap, loadSplitText, MOTION, REDUCED_MOTION } from './gsap';
 
 let mm: gsap.MatchMedia | null = null;
 
@@ -30,9 +31,10 @@ export function init(): void {
     let cancelled = false;
 
     // Split after fonts load, so line breaks match the final typeface.
-    void document.fonts.ready.then(() => {
+    // SplitText itself is loaded on demand (see loadSplitText in ./gsap).
+    void Promise.all([document.fonts.ready, loadSplitText()]).then(([, SplitTextPlugin]) => {
       if (cancelled) return;
-      split = SplitText.create(title, { type: 'lines', mask: 'lines', aria: 'auto' });
+      split = SplitTextPlugin.create(title, { type: 'lines', mask: 'lines', aria: 'auto' });
       // Room for descenders inside each line's mask (display line-height is tight).
       gsap.set(split.masks, { paddingBottom: '0.12em', marginBottom: '-0.12em' });
       gsap.set(after, { opacity: 0, y: 16 });

@@ -1,118 +1,148 @@
-# Placeholders
+# What we need from you before launch
 
-Every piece of content still missing, and where it lives. Placeholders are
-visible in dev and production builds (marked `[TBC: …]` or drawn with the
-`Placeholder` component) and are replaced by hand. Use this file as the
-content-handover checklist: tick an item once the real content is in.
+**The Connect Digital website: content and decisions checklist**
 
-> **Legal review:** the Privacy Policy (`/privacy`) and Terms of Service
-> (`/terms`) are drafts, not legal advice. Their final text needs review by
-> the client and, ideally, a legal professional before launch. Re-check the
-> Information Regulator's details on its website (`src/data/regulator.ts`,
-> last checked 29 September 2026) at the same time.
+The site is built and working. To launch it, we need a few decisions, your
+company details, and real content to replace the samples we used while
+building. Tick items off as you send them, and reply in whatever form is
+easiest: an email, a shared document or a call.
 
-## ⚠ Must replace before launch (look real, are not)
+Some things on the site currently **look real but are samples** (marked ⚠
+below). They are clearly labelled on the site and must be replaced before
+launch, because on a live site they would read as claims about your business.
 
-These are shown without a dashed placeholder outline at the client's request,
-so they can pass for real content. `npm run build` prints a warning while any
-of them is in place (`scripts/check-stand-ins.mjs`).
+---
 
-- [ ] **Client logos: stand-in brand logos, NOT clients.** Spotify, Airbnb,
-      Shopify, Stripe, Netflix, Nike. Replace with real, approved client logos
-      in `src/data/clients.ts`, then set `standIn = false`.
-- [ ] **Contact form sends NOTHING yet (mock adapter).** Choose a form
-      provider, then set `PUBLIC_FORM_ADAPTER=http` and `PUBLIC_FORM_ENDPOINT`
-      (see `.env.example` and `src/lib/submit-contact.ts`). Update the Privacy
-      Policy with the provider in the same change.
-- [ ] **Contact email** (example value `hello@example.com`): `site.contact.email`
-- [ ] **Contact phone** (example value `+27 00 000 0000`): `site.contact.phone`
-- [ ] **Business address** (example value `Street, City, South Africa`): `site.contact.address`
-- [ ] **Home hero headline and intro: DRAFT copy** ("Digital work that connects." /
-      "Web, social, content and apps for startups, local businesses and luxury brands.").
-      Replace in `src/data/home.ts`, then set `heroDraft = false`.
-- [ ] **Home stats: SAMPLE figures, not real.** 120+ projects delivered, 45+
-      startups assisted, R25m+ revenue generated for clients, 15 industries
-      served. The labels are the client's; every value must be replaced with a
-      verified figure in `src/data/home.ts`, then set `statsSample = false`.
-      A value counts up if it's a number with a short prefix/suffix (`120+`, `R25m+`).
-- [ ] **About manifesto: DRAFT copy** (four paragraphs on approach, no claims).
-      Replace in `src/data/about.ts`, then set `aboutDraft = false`.
-- [ ] **Services descriptions and "What's included" lists: DRAFT copy.**
-      Replace in `src/data/services.ts`, then set `servicesDraft = false`.
-- [ ] **Case studies: SAMPLE projects with fictional clients** (Harbour & Hide,
-      Tafel Bakehouse, Ledgerline, Stride Physio, Northgate Logistics), with
-      illustrative figures and mock-up imagery. Each page shows a "Sample
-      project" tag, is noindex and out of the sitemap. To replace one: edit its
-      Markdown in `src/content/work/` (brief, what we did, result, deliverables,
-      verified outcomes), swap `cover`/`detail` for real project images in
-      `src/assets/work/`, and set `placeholder: false`. Keep one entry per
-      service line (the Services page links each panel to its case study).
-- [ ] **Testimonials: SAMPLE quotes** (one per case study; three also shown on
-      Home under "What clients say"), attributed by role only and tagged
-      "Sample testimonial". Replace `testimonial` in each case study with a
-      real quote the client has approved in writing (name/company only with
-      consent). The tag disappears when `placeholder: false`.
-- [ ] **Results charts: SAMPLE data** (one per case study), captioned
-      "Illustrative data". Replace `chart.points` with verified figures and
-      say where they came from; the caption note disappears with `placeholder: false`.
+## 1. Decisions
 
-## Company and social — `src/data/site.ts`
+- [ ] **Domain name.** Which address will the site use (e.g. theconnectdigital.co.za)?
+- [ ] **Hosting.** We'll recommend a free static host; just confirm you're happy with it.
+- [ ] **Contact form service.** The form currently sends messages nowhere.
+      Choose a form service (we can recommend one), or tell us if you already use one.
+- [ ] **Email provider.** What do you use for business email (e.g. Google Workspace, Microsoft 365)?
+- [ ] **Where enquiries go after email.** The name of the CRM, spreadsheet or
+      project tool you copy enquiries into.
+- [ ] **Booking tool (optional).** If you'd like people to book a call from the
+      Contact page, which tool (e.g. Calendly)? Otherwise we leave it out.
+- [ ] **Analytics.** The site currently collects no visitor statistics. Do you
+      want any? (If yes, the Privacy Policy changes with it.)
+- [ ] **Headline typeface.** Please approve the headline font (Fraunces), or ask for alternatives.
 
-- [ ] Site URL / domain: `SITE_URL` (currently `https://theconnectdigital.invalid`; also drives sitemap and canonical URLs)
-- [ ] Facebook, Instagram, LinkedIn profile URLs: `site.social[].href`
-      (icons show in the footer now; they become links once a URL is set)
+## 2. Company details (for the Privacy Policy and Terms)
 
-## Legal pages: company facts — `src/data/site.ts`
+South African law (POPIA and the ECTA) requires these on the site.
 
-Shown as visible placeholders on `/privacy` and `/terms` until supplied.
+- [ ] Registered company name
+- [ ] Legal form (e.g. private company (Pty) Ltd, or sole proprietor)
+- [ ] Company registration number
+- [ ] Registered or physical address (also used for legal notices)
+- [ ] **Information Officer**: name, email and phone. Under POPIA this person
+      handles privacy requests and must also be registered with the Information Regulator.
+- [ ] Where your PAIA manual is available (a link, or "on request")
 
-- [ ] Registered company name: `site.legal.registeredName`
-- [ ] Legal form (e.g. (Pty) Ltd, sole proprietor): `site.legal.legalStatus`
-- [ ] Company registration number: `site.legal.registrationNumber`
-- [ ] Registered / physical address (also the address for legal notices): `site.legal.registeredAddress`
-- [ ] Information Officer name, email, phone: `site.legal.informationOfficer`
-      (the Information Officer must also be registered with the Information Regulator)
-- [ ] Where the PAIA manual is available: `site.legal.paiaManual`
-- [ ] Contact form provider and where it stores data: `site.providers.form`, `site.providerLocations.form`
-- [ ] Hosting provider and where it stores logs: `site.providers.hosting`, `site.providerLocations.hosting`
-- [ ] Email provider and where it stores data: `site.providers.email`, `site.providerLocations.email`
-- [ ] CRM or project tool enquiries are copied into, and where it stores data: `site.providers.crm`, `site.providerLocations.crm`
-- [ ] Booking tool (or none): `site.providers.booking`
-- [ ] Analytics tool (or none): `site.providers.analytics` (the policy currently states none; adding one means updating it)
-- [ ] Retention periods (enquiries, WhatsApp, client records, server logs, bookings): `site.retention`
-- [ ] Effective dates, set when the final text is approved: `site.policies.privacyEffective`, `site.policies.termsEffective`
+## 3. Contact details and social media
 
-## Brand and design
+- [ ] ⚠ **Email address** for the site (currently a sample: hello@example.com)
+- [ ] ⚠ **Phone number** (currently a sample: +27 00 000 0000)
+- [ ] ⚠ **Business address** as it should appear on the site (currently a sample)
+- [ ] Links to your **Facebook**, **Instagram** and **LinkedIn** profiles
 
-- [ ] Typeface sign-off: Fraunces is provisional (`--font-display` in `src/styles/global.css`)
-- [ ] Favicon legibility at 16–32px: the full mark is used; a simplified
-      favicon mark would need a supplied or approved design
-      (generated by `npm run logo` into `public/`)
-- [ ] Social share image (`og:image`): none yet; add to `src/components/Seo.astro`
+## 4. Copy to approve or rewrite
 
-## Draft UI copy (confirm wording)
+We wrote draft text in your voice so the pages could be designed. Please
+approve it or send your own wording.
 
-- [ ] Hero button label ("Start a project") and section labels ("What we do",
-      "In numbers", "Clients"): draft UI copy, confirm wording
-- [ ] About section labels ("Our approach", "What we do") and the CTA band
-      text ("Let's talk"): draft UI copy, confirm wording
-- [ ] Connect intro ("Tell us what you're working on. We'll reply by email."),
-      form heading, consent wording and thank-you text: draft UI copy, confirm
-      wording (consent wording also needs legal review with the Privacy Policy)
-- [ ] Booking tool (optional): set `PUBLIC_BOOKING_URL` to show the embed on Connect
-- [ ] Services intro line and closing prompt ("Not sure which you need? Tell us
-      the problem."): draft UI copy, confirm wording
+- [ ] **Home headline and intro**: "Digital work that connects." / "Web, social,
+      content and apps for startups, local businesses and luxury brands."
+- [ ] **About**: the four "Our approach" paragraphs
+- [ ] **Services**: the description and "What's included" list for each of the five services
+- [ ] **Short labels and lines**: e.g. "Start a project", "What we do",
+      "In numbers", "Let's talk", "Not sure which you need? Tell us the problem.",
+      "Tell us what you're working on. We'll reply by email."
+- [ ] **Search descriptions**: the one-line summary of each page shown in Google results
+- [ ] **Contact form consent line**: "I agree that The Connect Digital may use
+      these details to reply to my enquiry, as described in the Privacy Policy."
 
-## SEO copy
+## 5. Proof of your work
 
-- [ ] Meta descriptions for each page (factual drafts, need client review):
-      `description` prop in each file under `src/pages/`
+These make the biggest difference to how the site sells you, and they are the
+parts that must be genuine.
 
-## Holding pages (replaced as each phase lands)
+- [ ] ⚠ **Client logos.** The logo strip currently shows *stand-in logos of
+      well-known brands that are not your clients* (Spotify, Airbnb, Shopify,
+      Stripe, Netflix, Nike). Send logos of real clients (SVG or high-resolution
+      PNG) who have agreed to be shown.
+- [ ] ⚠ **Numbers.** The Home page shows *sample figures* under your four labels.
+      Send your real figures, and what each is based on:
+  - Projects delivered (sample shown: 120+)
+  - Startups assisted (sample shown: 45+)
+  - Revenue generated for clients (sample shown: R25m+)
+  - Industries served (sample shown: 15)
+- [ ] ⚠ **Case studies.** The five project pages are *sample projects with
+      fictional clients* (Harbour & Hide, Tafel Bakehouse, Ledgerline, Stride
+      Physio, Northgate Logistics). We need one real project per service (web,
+      social, content, apps, tech). Use the questionnaire below for each.
+- [ ] ⚠ **Testimonials.** The quotes on Home and the project pages are
+      *samples*. Send real quotes, each with the client's **written permission**
+      to publish it, and say whether we may show their name, role and company.
 
-Each shows a block `Placeholder` and is linked from the nav/footer so links never 404.
+## 6. Images and brand
 
+- [ ] Images for each real case study: screenshots, photos or mock-ups of the work (at least two per project)
+- [ ] A **social sharing image** (1200 × 630 px), shown when the site is shared on social media or WhatsApp
+- [ ] Optional: a **simplified logo mark for browser tabs**. The full logo is detailed and hard to read at 16 px.
 
-## Not built yet (added as each phase lands)
+## 7. Legal review
 
-- [ ] Testimonials (no location yet)
+- [ ] Have the **Privacy Policy** and **Terms of Service** reviewed, ideally by
+      a legal professional. They are drafts written for your business, not legal advice.
+- [ ] Decide **how long you keep** enquiries, WhatsApp chats, client records and
+      website logs. Check tax-record periods with your accountant.
+
+---
+
+## Case study questionnaire (one per project)
+
+1. **Client**: name and sector, and whether we may name them (or describe them, e.g. "a Cape Town retailer").
+2. **The brief**: what problem the client came to you with, in two or three sentences.
+3. **What you did**: the approach and the main pieces of work.
+4. **Deliverables**: a short list (e.g. "UX design, online store build, CMS setup").
+5. **Timeline**: roughly how long it took.
+6. **Results**: up to three outcomes with figures, **and where each figure comes
+   from** (e.g. "Shopify reports, Q1 2026"). Only figures you can stand behind.
+7. **Optional chart**: a simple before/after series (e.g. monthly orders for nine months) from the same source.
+8. **Testimonial**: a quote from the client, with written permission, plus how to credit it.
+9. **Images**: at least two.
+10. **Permission**: confirmation that the client has agreed to the case study being published.
+
+---
+
+## Appendix for the developer: where each item goes
+
+`npm run build` prints a **NOT READY FOR LAUNCH** list while any of this is
+outstanding. How to replace each kind of item is in the README.
+
+| Item | File / setting | Then |
+|---|---|---|
+| Domain | `SITE_URL` in `src/data/site.ts` | sitemap, canonicals and Terms follow |
+| Form service | `PUBLIC_FORM_ADAPTER=http`, `PUBLIC_FORM_ENDPOINT` (`.env.example`) | test a real submission; update the Privacy Policy |
+| Providers and their data locations | `site.providers.*`, `site.providerLocations.*` | Privacy Policy sections 5 and 6 |
+| Booking tool | `PUBLIC_BOOKING_URL`, `site.providers.booking` | Privacy Policy sections 2, 5, 6, 7 and 10 |
+| Analytics | `site.providers.analytics` | rewrite Privacy Policy sections 2 and 10 |
+| Typeface | `src/styles/global.css`, `BaseLayout.astro` | re-measure the wordmark and fallback font (README) |
+| Company facts, Information Officer, PAIA manual | `site.legal.*` in `src/data/site.ts` | |
+| Retention periods | `site.retention.*` | |
+| Effective dates | `site.policies.*` | set when the legal text is approved |
+| Contact details | `site.contact.*` | |
+| Social profile URLs | `site.social[].href` | icons become links |
+| Home headline/intro | `src/data/home.ts` | `heroDraft = false` |
+| Stats | `stats` in `src/data/home.ts` | `statsSample = false` |
+| About manifesto | `src/data/about.ts` | `aboutDraft = false` |
+| Services copy | `src/data/services.ts` | `servicesDraft = false` |
+| UI labels | `src/components/home/*`, `src/pages/about.astro`, `services.astro`, `connect.astro`, `src/components/connect/ContactForm.tsx` | |
+| Meta descriptions | `description` prop in each file under `src/pages/` | |
+| Client logos | `src/data/clients.ts` | `standIn = false` |
+| Case studies, testimonials, charts | `src/content/work/*.md`, images in `src/assets/work/` | `placeholder: false` per file; delete unused sample art |
+| Social share image | `src/components/Seo.astro` (`og:image`) | |
+| Tab icon | `npm run logo`, or supplied artwork into `public/` | |
+| Information Regulator details | `src/data/regulator.ts` | re-check on inforegulator.org.za before launch |
