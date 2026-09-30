@@ -4,10 +4,13 @@
  * DRAFT COPY: questions and answers are written in the brand's voice for the
  * client to approve (like the Services copy, CLAUDE.md Decisions log). They
  * describe how the agency works, using only what the site already states.
- * Anything company-specific that isn't known yet (prices, timelines, reply
- * time, payment and ownership terms) is a `{ tbc }` part, rendered as a
- * visible placeholder. The build warns while `faqDraft` is true. Listed in
- * PLACEHOLDERS.md.
+ * Company terms supplied by the client (2026-09-30): 24-hour reply, free
+ * first consultation, clients worldwide, pricing by quotation after scoping,
+ * 50% upfront / 50% on completion. The other terms (call length, timelines,
+ * EFT, ad platforms, 30-day support, ownership) were filled in as realistic
+ * suggestions at the client's request and await confirmation. A missing fact
+ * can be a `{ tbc }` part, rendered as a visible placeholder. The build warns
+ * while `faqDraft` is true. Listed in PLACEHOLDERS.md.
  *
  * Answers are blocks: a paragraph (an array of inline parts) or a bullet
  * list. Inline parts are text, a `{ tbc }` placeholder, or an internal
@@ -71,9 +74,7 @@ export const faqGroups: FaqGroup[] = [
           [
             'Tell us what you’re working on through our ',
             { link: '/connect', text: 'contact form' },
-            '. A rough idea is enough. We reply by email within ',
-            { tbc: 'reply time, e.g. one working day' },
-            ' to set up a first conversation.',
+            '. A rough idea is enough. We reply by email within 24 hours to set up a first conversation.',
           ],
         ],
       },
@@ -82,8 +83,7 @@ export const faqGroups: FaqGroup[] = [
         question: 'Is the first conversation free?',
         answer: [
           [
-            { tbc: 'whether the first consultation is free, and how long it is' },
-            ' In that conversation we listen to what you need, ask questions and tell you honestly whether we’re the right fit.',
+            'Yes. Your first consultation is free, with no obligation. It usually takes about 30 minutes, by video call or phone. We listen to what you need, ask questions and tell you honestly whether we’re the right fit.',
           ],
         ],
       },
@@ -106,7 +106,11 @@ export const faqGroups: FaqGroup[] = [
       {
         id: 'location',
         question: 'Do you work with clients outside your city?',
-        answer: [[{ tbc: 'where you are based, and whether you work with clients elsewhere in South Africa or abroad' }]],
+        answer: [
+          [
+            'Yes. We work with clients worldwide. Meetings happen by video call, work is shared online, and we agree meeting times that suit your time zone.',
+          ],
+        ],
       },
     ],
   },
@@ -119,24 +123,39 @@ export const faqGroups: FaqGroup[] = [
         question: 'How much does a project cost?',
         answer: [
           [
-            'It depends on what you need, so every project gets its own quote. After our first conversation we send a written proposal with the scope, the price and what’s included, so there are no surprises.',
+            'Every project is priced individually. Once we’ve discussed the scope of work, we send you a written quotation with exactly what’s included and what it costs. Nothing starts until you’ve approved it, so there are no surprises.',
           ],
-          [{ tbc: 'starting prices or typical budget ranges, if you want to publish them' }],
         ],
       },
       {
         id: 'timeline',
         question: 'How long does a project take?',
         answer: [
-          ['That depends on the scope. As a guide:'],
-          [{ tbc: 'typical timelines, e.g. per service (website, social set-up, app)' }],
-          ['Your proposal includes an agreed timeline, and we keep you updated against it.'],
+          ['That depends on the scope, and on how quickly we receive content and feedback. As a guide:'],
+          {
+            list: [
+              ['Landing page: 1 to 2 weeks'],
+              ['Business website: 3 to 6 weeks'],
+              ['Online store: 6 to 10 weeks'],
+              ['Social media set-up and first month of content: 2 to 3 weeks'],
+              ['Automation or integration project: 1 to 4 weeks'],
+              ['Mobile or web app: 3 to 6 months'],
+            ],
+          },
+          ['Your quotation includes an agreed timeline, and we keep you updated against it.'],
         ],
       },
       {
         id: 'payment',
         question: 'How do payments work?',
-        answer: [[{ tbc: 'payment terms, e.g. deposit, milestone payments, monthly retainers, accepted payment methods' }]],
+        answer: [
+          [
+            'For projects, we invoice 50% before work starts and the remaining 50% on completion, before handover. Ongoing monthly services, such as social media management or support plans, are invoiced monthly.',
+          ],
+          [
+            'We accept EFT (bank transfer). For international clients, we agree the currency and payment method in the quotation.',
+          ],
+        ],
       },
       {
         id: 'process',
@@ -237,7 +256,9 @@ export const faqGroups: FaqGroup[] = [
             { link: '/services#social', text: 'social media marketing' },
             ' service.',
           ],
-          [{ tbc: 'which ad platforms you manage (e.g. Meta, TikTok, LinkedIn, Google), and how ad spend is billed' }],
+          [
+            'We run campaigns on Facebook, Instagram, TikTok and LinkedIn. Your ad budget is separate from our management fee: it’s paid directly to the platform from your own ad account, so you always see exactly what’s spent.',
+          ],
         ],
       },
       {
@@ -262,14 +283,18 @@ export const faqGroups: FaqGroup[] = [
           [
             'Yes. We don’t disappear after launch. We can look after updates, fixes and improvements, and help you get more from what we built.',
           ],
-          [{ tbc: 'support options, e.g. a support period included in every project, monthly plans, response times' }],
+          [
+            'Every website and app includes 30 days of free support after launch, to fix anything that isn’t working as it should. After that, you can choose a monthly support plan or pay for updates as you need them.',
+          ],
         ],
       },
       {
         id: 'ownership',
         question: 'Who owns the work?',
         answer: [
-          [{ tbc: 'ownership terms, e.g. you own the website, content and designs once the final invoice is paid' }],
+          [
+            'You do. Once the final invoice is paid, the website, designs and content we create for you are yours. Third-party items, such as fonts, stock images and plugins, stay under their own licences, which we set up in your name wherever possible.',
+          ],
           [
             'Your domain name and your social media and advertising accounts should always be in your name. If they aren’t yet, we’ll help you set that up.',
           ],

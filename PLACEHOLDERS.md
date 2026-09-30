@@ -57,10 +57,13 @@ approve it or send your own wording.
 - [ ] **About**: the four "Our approach" paragraphs
 - [ ] **Services**: the description and "What's included" list for each of the five services
 - [ ] **FAQ**: 23 questions and answers. Check that every answer matches how you
-      actually work, and fill in the gaps marked on the page: reply time, whether
-      the first consultation is free, where you work, prices or budget ranges,
-      typical timelines, payment terms, ad platforms and ad-spend billing, support
-      options, and who owns the finished work.
+      actually work. You supplied: reply within 24 hours, free first consultation,
+      clients worldwide, prices by quotation after scoping, 50% upfront / 50% on
+      completion. We filled in the rest as suggestions, so please confirm or correct:
+      the ~30-minute first call, timelines per project type, EFT payment and
+      monthly invoicing, the ad platforms (Facebook, Instagram, TikTok, LinkedIn)
+      and ad spend paid directly to the platform, 30 days' free support after
+      launch, and ownership passing to the client on final payment.
 - [ ] **Short labels and lines**: e.g. "Start a project", "What we do",
       "In numbers", "Let's talk", "Not sure which you need? Tell us the problem.",
       "Tell us what you're working on. We'll reply by email."

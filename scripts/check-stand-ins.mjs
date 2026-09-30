@@ -69,7 +69,8 @@ if (/export const aboutDraft = true/.test(about)) {
 const faq = read('src/data/faq.ts');
 if (/export const faqDraft = true/.test(faq)) {
   const gaps = (faq.match(/\{ tbc: '/g) ?? []).length;
-  warnings.push(`FAQ questions and answers are DRAFT copy, with ${gaps} answers still [TBC]. Replace in src/data/faq.ts, then set faqDraft = false.`);
+  const tbcNote = gaps ? `, with ${gaps} answers still [TBC]` : '';
+  warnings.push(`FAQ answers are DRAFT copy${tbcNote}. Once the client has approved them in src/data/faq.ts, set faqDraft = false.`);
 }
 
 // Contact form adapter: from the environment, or .env / .env.production.
