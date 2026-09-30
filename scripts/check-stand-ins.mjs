@@ -5,6 +5,7 @@
 //   - draft hero copy and sample stats (src/data/home.ts)
 //   - draft About manifesto (src/data/about.ts)
 //   - draft Services copy (src/data/services.ts) and sample case studies (src/content/work/)
+//   - draft FAQ copy (src/data/faq.ts)
 //   - the contact form's MOCK adapter (PUBLIC_FORM_ADAPTER not "http")
 // See PLACEHOLDERS.md.
 
@@ -63,6 +64,12 @@ if (samples.length) {
 const about = read('src/data/about.ts');
 if (/export const aboutDraft = true/.test(about)) {
   warnings.push('About manifesto is DRAFT copy. Replace in src/data/about.ts, then set aboutDraft = false.');
+}
+
+const faq = read('src/data/faq.ts');
+if (/export const faqDraft = true/.test(faq)) {
+  const gaps = (faq.match(/\{ tbc: '/g) ?? []).length;
+  warnings.push(`FAQ questions and answers are DRAFT copy, with ${gaps} answers still [TBC]. Replace in src/data/faq.ts, then set faqDraft = false.`);
 }
 
 // Contact form adapter: from the environment, or .env / .env.production.

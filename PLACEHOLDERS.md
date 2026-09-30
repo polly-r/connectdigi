@@ -56,6 +56,11 @@ approve it or send your own wording.
       content and apps for startups, local businesses and luxury brands."
 - [ ] **About**: the four "Our approach" paragraphs
 - [ ] **Services**: the description and "What's included" list for each of the five services
+- [ ] **FAQ**: 23 questions and answers. Check that every answer matches how you
+      actually work, and fill in the gaps marked on the page: reply time, whether
+      the first consultation is free, where you work, prices or budget ranges,
+      typical timelines, payment terms, ad platforms and ad-spend billing, support
+      options, and who owns the finished work.
 - [ ] **Short labels and lines**: e.g. "Start a project", "What we do",
       "In numbers", "Let's talk", "Not sure which you need? Tell us the problem.",
       "Tell us what you're working on. We'll reply by email."
@@ -140,6 +145,7 @@ outstanding. How to replace each kind of item is in the README.
 | Stats | `stats` in `src/data/home.ts` | `statsSample = false` |
 | About manifesto | `src/data/about.ts` | `aboutDraft = false` |
 | Services copy | `src/data/services.ts` | `servicesDraft = false` |
+| FAQ | `src/data/faq.ts` (`{ tbc }` parts) | `faqDraft = false` |
 | UI labels | `src/components/home/*`, `src/pages/about.astro`, `services.astro`, `connect.astro`, `src/components/connect/ContactForm.tsx` | |
 | Meta descriptions | `description` prop in each file under `src/pages/` | |
 | Client logos | `src/data/clients.ts` | `standIn = false` |

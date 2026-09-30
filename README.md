@@ -52,6 +52,7 @@ samples included, and the contact form sends nothing.
 | Home copy and stats | `src/data/home.ts` |
 | About manifesto | `src/data/about.ts` |
 | Services descriptions and "What's included" | `src/data/services.ts` |
+| FAQ questions and answers | `src/data/faq.ts` |
 | Client logos | `src/data/clients.ts` |
 | Case studies (text, figures, testimonial, chart) | `src/content/work/*.md` |
 | Case study images | `src/assets/work/` |
@@ -114,7 +115,8 @@ Every stand-in is listed in [PLACEHOLDERS.md](PLACEHOLDERS.md). By kind:
 - **Example contact details** (`hello@example.com` …): `site.contact` in
   `src/data/site.ts`.
 - **Draft copy**: edit the text, then set the flag to `false`:
-  `heroDraft` (`home.ts`), `aboutDraft` (`about.ts`), `servicesDraft` (`services.ts`).
+  `heroDraft` (`home.ts`), `aboutDraft` (`about.ts`), `servicesDraft` (`services.ts`),
+  `faqDraft` (`faq.ts`). FAQ gaps are `{ tbc: '…' }` parts: replace each with text.
 - **Stats**: edit the four values in `src/data/home.ts` and set
   `statsSample = false`. A value counts up automatically if it's a number with
   a short prefix or suffix (`120+`, `98%`, `R25m+`).

@@ -1,0 +1,181 @@
+---
+// FAQ. Interaction budget (CLAUDE.md): disclosure (native <details>, no
+// animation beyond the icon), node hover, scroll reveal. Copy is draft
+// (`faqDraft` in src/data/faq.ts); unknown facts show as placeholders.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MotifButton from '../components/motif/MotifButton.astro';
+import MotifLink from '../components/motif/MotifLink.astro';
+import NodeDivider from '../components/motif/NodeDivider.astro';
+import Placeholder from '../components/Placeholder.astro';
+import { faqGroups, type Block, type Inline } from '../data/faq';
+import { url } from '../lib/url';
+
+const isList = (block: Block): block is { list: Inline[][] } => !Array.isArray(block);
+---
+
+<BaseLayout
+  title="FAQ"
+  description="Answers to common questions about working with The Connect Digital: services, pricing, timelines, process, websites and SEO, social media and support after launch."
+>
+  <section class="container-site pt-16 pb-12 md:pt-24 md:pb-16">
+    <h1 class="max-w-[14ch] text-h1">Frequently asked questions</h1>
+    <p class="mt-8 max-w-[44ch] text-lead text-muted">
+      How we work, what it costs and what happens after launch. If your question isn't here,{' '}
+      <a href={url('/connect')} class="link">ask us directly</a>.
+    </p>
+  </section>
+
+  <div class="container-site grid-site gap-y-12 pb-section">
+    <nav class="col-span-4 md:col-span-8 lg:col-span-3" aria-labelledby="faq-topics">
+      <div class="lg:sticky lg:top-[calc(var(--header-h)+2rem)]">
+        <h2 id="faq-topics" class="font-body text-small font-normal text-muted">Topics</h2>
+        <ul class="mt-4 flex flex-wrap gap-x-6 gap-y-4 lg:flex-col">
+          {
+            faqGroups.map((group) => (
+              <li>
+                <MotifLink href={`#${group.id}`}>{group.title}</MotifLink>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </nav>
+
+    <div class="col-span-4 space-y-16 md:col-span-8 md:space-y-20 lg:col-span-8 lg:col-start-5">
+      {
+        faqGroups.map((group) => (
+          <section id={group.id} aria-labelledby={`${group.id}-h`} data-reveal>
+            <h2 id={`${group.id}-h`} class="text-h2">
+              {group.title}
+            </h2>
+            <div class="mt-6 border-t border-line md:mt-8">
+              {group.items.map((item) => (
+                <details id={item.id} class="faq-item border-b border-line">
+                  <summary class="flex cursor-pointer list-none items-start justify-between gap-6 py-5 md:py-6">
+                    <span class="font-display text-h3">{item.question}</span>
+                    <span class="faq-icon mt-[0.35em] shrink-0" aria-hidden="true">
+                      <span />
+                      <span />
+                    </span>
+                  </summary>
+                  <div class="faq-answer max-w-[62ch] pb-6 md:pb-8">
+                    {item.answer.map((block) =>
+                      isList(block) ? (
+                        <ul>
+                          {block.list.map((line) => (
+                            <li>
+                              {line.map((part) => (
+                                <Fragment>
+                                  {typeof part === 'string' ? (
+                                    part
+                                  ) : 'tbc' in part ? (
+                                    <Placeholder label={part.tbc} />
+                                  ) : (
+                                    <a href={url(part.link)} class="link">
+                                      {part.text}
+                                    </a>
+                                  )}
+                                </Fragment>
+                              ))}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p>
+                          {block.map((part) => (
+                            <Fragment>
+                              {typeof part === 'string' ? (
+                                part
+                              ) : 'tbc' in part ? (
+                                <Placeholder label={part.tbc} />
+                              ) : (
+                                <a href={url(part.link)} class="link">
+                                  {part.text}
+                                </a>
+                              )}
+                            </Fragment>
+                          ))}
+                        </p>
+                      ),
+                    )}
+                  </div>
+                </details>
+              ))}
+            </div>
+          </section>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="container-site pb-section">
+    <NodeDivider />
+  </div>
+
+  <section class="container-site pb-section" data-reveal>
+    <div class="grid-site items-end gap-y-8">
+      <h2 class="col-span-4 max-w-[18ch] text-h2 md:col-span-5 lg:col-span-8">Still have a question? Ask us.</h2>
+      <div class="col-span-4 md:col-span-3 md:justify-self-end lg:col-span-4">
+        <MotifButton href={url('/connect')}>Get in touch</MotifButton>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  /* Plus that turns into a minus: the vertical bar rotates flat. */
+  .faq-icon {
+    position: relative;
+    width: 1rem;
+    height: 1rem;
+    color: var(--color-accent);
+  }
+
+  .faq-icon > span {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    margin-top: -1px;
+    background: currentColor;
+    transition: transform 200ms ease-out;
+  }
+
+  .faq-icon > span:last-child {
+    transform: rotate(90deg);
+  }
+
+  .faq-item[open] .faq-icon > span:last-child {
+    transform: rotate(0deg);
+  }
+
+  .faq-answer > :global(* + *) {
+    margin-top: 1rem;
+  }
+
+  .faq-answer :global(ul) {
+    list-style: disc;
+    padding-left: 1.25rem;
+  }
+
+  .faq-answer :global(li + li) {
+    margin-top: 0.4rem;
+  }
+
+  .faq-answer :global(li::marker) {
+    color: var(--color-accent);
+  }
+</style>
+
+<script>
+  import { init as initReveal } from '../lib/scroll-reveal';
+  import { init as initFaq } from '../lib/faq-hash';
+
+  initReveal();
+  initFaq();
+</script>
