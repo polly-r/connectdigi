@@ -5,7 +5,7 @@ import '../styles/global.css';
 import interLatin from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import frauncesLatin from '@fontsource-variable/fraunces/files/fraunces-latin-opsz-normal.woff2?url';
 
-import Seo from '../components/Seo.astro';
+import Seo, { type Crumb } from '../components/Seo.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { url } from '../lib/url';
@@ -15,9 +15,11 @@ interface Props {
   fullTitle?: string;
   description: string;
   noindex?: boolean;
+  /** Parent pages between Home and this one, for the breadcrumb data (e.g. Services on a case study). */
+  parents?: Crumb[];
 }
 
-const { title, fullTitle, description, noindex } = Astro.props;
+const { title, fullTitle, description, noindex, parents } = Astro.props;
 ---
 
 <!doctype html>
@@ -43,7 +45,7 @@ const { title, fullTitle, description, noindex } = Astro.props;
         root.classList.add('js');
       })();
     </script>
-    <Seo title={title} fullTitle={fullTitle} description={description} noindex={noindex} />
+    <Seo title={title} fullTitle={fullTitle} description={description} noindex={noindex} parents={parents} />
     <link rel="preload" href={interLatin} as="font" type="font/woff2" crossorigin />
     <!-- Headlines are usually the largest element on first view: load their face early. -->
     <link rel="preload" href={frauncesLatin} as="font" type="font/woff2" crossorigin />

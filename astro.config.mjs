@@ -29,6 +29,9 @@ export default defineConfig({
   site,
   base,
   output: 'static',
+  // The whole stylesheet is ~7 KB: inlining it removes a render-blocking
+  // request on first visit (Lighthouse, mobile), at little cost per page.
+  build: { inlineStylesheets: 'always' },
   integrations: [
     react(),
     sitemap({

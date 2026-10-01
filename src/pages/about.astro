@@ -15,7 +15,11 @@ import { url } from '../lib/url';
 const label = 'font-body text-small font-normal text-muted';
 ---
 
-<BaseLayout title="About" description="About The Connect Digital: our approach to web, social, content and app work.">
+<BaseLayout
+  title="About"
+  fullTitle="About Us · Digital Marketing Agency · The Connect Digital"
+  description="The Connect Digital is a South African digital marketing agency working worldwide. How we approach websites, social media, content and apps."
+>
   <section class="container-site pt-16 pb-section md:pt-24" aria-labelledby="about-title">
     <Wordmark />
   </section>
@@ -30,7 +34,7 @@ const label = 'font-body text-small font-normal text-muted';
     <div class="container-site">
       <h2 id="approach-title" class={label} data-reveal>Our approach</h2>
     </div>
-    <div class="manifesto-scroller mt-10" role="region" aria-labelledby="approach-title" tabindex="0">
+    <div class="manifesto-scroller mt-10" data-reveal-group role="region" aria-labelledby="approach-title" tabindex="0">
       <ol class="manifesto-track flex w-max gap-gutter">
         {
           manifesto.map((paragraph, i) => (

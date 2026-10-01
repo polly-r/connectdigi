@@ -5,6 +5,7 @@
  * Reduced motion: nothing animates; the divider shows fully drawn.
  */
 import { gsap, MOTION, REDUCED_MOTION } from '../../lib/gsap';
+import { onFirstView } from '../../lib/in-view';
 
 let mm: gsap.MatchMedia | null = null;
 
@@ -14,6 +15,7 @@ export function init(): void {
 
   mm.add(MOTION, () => {
     const dividers = [...document.querySelectorAll<SVGSVGElement>('[data-node-divider]')];
+    const timelines = new Map<SVGSVGElement, gsap.core.Timeline>();
 
     for (const svg of dividers) {
       const nodes = [...svg.querySelectorAll<SVGElement>('[data-nn-node]')];
@@ -24,7 +26,7 @@ export function init(): void {
       svg.dataset.motifReady = '';
 
       const timeline = gsap.timeline({
-        scrollTrigger: { trigger: svg, start: 'top 90%', once: true },
+        paused: true,
         defaults: { ease: 'power2.out' },
       });
       // Each node lands as its incoming connector arrives.
@@ -33,9 +35,13 @@ export function init(): void {
         const link = links[i];
         if (link) timeline.to(link, { scaleX: 1, duration: 0.22 }, '<0.1');
       });
+      timelines.set(svg, timeline);
     }
 
+    const disconnect = onFirstView(dividers, (batch) => batch.forEach((svg) => timelines.get(svg)?.play()), { start: 90 });
+
     return () => {
+      disconnect();
       for (const svg of dividers) delete svg.dataset.motifReady;
     };
   });

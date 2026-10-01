@@ -167,4 +167,5 @@ website whenever the policy changes.
 | `npm run sample-art` | Regenerates the sample case-study illustrations (delete once real images are in) |
 | `npm run check:contrast` | Contrast check of the colour tokens |
 | `npm run check:stand-ins` | The "not ready for launch" list |
+| `npm run audit [url]` | Lighthouse (speed, accessibility, best practices, SEO) for every page, phone and desktop, against a running `npm run preview` (default http://localhost:4321). Phone speed varies run to run on a laptop: compare medians, not single runs |
 | `node scripts/shoot.mjs <url>` | Screenshots at 360/768/1280 in light and dark, with console-error and overflow checks (uses the installed Microsoft Edge) |

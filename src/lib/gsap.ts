@@ -2,15 +2,13 @@
  * The one place GSAP plugins are registered. Import GSAP from here, never
  * from 'gsap' directly, so plugins are always registered first.
  *
- * ScrollTrigger is registered up front (most pages use it). SplitText is only
+ * No ScrollTrigger: scroll-triggered effects use IntersectionObserver
+ * (./in-view.ts), which costs far less on phones. SplitText is only
  * needed by the headline reveal (Home, About), so it's loaded on demand with
  * `loadSplitText()`: other pages never download it, and Home/About parse it
  * after the fonts are ready instead of during start-up.
  */
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
 
 /** Media queries for gsap.matchMedia(): every animation has a reduced-motion branch. */
 export const MOTION = '(prefers-reduced-motion: no-preference)';
@@ -27,4 +25,4 @@ export function loadSplitText() {
   return splitText;
 }
 
-export { gsap, ScrollTrigger };
+export { gsap };

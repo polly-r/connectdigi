@@ -10,6 +10,9 @@
  * Pace: duration = distance travelled (k × set width) ÷ speed.
  * On resize (debounced), font load, or crossing the mobile breakpoint, the
  * track is re-measured and the animation resumes from the same pixel offset.
+ * Measuring is batched: requests are coalesced to one per frame, and in that
+ * frame every marquee on the page reads its sizes before any of them changes
+ * the DOM, so the browser lays the page out once instead of once per read.
  *
  * Paused while any reason applies: off-screen, waiting for first view
  * (startOnView), or a tap on touch. Hover and focus pausing is pure CSS.
@@ -22,6 +25,29 @@ type PauseReason = 'offscreen' | 'waiting' | 'touch';
 const MOBILE_QUERY = '(max-width: 47.999rem)';
 const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
 const RESIZE_DEBOUNCE_MS = 150;
+
+/** Layout requests for the next frame: marquee → whether to keep the current position. */
+const pending = new Map<Marquee, boolean>();
+let frame = 0;
+
+function requestLayout(marquee: Marquee, preservePosition: boolean): void {
+  pending.set(marquee, (pending.get(marquee) ?? true) && preservePosition);
+  frame ||= requestAnimationFrame(() => {
+    frame = 0;
+    const batch = [...pending];
+    pending.clear();
+    // All reads first, then all writes.
+    const measured = batch.map(([m, preserve]) => [m, m.measure(preserve)] as const);
+    for (const [m, size] of measured) if (size) m.apply(size);
+  });
+}
+
+interface Measurement {
+  naturalWidth: number;
+  viewportWidth: number;
+  offset: number;
+  preservePosition: boolean;
+}
 
 class Marquee {
   private readonly viewport: HTMLElement;
@@ -150,18 +176,24 @@ class Marquee {
     });
     intersection.observe(this.root);
 
+    // The first callback reports the initial size, already measured below.
+    let initialResize = true;
     const resize = new ResizeObserver(() => {
+      if (initialResize) {
+        initialResize = false;
+        return;
+      }
       window.clearTimeout(this.resizeTimer);
-      this.resizeTimer = window.setTimeout(() => this.layout(), RESIZE_DEBOUNCE_MS);
+      this.resizeTimer = window.setTimeout(() => requestLayout(this, true), RESIZE_DEBOUNCE_MS);
     });
     resize.observe(this.viewport);
     resize.observe(this.set);
 
-    const onFontsLoaded = () => this.layout();
+    // Fonts finishing after start-up change the set's width.
+    const onFontsLoaded = () => requestLayout(this, true);
     document.fonts.addEventListener('loadingdone', onFontsLoaded);
-    void document.fonts.ready.then(() => this.running && this.layout());
 
-    const onBreakpoint = () => this.layout();
+    const onBreakpoint = () => requestLayout(this, true);
     this.mobile.addEventListener('change', onBreakpoint);
 
     // Touch: a tap on the strip pauses; a tap anywhere else resumes. Tracking
@@ -184,13 +216,14 @@ class Marquee {
       () => intersection.disconnect(),
       () => resize.disconnect(),
       () => window.clearTimeout(this.resizeTimer),
+      () => pending.delete(this),
       () => document.fonts.removeEventListener('loadingdone', onFontsLoaded),
       () => this.mobile.removeEventListener('change', onBreakpoint),
       () => document.removeEventListener('pointerdown', onPointerDown, true),
       () => this.viewport.removeEventListener('click', onViewportClick),
     ];
 
-    this.layout(false);
+    requestLayout(this, false);
     this.update();
   }
 
@@ -213,14 +246,18 @@ class Marquee {
     this.update();
   }
 
-  /** Measure, adjust the clone count and duration, and keep the current position. */
-  private layout(preservePosition = true): void {
-    if (!this.running) return;
+  /** Read phase: the sizes and position `apply` needs (null if not running or not laid out). */
+  measure(preservePosition: boolean): Measurement | null {
+    if (!this.running) return null;
     const naturalWidth = this.set.getBoundingClientRect().width - this.seamPad;
     const viewportWidth = this.viewport.clientWidth;
-    if (naturalWidth <= 0 || !viewportWidth) return;
+    if (naturalWidth <= 0 || !viewportWidth) return null;
+    return { naturalWidth, viewportWidth, offset: preservePosition ? this.currentOffset() : 0, preservePosition };
+  }
 
-    const offset = preservePosition ? this.currentOffset() : 0;
+  /** Write phase: adjust the clone count and duration, and keep the current position. */
+  apply({ naturalWidth, viewportWidth, offset, preservePosition }: Measurement): void {
+    if (!this.running) return;
 
     // Round each set up to a whole pixel (pad < 1px) so the loop distance is
     // an integer and the end frame renders exactly like the start frame.

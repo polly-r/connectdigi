@@ -5,9 +5,18 @@
  * trailing slash to match the directory-style build and the sitemap.
  * The sharing image is public/og-image.png (`npm run og-image`), provisional
  * until the client supplies their own.
+ *
+ * Inner pages also get BreadcrumbList structured data (Home › [parents] ›
+ * page), so search results can show the path instead of a bare URL. Not on
+ * Home or noindex pages.
  */
 import { site } from '../data/site';
 import { url } from '../lib/url';
+
+export interface Crumb {
+  name: string;
+  path: string;
+}
 
 interface Props {
   /** Page name; omitted on Home, which uses the site name alone. */
@@ -16,14 +25,28 @@ interface Props {
   fullTitle?: string;
   description: string;
   noindex?: boolean;
+  parents?: Crumb[];
 }
 
-const { title, fullTitle: titleOverride, description, noindex = false } = Astro.props;
+const { title, fullTitle: titleOverride, description, noindex = false, parents = [] } = Astro.props;
 
 const fullTitle = titleOverride ?? (title ? `${title} · ${site.name}` : site.name);
 const path = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
 const canonical = new URL(path, Astro.site).href;
 const image = new URL(url('/og-image.png'), Astro.site).href;
+const breadcrumbs =
+  title && !noindex
+    ? JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [{ name: site.name, path: '/' }, ...parents].map((crumb, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: crumb.name,
+          item: new URL(url(crumb.path), Astro.site).href,
+        })).concat({ '@type': 'ListItem', position: parents.length + 2, name: title, item: canonical }),
+      })
+    : null;
 const imageAlt = `${site.name}: Digital work that connects.`;
 ---
 
@@ -45,3 +68,4 @@ const imageAlt = `${site.name}: Digital work that connects.`;
 <meta property="og:image:alt" content={imageAlt} />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image:alt" content={imageAlt} />
+{breadcrumbs && <script type="application/ld+json" set:html={breadcrumbs} />}

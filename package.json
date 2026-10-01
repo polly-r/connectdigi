@@ -16,7 +16,8 @@
     "logo": "node scripts/build-logo.mjs",
     "check:stand-ins": "node scripts/check-stand-ins.mjs",
     "sample-art": "node scripts/build-sample-art.mjs",
-    "og-image": "node scripts/build-og-image.mjs"
+    "og-image": "node scripts/build-og-image.mjs",
+    "audit": "node scripts/audit.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^7.0.0",
@@ -37,6 +38,7 @@
     "@astrojs/check": "^0.9.10",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "lighthouse": "^13.5.0",
     "playwright-core": "^1.63.0",
     "svgo": "^4.1.0",
     "typescript": "^6.0.3"

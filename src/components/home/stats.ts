@@ -6,6 +6,7 @@
  * Home interaction budget. Reduced motion: values show as-is.
  */
 import { gsap, MOTION } from '../../lib/gsap';
+import { onFirstView } from '../../lib/in-view';
 import { NUMERIC_STAT } from '../../data/home';
 
 let mm: gsap.MatchMedia | null = null;
@@ -15,6 +16,7 @@ export function init(): void {
   mm = gsap.matchMedia();
 
   mm.add(MOTION, () => {
+    const counters = new Map<HTMLElement, gsap.core.Tween>();
     for (const el of document.querySelectorAll<HTMLElement>('[data-count-to]')) {
       const match = NUMERIC_STAT.exec(el.dataset.countTo ?? '');
       if (!match) continue;
@@ -29,11 +31,11 @@ export function init(): void {
 
       const counter = { value: 0 };
       el.textContent = format(0);
-      gsap.to(counter, {
+      const tween = gsap.to(counter, {
         value: target,
         duration: 1.6,
         ease: 'power2.out',
-        scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+        paused: true,
         onUpdate: () => {
           el.textContent = format(counter.value);
         },
@@ -41,9 +43,13 @@ export function init(): void {
           el.textContent = el.dataset.countTo ?? '';
         },
       });
+      counters.set(el, tween);
     }
 
+    const disconnect = onFirstView(counters.keys(), (batch) => batch.forEach((el) => counters.get(el)?.play()));
+
     return () => {
+      disconnect();
       for (const el of document.querySelectorAll<HTMLElement>('[data-count-to]')) el.textContent = el.dataset.countTo ?? '';
     };
   });
