@@ -17,7 +17,7 @@ import { parseArgs } from 'node:util';
 
 const { values, positionals } = parseArgs({ allowPositionals: true, options: { json: { type: 'string' } } });
 const base = (positionals[0] ?? 'http://localhost:4321').replace(/\/$/, '');
-const pages = ['/', '/about/', '/services/', '/connect/', '/faq/', '/privacy/', '/terms/', '/work/harbour-and-hide/'];
+const pages = ['/', '/about/', '/services/', '/pricing/', '/connect/', '/faq/', '/privacy/', '/terms/', '/work/harbour-and-hide/'];
 // Edge via playwright-core (chrome-launcher can't find Edge's debugging port), with a fixed port for Lighthouse.
 const PORT = 9333;
 const browser = await chromium.launch({ channel: 'msedge', args: [`--remote-debugging-port=${PORT}`] });

@@ -19,6 +19,8 @@ export interface ContactPayload {
   email: string;
   company?: string;
   service: ServiceSlug | 'unsure';
+  /** Optional package of interest (src/data/pricing.ts `packageChoices`, e.g. 'standard', 'care-plan', 'unsure'). */
+  package?: string;
   message: string;
   consent: true;
   /** ISO 8601 timestamp, set by the form. */

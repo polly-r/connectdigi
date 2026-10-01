@@ -6,6 +6,8 @@
  * describe how the agency works, using only what the site already states.
  * Company terms supplied by the client (2026-09-30): 24-hour reply, free
  * first consultation, clients worldwide, pricing by quotation after scoping,
+ * then (2026-10-01) fixed website packages, the Care Plan and 30 days' free
+ * support (amounts from src/data/pricing.ts, never typed here),
  * 50% upfront / 50% on completion. The other terms (call length, timelines,
  * EFT, ad platforms, 30-day support, ownership) were filled in as realistic
  * suggestions at the client's request and await confirmation. A missing fact
@@ -17,8 +19,14 @@
  * `{ link, text }` (a site path; the page passes it through url()).
  */
 
+import { carePlan, deliveryRange, extras, formatRand, fromPrice, supportDays, vatNote } from './pricing';
+
 /** Flip to false once the client has approved the FAQ. */
 export const faqDraft = true;
+
+const websiteDays = `${deliveryRange.min} to ${deliveryRange.max} business days`;
+/** "Send us changes, we do them within 2 business days." → "send us changes, … days" */
+const careSummary = carePlan.headline.charAt(0).toLowerCase() + carePlan.headline.slice(1, -1);
 
 export type Inline = string | { tbc: string } | { link: string; text: string };
 export type Block = Inline[] | { list: Inline[][] };
@@ -123,7 +131,12 @@ export const faqGroups: FaqGroup[] = [
         question: 'How much does a project cost?',
         answer: [
           [
-            'Every project is priced individually. Once we’ve discussed the scope of work, we send you a written quotation with exactly what’s included and what it costs. Nothing starts until you’ve approved it, so there are no surprises.',
+            `Websites come in fixed-price packages, from ${formatRand(fromPrice)}, listed with everything they include on our `,
+            { link: '/pricing', text: 'Pricing page' },
+            `. ${vatNote}`,
+          ],
+          [
+            'Everything else, such as social media, content, apps and larger custom builds, is priced individually. Once we’ve discussed the scope of work, we send you a written quotation with exactly what’s included and what it costs. Nothing starts until you’ve approved it, so there are no surprises.',
           ],
         ],
       },
@@ -134,15 +147,14 @@ export const faqGroups: FaqGroup[] = [
           ['That depends on the scope, and on how quickly we receive content and feedback. As a guide:'],
           {
             list: [
-              ['Landing page: 1 to 2 weeks'],
-              ['Business website: 3 to 6 weeks'],
+              [`Website packages: ${websiteDays}, depending on the package, once we have your deposit and your content`],
               ['Online store: 6 to 10 weeks'],
               ['Social media set-up and first month of content: 2 to 3 weeks'],
               ['Automation or integration project: 1 to 4 weeks'],
               ['Mobile or web app: 3 to 6 months'],
             ],
           },
-          ['Your quotation includes an agreed timeline, and we keep you updated against it.'],
+          ['Larger projects get an agreed timeline in the quotation, and we keep you updated against it.'],
         ],
       },
       {
@@ -150,7 +162,7 @@ export const faqGroups: FaqGroup[] = [
         question: 'How do payments work?',
         answer: [
           [
-            'For projects, we invoice 50% before work starts and the remaining 50% on completion, before handover. Ongoing monthly services, such as social media management or support plans, are invoiced monthly.',
+            'For projects, we invoice 50% before work starts and the balance on completion, before launch. Ongoing monthly services, such as social media management or the Care Plan, are invoiced monthly.',
           ],
           [
             'We accept EFT (bank transfer). For international clients, we agree the currency and payment method in the quotation.',
@@ -284,7 +296,9 @@ export const faqGroups: FaqGroup[] = [
             'Yes. We don’t disappear after launch. We can look after updates, fixes and improvements, and help you get more from what we built.',
           ],
           [
-            'Every website and app includes 30 days of free support after launch, to fix anything that isn’t working as it should. After that, you can choose a monthly support plan or pay for updates as you need them.',
+            `Every website and app includes ${supportDays} days of free support after launch, to fix anything that isn’t working as it should. After that, you can add the `,
+            { link: '/pricing#care-plan', text: carePlan.name },
+            ` (${careSummary}), or pay for updates as you need them at ${formatRand(extras.hourlyRate)} per hour, quoted in advance.`,
           ],
         ],
       },

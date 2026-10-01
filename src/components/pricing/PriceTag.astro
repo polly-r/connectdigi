@@ -1,0 +1,50 @@
+---
+/**
+ * A package price, from src/data/pricing.ts. On the launch-offer package,
+ * while the offer is live at build time, it renders the offer (old price in
+ * <del>, new price, label) plus a hidden full-price fallback. If the offer has
+ * ended by the time someone visits, the Pricing page's head script swaps them
+ * before first paint (global.css, [data-offer-ended]) and its page script
+ * removes the offer markup.
+ *
+ * Screen readers hear "Was <full price>, now <offer price>." then the offer label, from
+ * visually hidden text inside the real elements (no aria-label).
+ */
+import { formatRand, launchOffer, NO_PRICE_LABEL, offerLive, type Package } from '../../data/pricing';
+
+interface Props {
+  pkg: Package;
+  /** `card`: large display price. `table`: body-size, for the comparison table. */
+  size?: 'card' | 'table';
+}
+
+const { pkg, size = 'card' } = Astro.props;
+const showOffer = pkg.slug === launchOffer.package && offerLive();
+const card = size === 'card';
+const priceClass = card ? 'font-display text-h2 leading-none tabular-nums' : 'font-medium tabular-nums';
+const full = pkg.price === null ? NO_PRICE_LABEL : formatRand(pkg.price);
+---
+
+{
+  showOffer ? (
+    <>
+      <div data-offer>
+        <p class={priceClass}>
+          <del class:list={['block text-muted', card ? 'mb-1 font-body text-body' : 'text-small font-normal']}>
+            <span class="sr-only">{'Was '}</span>
+            {formatRand(launchOffer.standardPrice)}
+          </del>
+          <span class="sr-only">{', now '}</span>
+          {formatRand(launchOffer.offerPrice)}
+          <span class="sr-only">.</span>
+        </p>
+        <p class:list={['offer-label font-medium', card ? 'mt-3 text-small' : 'mt-1 text-small']}>{launchOffer.label}</p>
+      </div>
+      <p class={priceClass} data-offer-fallback>
+        {full}
+      </p>
+    </>
+  ) : (
+    <p class={priceClass}>{full}</p>
+  )
+}

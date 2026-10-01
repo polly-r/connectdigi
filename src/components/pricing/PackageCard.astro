@@ -1,0 +1,133 @@
+---
+/**
+ * One package card on /pricing. Everything comes from src/data/pricing.ts.
+ * The highlighted package (Standard) gets a "Most popular" badge (the text
+ * carries the meaning; the accent border and lift only echo it).
+ *
+ * Each feature has an "i" disclosure button for its explainer
+ * (src/lib/info-toggle.ts). Without JS the explainers are shown and the
+ * buttons hidden.
+ */
+import MotifButton from '../motif/MotifButton.astro';
+import PriceTag from './PriceTag.astro';
+import {
+  AS_AGREED,
+  carePlan,
+  extras,
+  features,
+  formatRand,
+  NO_PRICE_LABEL,
+  paymentLine,
+  type FeatureValue,
+  type Package,
+} from '../../data/pricing';
+import { url } from '../../lib/url';
+
+interface Props {
+  pkg: Package;
+}
+
+const { pkg } = Astro.props;
+const featured = Boolean(pkg.highlight);
+const fixed = pkg.price !== null;
+const titleId = `package-${pkg.slug}`;
+
+const facts = [
+  { term: 'Pages', value: pkg.pages === null ? AS_AGREED : `Up to ${pkg.pages}` },
+  { term: 'Delivery', value: pkg.deliveryDays === null ? AS_AGREED : `${pkg.deliveryDays} business days` },
+  { term: 'Extra pages', value: fixed ? `${formatRand(extras.extraPage)} each` : AS_AGREED },
+];
+
+const included = features.filter((f) => f.values[pkg.slug] !== null);
+const label = (name: string, value: FeatureValue) =>
+  typeof value === 'string' ? `${name}: ${value.charAt(0).toLowerCase()}${value.slice(1)}` : name;
+---
+
+<li data-reveal>
+  <article
+    aria-labelledby={titleId}
+    class:list={[
+      'relative flex h-full flex-col p-6 md:p-7 lg:p-6',
+      featured ? 'border-2 border-accent md:-translate-y-3' : 'border border-line',
+    ]}
+  >
+    <h3 id={titleId} class="text-h3">{pkg.name}</h3>
+    {
+      pkg.highlight && (
+        <p class="absolute -top-3.5 left-6 rounded-full bg-accent px-3 py-0.5 text-small font-medium text-on-accent md:left-7">
+          {pkg.highlight}
+        </p>
+      )
+    }
+    <p class="mt-2 text-muted">
+      <span class="font-medium text-fg">Best for:</span>{' '}{pkg.bestFor}
+    </p>
+
+    <div class="mt-6">
+      <PriceTag pkg={pkg} />
+    </div>
+    <p class="mt-3 text-small text-muted">{paymentLine}</p>
+
+    <dl class="mt-6 border-t border-line text-small">
+      {
+        facts.map((fact) => (
+          <div class="flex justify-between gap-4 border-b border-line py-2.5">
+            <dt class="text-muted">{fact.term}</dt>
+            <dd class="text-right font-medium tabular-nums">{fact.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <ul class="mt-6 flex-1 space-y-3" aria-label={`${pkg.name} includes`}>
+      {
+        included.map((feature) => {
+          const panelId = `${pkg.slug}-${feature.id}-info`;
+          return (
+            <li class="pkg-feature">
+              <div class="flex items-start gap-3">
+                <svg class="mt-[0.55em] size-2 shrink-0 text-accent" viewBox="0 0 8 8" aria-hidden="true" focusable="false">
+                  <circle cx="4" cy="4" r="4" fill="currentColor" />
+                </svg>
+                <span class="flex-1">{label(feature.name, feature.values[pkg.slug])}</span>
+                <button
+                  type="button"
+                  class="info-btn grid size-6 shrink-0 place-items-center rounded-full border border-control text-muted aria-expanded:border-accent aria-expanded:bg-accent aria-expanded:text-on-accent"
+                  aria-expanded="false"
+                  aria-controls={panelId}
+                  data-info-toggle
+                  data-requires-js
+                >
+                  <span class="sr-only">About {feature.name}</span>
+                  <svg viewBox="0 0 16 16" class="size-3.5" aria-hidden="true" focusable="false">
+                    <circle cx="8" cy="4" r="1.25" fill="currentColor" />
+                    <path d="M8 7v5.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" />
+                  </svg>
+                </button>
+              </div>
+              <p id={panelId} class="mt-1 pl-5 text-small text-muted" data-info-panel>
+                {feature.explainer}
+              </p>
+            </li>
+          );
+        })
+      }
+    </ul>
+
+    <div class="mt-8">
+      <MotifButton href={url(`/connect?package=${pkg.slug}`)} class="whitespace-nowrap">{fixed ? `Choose ${pkg.name}` : NO_PRICE_LABEL}</MotifButton>
+    </div>
+    <p class="mt-6 text-small">
+      <a href="#care-plan" class="link">Add the {carePlan.name}</a>: {carePlan.cardLine}
+    </p>
+  </article>
+</li>
+
+<style>
+  @media (hover: hover) {
+    .info-btn:not([aria-expanded='true']):hover {
+      border-color: var(--color-fg);
+      color: var(--color-fg);
+    }
+  }
+</style>

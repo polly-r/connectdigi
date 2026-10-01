@@ -54,6 +54,7 @@ samples included, and the contact form sends nothing.
 | About manifesto | `src/data/about.ts` |
 | Services descriptions and "What's included" | `src/data/services.ts` |
 | FAQ questions and answers | `src/data/faq.ts` |
+| Prices, packages, features, extras, Care Plan, launch offer (the only place prices live) | `src/data/pricing.ts` |
 | Client logos | `src/data/clients.ts` |
 | Case studies (text, figures, testimonial, chart) | `src/content/work/*.md` |
 | Case study images | `src/assets/work/` |
@@ -117,7 +118,7 @@ Every stand-in is listed in [PLACEHOLDERS.md](PLACEHOLDERS.md). By kind:
   `src/data/site.ts`.
 - **Draft copy**: edit the text, then set the flag to `false`:
   `heroDraft` and `homeDraft` (`home.ts`), `aboutDraft` (`about.ts`), `servicesDraft` (`services.ts`),
-  `faqDraft` (`faq.ts`). FAQ gaps are `{ tbc: '…' }` parts: replace each with text.
+  `faqDraft` (`faq.ts`), `pricingDraft` (`pricing.ts`). FAQ gaps are `{ tbc: '…' }` parts: replace each with text.
 - **Stats**: edit the four values in `src/data/home.ts` and set
   `statsSample = false`. A value counts up automatically if it's a number with
   a short prefix or suffix (`120+`, `98%`, `R25m+`).
@@ -136,6 +137,10 @@ Every stand-in is listed in [PLACEHOLDERS.md](PLACEHOLDERS.md). By kind:
   footer icon becomes a link.
 - **Booking tool** (optional): set `PUBLIC_BOOKING_URL`; the Connect page
   shows the embed. Update the Privacy Policy in the same change.
+- **Launch offer**: `launchOffer` in `src/data/pricing.ts`. Set `active: false`
+  once three clients sign. Browsers hide it after `endsAt` on their own, but
+  rebuild and redeploy after that date so the built pages drop it too (the
+  build warns while it's live, and again if it has ended but is still active).
 - **Domain**: set `SITE_URL` in `src/data/site.ts`; the sitemap, canonical
   URLs and the Terms page use it.
 

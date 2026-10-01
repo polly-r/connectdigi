@@ -12,6 +12,10 @@
  * the node motif on the button (submit-motif.ts). A busy flag stops double
  * submits. On error everything typed is kept. A filled honeypot pretends to
  * succeed and sends nothing. Sending goes through src/lib/submit-contact.ts.
+ *
+ * Package (optional): preselected from ?package= after mount (unknown values
+ * are ignored); a package also preselects Web Dev if Service is still empty.
+ * While the launch offer is live, choosing its package shows the offer label.
  */
 import { useEffect, useRef, useState, type SubmitEvent } from 'react';
 import { destroy as destroyMotif, setSubmitState } from '../motif/submit-motif';
@@ -19,11 +23,19 @@ import { CHECK, LOADER, NODE_RADIUS, ringGeometry, type MotifNetwork } from '../
 import { submitContact, type ContactPayload } from '../../lib/submit-contact';
 import './contact-form.css';
 
-type Field = 'name' | 'email' | 'company' | 'service' | 'message' | 'consent';
-type Values = { name: string; email: string; company: string; service: string; message: string; consent: boolean };
+type Field = 'name' | 'email' | 'company' | 'service' | 'package' | 'message' | 'consent';
+type Values = {
+  name: string;
+  email: string;
+  company: string;
+  service: string;
+  package: string;
+  message: string;
+  consent: boolean;
+};
 
-const EMPTY: Values = { name: '', email: '', company: '', service: '', message: '', consent: false };
-const ORDER: Field[] = ['name', 'email', 'company', 'service', 'message', 'consent'];
+const EMPTY: Values = { name: '', email: '', company: '', service: '', package: '', message: '', consent: false };
+const ORDER: Field[] = ['name', 'email', 'company', 'service', 'package', 'message', 'consent'];
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 function validate(field: Field, v: Values): string | null {
@@ -39,6 +51,7 @@ function validate(field: Field, v: Values): string | null {
       return EMAIL.test(t) ? null : 'Enter an email address in the format name@example.com.';
     }
     case 'company':
+    case 'package':
       return null;
     case 'service':
       return v.service ? null : 'Choose a service, or "Not sure yet".';
@@ -107,11 +120,18 @@ function ErrorIcon() {
 
 interface Props {
   services: Array<{ value: string; label: string }>;
+  /** Package choices, in order; values match ?package=. */
+  packages: Array<{ value: string; label: string }>;
+  /** The launch offer, if live when the site was built; re-checked against the visitor's clock. */
+  offer: { package: string; label: string; endsAt: string } | null;
   contactEmail: string;
   privacyHref: string;
 }
 
-export default function ContactForm({ services, contactEmail, privacyHref }: Props) {
+/** Package choices that are real packages (not "Not sure yet"). */
+const NOT_A_PACKAGE = 'unsure';
+
+export default function ContactForm({ services, packages, offer, contactEmail, privacyHref }: Props) {
   const [values, setValues] = useState<Values>(EMPTY);
   const [errors, setErrors] = useState<Partial<Record<Field, string>>>({});
   const [live, setLive] = useState<Set<Field>>(new Set());
@@ -126,6 +146,14 @@ export default function ContactForm({ services, contactEmail, privacyHref }: Pro
   const busy = useRef(false);
 
   useEffect(() => () => destroyMotif(), []);
+
+  // ?package=<slug> from the Pricing page. After mount, so the server render and hydration match.
+  useEffect(() => {
+    const wanted = new URLSearchParams(window.location.search).get('package');
+    if (!wanted || !packages.some((p) => p.value === wanted)) return;
+    const web = services.some((s) => s.value === 'web') && wanted !== NOT_A_PACKAGE;
+    setValues((prev) => ({ ...prev, package: wanted, service: prev.service || (web ? 'web' : '') }));
+  }, [packages, services]);
 
   useEffect(() => {
     if (focusTarget) document.getElementById(focusTarget.id)?.focus();
@@ -160,6 +188,7 @@ export default function ContactForm({ services, contactEmail, privacyHref }: Pro
       email: String(data.get('email') ?? ''),
       company: String(data.get('company') ?? ''),
       service: String(data.get('service') ?? ''),
+      package: String(data.get('package') ?? ''),
       message: String(data.get('message') ?? ''),
       consent: data.get('consent') === 'yes',
     };
@@ -199,6 +228,7 @@ export default function ContactForm({ services, contactEmail, privacyHref }: Pro
       email: current.email.trim(),
       company: current.company.trim() || undefined,
       service: current.service as ContactPayload['service'],
+      package: current.package || undefined,
       message: current.message.trim(),
       consent: true,
       submittedAt: new Date().toISOString(),
@@ -243,6 +273,8 @@ export default function ContactForm({ services, contactEmail, privacyHref }: Pro
       onBlur: () => onBlur(field),
     };
   };
+
+  const showOffer = Boolean(offer && values.package === offer.package && Date.now() < Date.parse(offer.endsAt));
 
   const errorText = (field: Field) =>
     errors[field] ? (
@@ -341,6 +373,36 @@ export default function ContactForm({ services, contactEmail, privacyHref }: Pro
                 </svg>
               </div>
               {errorText('service')}
+            </div>
+
+            <div className="cf-field">
+              <label htmlFor={idFor('package')}>
+                Package <span className="text-muted">(optional)</span>
+              </label>
+              <div className="cf-select">
+                <select
+                  id={idFor('package')}
+                  name="package"
+                  aria-describedby={showOffer ? 'cf-package-offer' : undefined}
+                  value={values.package}
+                  onChange={(e) => onChange('package', e.target.value)}
+                >
+                  <option value="">Choose a package</option>
+                  {packages.map((p) => (
+                    <option key={p.value} value={p.value}>
+                      {p.label}
+                    </option>
+                  ))}
+                </select>
+                <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                  <path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+              {showOffer && offer && (
+                <p id="cf-package-offer" className="cf-hint">
+                  {offer.label}
+                </p>
+              )}
             </div>
 
             <div className="cf-field cf-field--wide">

@@ -6,6 +6,7 @@
 //   - draft About manifesto (src/data/about.ts)
 //   - draft Services copy (src/data/services.ts) and sample case studies (src/content/work/)
 //   - draft FAQ copy (src/data/faq.ts)
+//   - draft Pricing copy and the launch offer's manual switch (src/data/pricing.ts)
 //   - the contact form's MOCK adapter (PUBLIC_FORM_ADAPTER not "http")
 // See PLACEHOLDERS.md.
 
@@ -74,6 +75,20 @@ if (/export const faqDraft = true/.test(faq)) {
   const gaps = (faq.match(/\{ tbc: '/g) ?? []).length;
   const tbcNote = gaps ? `, with ${gaps} answers still [TBC]` : '';
   warnings.push(`FAQ answers are DRAFT copy${tbcNote}. Once the client has approved them in src/data/faq.ts, set faqDraft = false.`);
+}
+
+const pricing = read('src/data/pricing.ts');
+if (/export const pricingDraft = true/.test(pricing)) {
+  warnings.push('Pricing hero, notes and closing CTA (pricingCopy) and the revision-rounds explainer are DRAFT copy. Approve in src/data/pricing.ts, then set pricingDraft = false.');
+}
+const offerActive = /^\s*active: true,/m.test(pricing);
+const offerEnds = pricing.match(/endsAt: '([^']+)'/)?.[1];
+if (offerActive && offerEnds) {
+  if (Date.now() >= Date.parse(offerEnds)) {
+    warnings.push(`Launch offer ENDED (${offerEnds}) but launchOffer.active is still true. This build shows full prices; set active: false in src/data/pricing.ts.`);
+  } else {
+    warnings.push(`Launch offer is LIVE until ${offerEnds}. Set launchOffer.active to false once three clients sign; rebuild and redeploy after it ends.`);
+  }
 }
 
 // Contact form adapter: from the environment, or .env / .env.production.

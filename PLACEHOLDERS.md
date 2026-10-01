@@ -27,6 +27,10 @@ launch, because on a live site they would read as claims about your business.
 - [ ] **Analytics.** The site currently collects no visitor statistics. Do you
       want any? (If yes, the Privacy Policy changes with it.)
 - [ ] **Headline typeface.** Please approve the headline font (Fraunces), or ask for alternatives.
+- [ ] **Launch offer.** Tell us as soon as three clients have signed, so we can switch
+      the offer off (set `active` to false). Whatever happens, the site must be
+      rebuilt and redeployed after 31 October 2026 so the offer disappears for
+      everyone, including visitors without JavaScript.
 
 ## 2. Company details (for the Privacy Policy and Terms)
 
@@ -58,17 +62,27 @@ approve it or send your own wording.
       "Digital marketing agency · South Africa · Working worldwide".
 - [ ] **Home sections**: the one-line service summaries, "Why work with The
       Connect Digital" (four points), "How we work" (five steps) and "Ready to
-      grow online?". The "How we work" Launch step mentions 30 days of support
-      (one of our suggested FAQ terms).
+      grow online?". The "How we work" Launch step mentions 30 days of support,
+      which you confirmed for every website package.
 - [ ] **Google listing for Home**: title "Digital Marketing Agency in South
       Africa · The Connect Digital" and its description
 - [ ] **About**: the four "Our approach" paragraphs
+- [ ] **Pricing page wording** (your prices, packages, features, Care Plan and
+      offer are used exactly as you supplied them; only these lines are ours):
+      the headline "Clear prices. A website you own.", the line under it, the note
+      that packages are for websites and other services are quoted, the
+      maintenance note, the Care Plan intro, "Not sure which package fits?", and
+      the one-line explainer for revision rounds ("One round is one set of your
+      feedback, which we then apply in full."). Also check the Google listing:
+      "Website Design Pricing in South Africa · The Connect Digital".
 - [ ] **Services**: the description and "What's included" list for each of the five services
 - [ ] **FAQ**: 23 questions and answers. Check that every answer matches how you
       actually work. You supplied: reply within 24 hours, free first consultation,
       clients worldwide, prices by quotation after scoping, 50% upfront / 50% on
-      completion. We filled in the rest as suggestions, so please confirm or correct:
-      the ~30-minute first call, timelines per project type, EFT payment and
+      completion, then the website packages, Care Plan and 30 days' free support
+      (the pricing, timeline and support answers now point to the Pricing page).
+      We filled in the rest as suggestions, so please confirm or correct:
+      the ~30-minute first call, timelines for non-website projects, EFT payment and
       monthly invoicing, the ad platforms (Facebook, Instagram, TikTok, LinkedIn)
       and ad spend paid directly to the platform, 30 days' free support after
       launch, and ownership passing to the client on final payment.
@@ -160,6 +174,9 @@ outstanding. How to replace each kind of item is in the README.
 | About manifesto | `src/data/about.ts` | `aboutDraft = false` |
 | Services copy | `src/data/services.ts` | `servicesDraft = false` |
 | FAQ | `src/data/faq.ts` (`{ tbc }` parts) | `faqDraft = false` |
+| Pricing wording | `pricingCopy` (and the revisions explainer) in `src/data/pricing.ts` | `pricingDraft = false` |
+| Launch offer | `launchOffer` in `src/data/pricing.ts` | set `active: false` once three clients sign; redeploy after 31 October 2026 |
+| Any price, package or Care Plan change | `src/data/pricing.ts` only (nothing else hard-codes a price) | |
 | UI labels | `src/components/home/*`, `src/pages/about.astro`, `services.astro`, `connect.astro`, `src/components/connect/ContactForm.tsx` | |
 | Meta descriptions | `description` prop in each file under `src/pages/` | |
 | Client logos | `src/data/clients.ts` | `standIn = false` |

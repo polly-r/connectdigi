@@ -7,9 +7,12 @@ import BookingEmbed from '../components/connect/BookingEmbed.astro';
 import ContactDetails from '../components/ContactDetails.astro';
 import SocialLinks from '../components/SocialLinks.astro';
 import { services, site } from '../data/site';
+import { launchOffer, offerLive, packageChoices } from '../data/pricing';
 import { url } from '../lib/url';
 
 const serviceOptions = services.map((s) => ({ value: s.slug, label: s.name }));
+// Passed only while the offer is live at build; the form re-checks the visitor's clock.
+const offer = offerLive() ? { package: launchOffer.package, label: launchOffer.label, endsAt: launchOffer.endsAt } : null;
 const label = 'font-body text-small font-normal text-muted';
 ---
 
@@ -35,7 +38,14 @@ const label = 'font-body text-small font-normal text-muted';
       </noscript>
       <!-- Hidden without JS: a no-JS submit has nowhere to go on a static host. -->
       <div data-requires-js>
-        <ContactForm client:load services={serviceOptions} contactEmail={site.contact.email} privacyHref={url('/privacy')} />
+        <ContactForm
+          client:load
+          services={serviceOptions}
+          packages={packageChoices}
+          offer={offer}
+          contactEmail={site.contact.email}
+          privacyHref={url('/privacy')}
+        />
       </div>
     </div>
 

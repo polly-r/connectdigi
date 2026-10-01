@@ -50,6 +50,12 @@
   min-height: 9rem;
 }
 
+.cf-hint {
+  margin-top: 0.5rem;
+  font-size: var(--text-small);
+  font-weight: 500;
+}
+
 /* Error: thicker foreground border plus the message in words (never colour alone). */
 .cf [aria-invalid='true'] {
   border-width: 2px;

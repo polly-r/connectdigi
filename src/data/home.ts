@@ -36,7 +36,7 @@ export const homeSeo = {
  * DRAFT COPY for the Home sections below the hero (services overview, why us,
  * process, questions, closing CTA). Brand voice, shown unmarked like the
  * hero; facts only from the client (24-hour reply, free first consultation,
- * worldwide, quotation after scoping) or from the Services copy. The build
+ * worldwide, fixed website packages (src/data/pricing.ts), quotation for the rest) or from the Services copy. The build
  * warns while `homeDraft` is true. Listed in PLACEHOLDERS.md.
  */
 export const homeDraft = true;
@@ -67,8 +67,8 @@ export const reasons = {
       text: 'Fast pages, clean structure and search foundations in everything we build, so customers can find you.',
     },
     {
-      title: 'Clear quotes, no surprises',
-      text: 'We agree the scope first, then send a written quotation. Nothing starts until you approve it.',
+      title: 'Clear prices, no surprises',
+      text: 'Fixed-price website packages, and a written quotation for everything else. Nothing starts until you approve it.',
     },
     {
       title: 'Worldwide, and quick to reply',
@@ -81,7 +81,7 @@ export const process = {
   title: 'How we work',
   steps: [
     { title: 'Listen', text: 'A free first consultation about your business, customers and goals.' },
-    { title: 'Plan', text: 'We agree the scope, timeline and what success looks like, in a written quotation.' },
+    { title: 'Plan', text: 'We agree the scope, timeline and what success looks like, in writing.' },
     { title: 'Make', text: 'We design and build, sharing work early so you can steer it.' },
     { title: 'Launch', text: 'We go live and hand over everything you need, with 30 days of support.' },
     { title: 'Improve', text: 'We look at what’s working and recommend what to do next.' },

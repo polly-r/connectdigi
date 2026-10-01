@@ -1,0 +1,139 @@
+---
+/**
+ * "Compare everything": the full package matrix from src/data/pricing.ts as
+ * a real table. It scrolls sideways inside its own focusable region, so the
+ * page never does; the feature column stays pinned while it scrolls.
+ * The highlighted package's column is marked in words ("Most popular") as
+ * well as with the accent border.
+ */
+import PriceTag from './PriceTag.astro';
+import {
+  AS_AGREED,
+  extras,
+  features,
+  formatRand,
+  packages,
+  paymentLine,
+  type FeatureValue,
+} from '../../data/pricing';
+
+type Cell = FeatureValue | { price: true };
+
+const rows: Array<{ label: string; cells: Cell[] }> = [
+  { label: 'Price', cells: packages.map(() => ({ price: true as const })) },
+  { label: 'Pages', cells: packages.map((p) => (p.pages === null ? AS_AGREED : `Up to ${p.pages}`)) },
+  {
+    label: 'Delivery',
+    cells: packages.map((p) => (p.deliveryDays === null ? AS_AGREED : `${p.deliveryDays} business days`)),
+  },
+  ...features.map((f) => ({ label: f.name, cells: packages.map((p) => f.values[p.slug]) })),
+  {
+    label: 'Extra pages',
+    cells: packages.map((p) => (p.price === null ? AS_AGREED : `${formatRand(extras.extraPage)} each`)),
+  },
+  { label: 'Payment', cells: packages.map(() => paymentLine) },
+];
+
+const isPrice = (cell: Cell): cell is { price: true } => typeof cell === 'object' && cell !== null;
+const marked = (i: number) => Boolean(packages[i]?.highlight);
+---
+
+<div class="compare-scroller" role="region" aria-labelledby="compare-title" tabindex="0">
+  <table class="compare w-full min-w-[46rem] border-collapse text-left">
+    <caption class="sr-only">Website packages compared, feature by feature</caption>
+    <thead>
+      <tr>
+        <td class="sticky-col border-b border-line"></td>
+        {
+          packages.map((pkg, i) => (
+            <th
+              scope="col"
+              class:list={['border-b border-line px-4 pt-4 pb-3 align-bottom font-display text-h3 font-medium', marked(i) && 'col-marked col-marked-top']}
+            >
+              {pkg.name}
+              {pkg.highlight && (
+                <span class="mt-1 block font-body text-small font-medium">
+                  <span class="sr-only">{', '}</span>
+                  {pkg.highlight}
+                </span>
+              )}
+            </th>
+          ))
+        }
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((row, r) => (
+          <tr>
+            <th scope="row" class="sticky-col border-b border-line py-3 pr-4 font-normal text-muted">
+              {row.label}
+            </th>
+            {row.cells.map((cell, i) => (
+              <td
+                class:list={[
+                  'border-b border-line px-4 py-3 align-top',
+                  marked(i) && 'col-marked',
+                  marked(i) && r === rows.length - 1 && 'col-marked-bottom',
+                ]}
+              >
+                {isPrice(cell) ? (
+                  <PriceTag pkg={packages[i]!} size="table" />
+                ) : cell === true ? (
+                  <>
+                    <svg class="size-5 text-accent" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                      <path d="m4.5 10.5 3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <span class="sr-only">Included</span>
+                  </>
+                ) : cell === null ? (
+                  <>
+                    <span class="text-muted" aria-hidden="true">–</span>
+                    <span class="sr-only">Not included</span>
+                  </>
+                ) : (
+                  <span class="tabular-nums">{cell}</span>
+                )}
+              </td>
+            ))}
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  /* Positioned so the visually hidden (absolutely positioned) text inside the
+     table is clipped by the scroller too, instead of widening the page. */
+  .compare-scroller {
+    position: relative;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+
+  .compare-scroller:focus-visible {
+    outline-offset: 4px;
+  }
+
+  /* Feature names stay in view while the packages scroll under them. */
+  .sticky-col {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    min-width: 11rem;
+    background: var(--color-bg);
+  }
+
+  .col-marked {
+    border-inline: 2px solid var(--color-accent);
+  }
+
+  .col-marked-top {
+    border-top: 2px solid var(--color-accent);
+  }
+
+  .col-marked-bottom {
+    border-bottom: 2px solid var(--color-accent);
+  }
+</style>

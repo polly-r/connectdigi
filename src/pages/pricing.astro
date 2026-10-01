@@ -1,0 +1,170 @@
+---
+// Pricing. Interaction budget (CLAUDE.md): scroll reveal (incl. the divider
+// draw-in), node hover, feature info disclosures. Nothing else.
+// Every amount comes from src/data/pricing.ts; copy in `pricingCopy` is draft.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MotifButton from '../components/motif/MotifButton.astro';
+import NodeDivider from '../components/motif/NodeDivider.astro';
+import ClosingCta from '../components/home/ClosingCta.astro';
+import PackageCard from '../components/pricing/PackageCard.astro';
+import CompareTable from '../components/pricing/CompareTable.astro';
+import {
+  allPackagesInclude,
+  carePlan,
+  deliveryNote,
+  extras,
+  formatRand,
+  launchOffer,
+  notIncluded,
+  offerLive,
+  ownershipLine,
+  packages,
+  paymentLine,
+  pricingCopy,
+  pricingSeo,
+  vatNote,
+} from '../data/pricing';
+import { url } from '../lib/url';
+
+// Built while the offer is live: ship the run-time expiry check with it.
+const offerOn = offerLive();
+const offerEndsAt = launchOffer.endsAt;
+const label = 'font-body text-small font-normal text-muted';
+---
+
+<BaseLayout title="Pricing" fullTitle={pricingSeo.title} description={pricingSeo.description}>
+  {
+    offerOn && (
+      <Fragment slot="head">
+        {/* Before first paint: if the visitor's clock is past the offer's end, CSS swaps in the full price. */}
+        <script is:inline define:vars={{ offerEndsAt }}>
+          if (Date.now() >= Date.parse(offerEndsAt)) document.documentElement.setAttribute('data-offer-ended', '');
+        </script>
+      </Fragment>
+    )
+  }
+
+  <section class="container-site pt-16 pb-12 md:pt-24 md:pb-16">
+    <h1 class="max-w-[14ch] text-h1">{pricingCopy.title}</h1>
+    <p class="mt-8 max-w-[48ch] text-lead text-muted">{pricingCopy.lead}</p>
+    <p class="mt-4 max-w-[60ch] text-muted">
+      {pricingCopy.scopeNote}{' '}<a href={url('/connect')} class="link">{pricingCopy.scopeLinkText}</a>.
+    </p>
+  </section>
+
+  <section class="container-site pb-section" aria-labelledby="packages-title">
+    <h2 id="packages-title" class="sr-only">Website packages</h2>
+    <ul class="grid gap-x-gutter gap-y-10 pt-3 md:grid-cols-2 lg:grid-cols-4" data-reveal-group>
+      {packages.map((pkg) => <PackageCard pkg={pkg} />)}
+    </ul>
+    <div class="mt-10 space-y-1 text-small text-muted md:mt-12" data-reveal>
+      <p class="text-body font-medium text-fg">{ownershipLine}</p>
+      <p>{`${vatNote} ${deliveryNote}`}</p>
+    </div>
+  </section>
+
+  <section class="container-site pb-section" aria-labelledby="include-title" data-reveal>
+    <div class="border-y border-line py-10 md:py-12">
+      <h2 id="include-title" class="text-h2">All packages include</h2>
+      <ul class="mt-8 grid gap-x-gutter gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          allPackagesInclude.map((item) => (
+            <li class="flex items-start gap-3">
+              <svg class="mt-[0.2em] size-5 shrink-0 text-accent" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                <path d="m4.5 10.5 3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <span>{item}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="mt-8 max-w-[62ch] text-muted">
+        {pricingCopy.maintenanceNote}{' '}<a href="#care-plan" class="link">See the {carePlan.name}</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="container-site pb-section" aria-labelledby="compare-title" data-reveal>
+    <h2 id="compare-title" class="text-h2">Compare everything</h2>
+    <div class="mt-8">
+      <CompareTable />
+    </div>
+  </section>
+
+  <div class="container-site pb-section">
+    <NodeDivider />
+  </div>
+
+  <section id="care-plan" class="container-site pb-section" aria-labelledby="care-plan-title" data-reveal>
+    <div class="grid-site gap-y-10">
+      <div class="col-span-4 md:col-span-8 lg:col-span-6">
+        <p class={label}>{carePlan.name}</p>
+        <h2 id="care-plan-title" class="mt-3 max-w-[18ch] text-h2">{carePlan.headline}</h2>
+        <p class="mt-6 max-w-[44ch] text-lead text-muted">{pricingCopy.careIntro}</p>
+      </div>
+      <div class="col-span-4 md:col-span-8 lg:col-span-5 lg:col-start-8">
+        <ul class="border-t border-line">
+          {
+            carePlan.points.map((point) => (
+              <li class="flex items-start gap-3 border-b border-line py-3">
+                <svg class="mt-[0.55em] size-2 shrink-0 text-accent" viewBox="0 0 8 8" aria-hidden="true" focusable="false">
+                  <circle cx="4" cy="4" r="4" fill="currentColor" />
+                </svg>
+                <span>{point}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="mt-8 font-display text-h3">{carePlan.priceLabel}</p>
+        <div class="mt-6">
+          <MotifButton href={url(`/connect?package=${carePlan.slug}`)}>Ask about the {carePlan.name}</MotifButton>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-site pb-section" aria-labelledby="extras-title" data-reveal>
+    <h2 id="extras-title" class="text-h2">Extras and payment</h2>
+    <div class="mt-8 grid gap-x-gutter gap-y-10 md:grid-cols-2 lg:grid-cols-3">
+      <div>
+        <h3 class={label}>Extras</h3>
+        <dl class="mt-4 border-t border-line">
+          <div class="border-b border-line py-3">
+            <dt>Extra page</dt>
+            <dd class="mt-1 font-medium tabular-nums">{formatRand(extras.extraPage)} each</dd>
+          </div>
+          <div class="border-b border-line py-3">
+            <dt>Extra revision round or out-of-scope work</dt>
+            <dd class="mt-1 font-medium tabular-nums">{formatRand(extras.hourlyRate)} per hour, quoted in advance</dd>
+          </div>
+        </dl>
+      </div>
+      <div>
+        <h3 class={label}>Payment</h3>
+        <ul class="mt-4 border-t border-line">
+          <li class="border-b border-line py-3">{paymentLine}.</li>
+          <li class="border-b border-line py-3">{deliveryNote}</li>
+          <li class="border-b border-line py-3">{vatNote}</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class={label}>Not included</h3>
+        <ul class="mt-4 border-t border-line">
+          {notIncluded.map((item) => <li class="border-b border-line py-3">{item}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <ClosingCta title={pricingCopy.closing.title} text={pricingCopy.closing.text} label={pricingCopy.closing.label} />
+</BaseLayout>
+
+<script>
+  import { init as initOffer } from '../lib/launch-offer';
+  import { init as initReveal } from '../lib/scroll-reveal';
+  import { init as initInfo } from '../lib/info-toggle';
+
+  initOffer();
+  initReveal();
+  initInfo();
+</script>

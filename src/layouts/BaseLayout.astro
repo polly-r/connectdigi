@@ -53,6 +53,8 @@ const { title, fullTitle, description, noindex, parents } = Astro.props;
     <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
     <link rel="apple-touch-icon" href={url('/apple-touch-icon.png')} />
     <meta name="generator" content={Astro.generator} />
+    <!-- Page-specific head content, e.g. the Pricing page's offer-expiry check (runs before first paint). -->
+    <slot name="head" />
   </head>
   <body class="flex min-h-dvh flex-col">
     <a

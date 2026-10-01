@@ -12,6 +12,7 @@
 import LegalPage from '../layouts/LegalPage.astro';
 import Fact from '../components/legal/Fact.astro';
 import { site } from '../data/site';
+import { vatNote } from '../data/pricing';
 import { url } from '../lib/url';
 
 const { legal, contact, policies } = site;
@@ -97,6 +98,10 @@ const sections = [
 
   <section id="work-with-us" aria-labelledby="work-with-us-h">
     <h2 id="work-with-us-h">Quotes and client work</h2>
+    <p>
+      Prices for our website packages are on our <a href={url('/pricing')}>Pricing page</a>. {vatNote} Other work is
+      quoted individually.
+    </p>
     <p>
       Sending an enquiry doesn't create a contract. If we agree to work together, we'll confirm the scope, timeline,
       fees and terms in writing before any work starts, and that agreement will govern the project.

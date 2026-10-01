@@ -16,7 +16,7 @@ const isCurrent = (href: string) => current === href;
     </a>
 
     <nav aria-label="Main" class="hidden md:block">
-      <ul class="flex items-center gap-8">
+      <ul class="flex items-center gap-5 lg:gap-8">
         {
           mainNav.map((item) => (
             <li>
@@ -29,7 +29,7 @@ const isCurrent = (href: string) => current === href;
       </ul>
     </nav>
 
-    <div class="flex items-center gap-1 md:ml-6">
+    <div class="flex items-center gap-1 md:ml-2 lg:ml-6">
       <button
         type="button"
         class="grid size-11 place-items-center rounded-full hover:bg-line"

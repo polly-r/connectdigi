@@ -8,6 +8,7 @@ import MotifButton from '../components/motif/MotifButton.astro';
 import NodeDivider from '../components/motif/NodeDivider.astro';
 import { services } from '../data/site';
 import { serviceDetails } from '../data/services';
+import { carePlan } from '../data/pricing';
 import { url } from '../lib/url';
 
 const work = await getCollection('work');
@@ -38,6 +39,9 @@ const items: AccordionItem[] = services.map((service) => {
 
   <section class="container-site pb-section" aria-label="Service lines">
     <ServiceAccordion client:load items={items} />
+    <p class="mt-10 max-w-[60ch] text-muted" data-reveal>
+      <a href={url('/pricing#care-plan')} class="link">Add the {carePlan.name}</a>: {carePlan.cardLine}.
+    </p>
   </section>
 
   <div class="container-site pb-section">

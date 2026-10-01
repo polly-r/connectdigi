@@ -110,6 +110,30 @@
   }
 
   /*
+   * Pricing launch offer (PriceTag.astro): the full-price fallback shows only
+   * once the Pricing page's head script has marked the offer as ended, before
+   * first paint. A data attribute, not [hidden]: Tailwind's preflight makes
+   * [hidden] display:none !important in a layer, which nothing can undo.
+   */
+  [data-offer-fallback] {
+    display: none;
+  }
+
+  html[data-offer-ended] [data-offer] {
+    display: none;
+  }
+
+  html[data-offer-ended] [data-offer-fallback] {
+    display: block;
+  }
+
+  /* Feature info explainers (src/lib/info-toggle.ts): shown without JS; with
+     JS, closed until their button opens them. */
+  html.js [data-info-panel]:not([data-open]) {
+    display: none;
+  }
+
+  /*
    * Headline and scroll reveals start hidden (opacity only, so assistive tech
    * still reads them) until their script sets the start state. Failsafe: if
    * the script never runs, the content fades in after 2.5s anyway.
