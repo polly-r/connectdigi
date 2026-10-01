@@ -1,0 +1,58 @@
+---
+/**
+ * Structured data (JSON-LD) for Home: who the business is (Organization) and
+ * the site (WebSite), so search engines can connect the brand name, logo,
+ * services and profiles.
+ *
+ * Only real facts go in. Contact details are left out while they're the
+ * example values in src/data/site.ts, and social profiles while they're
+ * [TBC]; each appears automatically once replaced. Test with Google's Rich
+ * Results Test once the site is on its real domain.
+ */
+import { isTbc, services, site } from '../../data/site';
+import { url } from '../../lib/url';
+
+const abs = (path: string) => new URL(url(path), Astro.site).href;
+const home = abs('/');
+
+const isExample = (value: string) => /example\.com|000 0000|^Street, City/.test(value);
+const { email, phone } = site.contact;
+const sameAs = site.social.map((s) => s.href).filter((href) => !isTbc(href));
+
+const organization = {
+  '@type': 'Organization',
+  '@id': `${home}#organization`,
+  name: site.name,
+  url: home,
+  logo: abs('/apple-touch-icon.png'),
+  description:
+    'Digital marketing agency in South Africa, working with clients worldwide: web development, social media marketing, content creation, app development and tech solutions.',
+  areaServed: 'Worldwide',
+  address: { '@type': 'PostalAddress', addressCountry: 'ZA' },
+  knowsAbout: ['Digital marketing', ...services.map((s) => s.name)],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Digital marketing services',
+    itemListElement: services.map((s) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: s.name, url: abs(`/services#${s.slug}`) },
+    })),
+  },
+  ...(isExample(email) ? {} : { email }),
+  ...(isExample(phone) ? {} : { telephone: phone }),
+  ...(sameAs.length ? { sameAs } : {}),
+};
+
+const website = {
+  '@type': 'WebSite',
+  '@id': `${home}#website`,
+  name: site.name,
+  url: home,
+  inLanguage: site.locale,
+  publisher: { '@id': `${home}#organization` },
+};
+
+const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': [organization, website] });
+---
+
+<script type="application/ld+json" set:html={json} />

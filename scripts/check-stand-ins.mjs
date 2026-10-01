@@ -36,6 +36,9 @@ const home = read('src/data/home.ts');
 if (/export const heroDraft = true/.test(home)) {
   warnings.push('Home hero headline and intro are DRAFT copy. Replace in src/data/home.ts, then set heroDraft = false.');
 }
+if (/export const homeDraft = true/.test(home)) {
+  warnings.push('Home sections (services overview, why us, how we work, closing CTA) are DRAFT copy. Replace in src/data/home.ts, then set homeDraft = false.');
+}
 if (/export const statsSample = true/.test(home)) {
   const values = [...home.matchAll(/\{ value: '([^']+)', label: '([^']+)' \}/g)].map((m) => `${m[1]} ${m[2].toLowerCase()}`);
   warnings.push(

@@ -49,7 +49,8 @@ samples included, and the contact form sends nothing.
 |---|---|
 | Colour tokens (light/dark), type scale, spacing, grid | `src/styles/global.css` |
 | Company facts, contact details, social links, providers, retention periods | `src/data/site.ts` |
-| Home copy and stats | `src/data/home.ts` |
+| Home copy, stats and Home's Google title/description | `src/data/home.ts` |
+| Structured data (JSON-LD) for search engines | `src/components/home/OrganizationSchema.astro` |
 | About manifesto | `src/data/about.ts` |
 | Services descriptions and "What's included" | `src/data/services.ts` |
 | FAQ questions and answers | `src/data/faq.ts` |
@@ -115,7 +116,7 @@ Every stand-in is listed in [PLACEHOLDERS.md](PLACEHOLDERS.md). By kind:
 - **Example contact details** (`hello@example.com` …): `site.contact` in
   `src/data/site.ts`.
 - **Draft copy**: edit the text, then set the flag to `false`:
-  `heroDraft` (`home.ts`), `aboutDraft` (`about.ts`), `servicesDraft` (`services.ts`),
+  `heroDraft` and `homeDraft` (`home.ts`), `aboutDraft` (`about.ts`), `servicesDraft` (`services.ts`),
   `faqDraft` (`faq.ts`). FAQ gaps are `{ tbc: '…' }` parts: replace each with text.
 - **Stats**: edit the four values in `src/data/home.ts` and set
   `statsSample = false`. A value counts up automatically if it's a number with
@@ -162,6 +163,7 @@ website whenever the policy changes.
 | Script | What it does |
 |---|---|
 | `npm run logo` | Rebuilds the themeable logo and favicons from `public/logo/logo-full-colour.svg` |
+| `npm run og-image` | Rebuilds the provisional social sharing image, `public/og-image.png` (uses the installed Microsoft Edge) |
 | `npm run sample-art` | Regenerates the sample case-study illustrations (delete once real images are in) |
 | `npm run check:contrast` | Contrast check of the colour tokens |
 | `npm run check:stand-ins` | The "not ready for launch" list |

@@ -1,0 +1,18 @@
+---
+/** Home closing call to action. Copy: src/data/home.ts (draft). */
+import MotifButton from '../motif/MotifButton.astro';
+import { closingCta } from '../../data/home';
+import { url } from '../../lib/url';
+---
+
+<section class="container-site pb-section" aria-labelledby="closing-cta-title" data-reveal>
+  <div class="grid-site items-end gap-y-8">
+    <div class="col-span-4 md:col-span-5 lg:col-span-8">
+      <h2 id="closing-cta-title" class="max-w-[16ch] text-h1">{closingCta.title}</h2>
+      <p class="mt-6 max-w-[44ch] text-lead text-muted">{closingCta.text}</p>
+    </div>
+    <div class="col-span-4 md:col-span-3 md:justify-self-end lg:col-span-4">
+      <MotifButton href={url('/connect')}>Get a free consultation</MotifButton>
+    </div>
+  </div>
+</section>

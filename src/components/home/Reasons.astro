@@ -1,0 +1,22 @@
+---
+/**
+ * Home "Why work with us": four short points, each backed by something the
+ * client has confirmed or the site already states (no awards, no claims).
+ * Copy: src/data/home.ts (draft).
+ */
+import { reasons } from '../../data/home';
+---
+
+<section class="container-site pb-section" aria-labelledby="reasons-title" data-reveal>
+  <h2 id="reasons-title" class="max-w-[18ch] text-h2">{reasons.title}</h2>
+  <ul class="mt-10 grid gap-x-gutter gap-y-10 md:mt-14 md:grid-cols-2 lg:grid-cols-4">
+    {
+      reasons.items.map((item) => (
+        <li class="border-t border-line pt-6">
+          <h3 class="text-h3">{item.title}</h3>
+          <p class="mt-4 text-muted">{item.text}</p>
+        </li>
+      ))
+    }
+  </ul>
+</section>

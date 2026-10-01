@@ -15,7 +15,8 @@
     "prebuild": "node scripts/check-contrast.mjs && node scripts/check-stand-ins.mjs",
     "logo": "node scripts/build-logo.mjs",
     "check:stand-ins": "node scripts/check-stand-ins.mjs",
-    "sample-art": "node scripts/build-sample-art.mjs"
+    "sample-art": "node scripts/build-sample-art.mjs",
+    "og-image": "node scripts/build-og-image.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^7.0.0",

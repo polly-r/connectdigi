@@ -1,0 +1,47 @@
+---
+/**
+ * Home services overview: the five service lines with a one-line summary,
+ * each linking to its panel on /services. Gives Home crawlable service
+ * headings and descriptive internal links (the ticker above is plain,
+ * decorative text). Copy: src/data/home.ts (draft).
+ */
+import MotifLink from '../motif/MotifLink.astro';
+import { serviceSummaries, servicesIntro } from '../../data/home';
+import { services } from '../../data/site';
+import { url } from '../../lib/url';
+---
+
+<section class="container-site pb-section" aria-labelledby="services-overview-title" data-reveal>
+  <div class="grid-site gap-y-6">
+    <h2 id="services-overview-title" class="col-span-4 max-w-[16ch] text-h2 md:col-span-6 lg:col-span-7">
+      {servicesIntro.title}
+    </h2>
+    <p class="col-span-4 max-w-[40ch] text-lead text-muted md:col-span-6 lg:col-span-5 lg:self-end">
+      {servicesIntro.text}
+    </p>
+  </div>
+
+  <ol class="mt-10 border-b border-line md:mt-14">
+    {
+      services.map((service, i) => (
+        <li class="grid-site gap-y-3 border-t border-line py-6 md:py-8">
+          <span aria-hidden="true" class="col-span-4 font-display text-h3 text-muted md:col-span-1">
+            {String(i + 1).padStart(2, '0')}
+          </span>
+          <h3 class="col-span-4 text-h3 md:col-span-3 lg:col-span-4">
+            <MotifLink href={url(`/services#${service.slug}`)} unit={2}>
+              {service.name}
+            </MotifLink>
+          </h3>
+          <p class="col-span-4 max-w-[48ch] text-muted md:col-span-4 lg:col-span-6 lg:col-start-7">
+            {serviceSummaries[service.slug]}
+          </p>
+        </li>
+      ))
+    }
+  </ol>
+
+  <p class="mt-8">
+    <MotifLink href={url('/services')}>See all services</MotifLink>
+  </p>
+</section>

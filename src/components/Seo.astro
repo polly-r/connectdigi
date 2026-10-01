@@ -3,21 +3,28 @@
  * Per-page <title>, description, canonical URL and social tags.
  * The canonical URL is built from `site` in astro.config (SITE_URL), with a
  * trailing slash to match the directory-style build and the sitemap.
+ * The sharing image is public/og-image.png (`npm run og-image`), provisional
+ * until the client supplies their own.
  */
 import { site } from '../data/site';
+import { url } from '../lib/url';
 
 interface Props {
   /** Page name; omitted on Home, which uses the site name alone. */
   title?: string;
+  /** Replaces the whole <title> (Home: search terms first, then the brand). */
+  fullTitle?: string;
   description: string;
   noindex?: boolean;
 }
 
-const { title, description, noindex = false } = Astro.props;
+const { title, fullTitle: titleOverride, description, noindex = false } = Astro.props;
 
-const fullTitle = title ? `${title} · ${site.name}` : site.name;
+const fullTitle = titleOverride ?? (title ? `${title} · ${site.name}` : site.name);
 const path = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
 const canonical = new URL(path, Astro.site).href;
+const image = new URL(url('/og-image.png'), Astro.site).href;
+const imageAlt = `${site.name}: Digital work that connects.`;
 ---
 
 <title>{fullTitle}</title>
@@ -31,4 +38,10 @@ const canonical = new URL(path, Astro.site).href;
 <meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />
-<meta name="twitter:card" content="summary" />
+<meta property="og:image" content={image} />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={imageAlt} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image:alt" content={imageAlt} />

@@ -52,8 +52,16 @@ South African law (POPIA and the ECTA) requires these on the site.
 We wrote draft text in your voice so the pages could be designed. Please
 approve it or send your own wording.
 
-- [ ] **Home headline and intro**: "Digital work that connects." / "Web, social,
-      content and apps for startups, local businesses and luxury brands."
+- [ ] **Home headline and intro**: "Digital work that connects." / "Websites,
+      social media, content and apps for startups, local businesses and luxury
+      brands, built to be found and made to convert." Plus the line above it:
+      "Digital marketing agency · South Africa · Working worldwide".
+- [ ] **Home sections**: the one-line service summaries, "Why work with The
+      Connect Digital" (four points), "How we work" (five steps) and "Ready to
+      grow online?". The "How we work" Launch step mentions 30 days of support
+      (one of our suggested FAQ terms).
+- [ ] **Google listing for Home**: title "Digital Marketing Agency in South
+      Africa · The Connect Digital" and its description
 - [ ] **About**: the four "Our approach" paragraphs
 - [ ] **Services**: the description and "What's included" list for each of the five services
 - [ ] **FAQ**: 23 questions and answers. Check that every answer matches how you
@@ -98,7 +106,9 @@ parts that must be genuine.
 ## 6. Images and brand
 
 - [ ] Images for each real case study: screenshots, photos or mock-ups of the work (at least two per project)
-- [ ] A **social sharing image** (1200 × 630 px), shown when the site is shared on social media or WhatsApp
+- [ ] A **social sharing image** (1200 × 630 px), shown when the site is shared
+      on social media or WhatsApp. We made a provisional one (navy, logo, headline);
+      send your own if you'd prefer.
 - [ ] Optional: a **simplified logo mark for browser tabs**. The full logo is detailed and hard to read at 16 px.
 
 ## 7. Legal review
@@ -145,6 +155,7 @@ outstanding. How to replace each kind of item is in the README.
 | Contact details | `site.contact.*` | |
 | Social profile URLs | `site.social[].href` | icons become links |
 | Home headline/intro | `src/data/home.ts` | `heroDraft = false` |
+| Home sections, Home title/description | `src/data/home.ts` (`homeSeo`, sections) | `homeDraft = false` |
 | Stats | `stats` in `src/data/home.ts` | `statsSample = false` |
 | About manifesto | `src/data/about.ts` | `aboutDraft = false` |
 | Services copy | `src/data/services.ts` | `servicesDraft = false` |
@@ -153,6 +164,6 @@ outstanding. How to replace each kind of item is in the README.
 | Meta descriptions | `description` prop in each file under `src/pages/` | |
 | Client logos | `src/data/clients.ts` | `standIn = false` |
 | Case studies, testimonials, charts | `src/content/work/*.md`, images in `src/assets/work/` | `placeholder: false` per file; delete unused sample art |
-| Social share image | `src/components/Seo.astro` (`og:image`) | |
+| Social share image | `public/og-image.png` (provisional: `npm run og-image`) | replace the file, keep 1200 × 630 |
 | Tab icon | `npm run logo`, or supplied artwork into `public/` | |
 | Information Regulator details | `src/data/regulator.ts` | re-check on inforegulator.org.za before launch |

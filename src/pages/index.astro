@@ -1,27 +1,45 @@
 ---
 // Home. Interaction budget (CLAUDE.md): hero reveal, marquees, node hover,
-// scroll reveal (incl. divider draw-in and stats count-up).
+// scroll reveal (incl. divider draw-in and stats count-up). The SEO sections
+// (services overview, reasons, process, questions, closing CTA) use only
+// scroll reveal and node hover.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/home/Hero.astro';
 import ServicesTicker from '../components/home/ServicesTicker.astro';
+import ServicesOverview from '../components/home/ServicesOverview.astro';
 import Stats from '../components/home/Stats.astro';
 import ClientStrip from '../components/home/ClientStrip.astro';
 import Testimonials from '../components/home/Testimonials.astro';
+import Reasons from '../components/home/Reasons.astro';
+import Process from '../components/home/Process.astro';
+import HomeFaq from '../components/home/HomeFaq.astro';
+import ClosingCta from '../components/home/ClosingCta.astro';
+import OrganizationSchema from '../components/home/OrganizationSchema.astro';
 import NodeDivider from '../components/motif/NodeDivider.astro';
+import { homeSeo } from '../data/home';
 ---
 
-<BaseLayout description="The Connect Digital is a digital marketing agency: web development, social media marketing, content creation, app development and tech solutions.">
+<BaseLayout fullTitle={homeSeo.title} description={homeSeo.description}>
+  <OrganizationSchema />
   <Hero />
   <ServicesTicker />
+  <ServicesOverview />
   <div class="container-site pb-section">
     <NodeDivider />
   </div>
   <Stats />
+  <ClientStrip />
+  <Testimonials />
   <div class="container-site pb-section">
     <NodeDivider />
   </div>
-  <ClientStrip />
-  <Testimonials />
+  <Reasons />
+  <Process />
+  <HomeFaq />
+  <div class="container-site pb-section">
+    <NodeDivider />
+  </div>
+  <ClosingCta />
 </BaseLayout>
 
 <script>

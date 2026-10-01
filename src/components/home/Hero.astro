@@ -11,6 +11,16 @@ import { url } from '../../lib/url';
 ---
 
 <section class="container-site pt-16 pb-section md:pt-24 lg:pt-32" aria-labelledby="hero-title">
+  <p class="mb-6 text-small text-muted md:mb-8">
+    {
+      hero.eyebrow.split(' · ').map((phrase, i) => (
+        <Fragment>
+          {i > 0 && ' · '}
+          <span class="whitespace-nowrap">{phrase}</span>
+        </Fragment>
+      ))
+    }
+  </p>
   <h1 id="hero-title" class="max-w-[13ch] font-display text-display" data-headline>
     {hero.headline}
   </h1>
