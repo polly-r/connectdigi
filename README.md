@@ -125,7 +125,7 @@ Every stand-in is listed in [PLACEHOLDERS.md](PLACEHOLDERS.md). By kind:
 - **`[TBC: …]` facts** (company details, providers, retention periods, social
   URLs): edit the value in `src/data/site.ts`. It stops rendering as a dashed
   placeholder and appears as normal text everywhere it's used.
-- **Example contact details** (phone and address): `site.contact` in
+- **Contact details** (real since 2 October 2026): `site.contact` in
   `src/data/site.ts`.
 - **Draft copy**: edit the text, then set the flag to `false`:
   `heroDraft` and `homeDraft` (`home.ts`), `aboutDraft` (`about.ts`), `servicesDraft` (`services.ts`),

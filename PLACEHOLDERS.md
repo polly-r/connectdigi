@@ -48,8 +48,8 @@ South African law (POPIA and the ECTA) requires these on the site.
 ## 3. Contact details and social media
 
 - [x] **Email address** for the site: thedigitalconnect777@gmail.com
-- [ ] ⚠ **Phone number** (currently a sample: +27 00 000 0000)
-- [ ] ⚠ **Business address** as it should appear on the site (currently a sample)
+- [x] **Phone number**: +27 64 900 5414
+- [x] **Business address**: Centurion, Midrand, South Africa
 - [ ] Links to your **Facebook**, **Instagram** and **LinkedIn** profiles
 
 ## 4. Copy to approve or rewrite
@@ -191,7 +191,7 @@ outstanding. How to replace each kind of item is in the README.
 | Company facts, Information Officer, PAIA manual | `site.legal.*` in `src/data/site.ts` | |
 | Retention periods | `site.retention.*` | |
 | Effective dates | `site.policies.*` | set when the legal text is approved |
-| Contact details | `site.contact.*` | |
+| Contact details | `site.contact.*` | done (real, 2 October 2026) |
 | Social profile URLs | `site.social[].href` | icons become links |
 | Home headline/intro | `src/data/home.ts` | `heroDraft = false` |
 | Home sections, Home title/description | `src/data/home.ts` (`homeSeo`, sections) | `homeDraft = false` |

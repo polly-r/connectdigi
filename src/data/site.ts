@@ -36,16 +36,11 @@ export const site = {
   url: SITE_URL,
   locale: 'en-ZA',
 
-  /**
-   * Email is real (supplied 2026-10-02). Phone and address are still EXAMPLE
-   * VALUES, shown as-is at the client's request (CLAUDE.md, Decisions log,
-   * Phase 2): the 000 number doesn't exist. Replace them with real details;
-   * listed in PLACEHOLDERS.md.
-   */
+  /** Real contact details, supplied by the client on 2026-10-02. */
   contact: {
     email: 'thedigitalconnect777@gmail.com',
-    phone: '+27 00 000 0000',
-    address: 'Street, City, South Africa',
+    phone: '+27 64 900 5414',
+    address: 'Centurion, Midrand, South Africa',
   },
 
   /** Networks are decided; profile URLs are still to be supplied. */
