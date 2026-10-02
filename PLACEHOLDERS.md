@@ -49,7 +49,7 @@ South African law (POPIA and the ECTA) requires these on the site.
 
 - [x] **Email address** for the site: thedigitalconnect777@gmail.com
 - [x] **Phone number**: +27 64 900 5414
-- [x] **Business address**: Centurion, Midrand, South Africa
+- [x] **Business address**: Centurion, Gauteng, South Africa
 - [ ] Links to your **Facebook**, **Instagram** and **LinkedIn** profiles
 
 ## 4. Copy to approve or rewrite

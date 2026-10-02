@@ -40,7 +40,7 @@ export const site = {
   contact: {
     email: 'thedigitalconnect777@gmail.com',
     phone: '+27 64 900 5414',
-    address: 'Centurion, Midrand, South Africa',
+    address: 'Centurion, Gauteng, South Africa',
   },
 
   /** Networks are decided; profile URLs are still to be supplied. */
