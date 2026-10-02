@@ -10,12 +10,17 @@
  *
  * The drawing is aria-hidden; screen readers get a visually hidden table.
  * While the case study is a sample, the caption says "Illustrative data".
+ * Real (measured) data shows its `source` under the chart instead.
  */
 interface Chart {
   type: 'line' | 'bars';
   title: string;
   points: Array<{ label: string; value: number }>;
   marker?: { index: number; label: string };
+  /** What was measured, how and when (real data). */
+  source?: string;
+  /** Heading of the x values in the screen-reader table. */
+  xLabel?: string;
 }
 
 interface Props {
@@ -24,7 +29,7 @@ interface Props {
 }
 
 const { chart, sample } = Astro.props;
-const { type, title, points, marker } = chart;
+const { type, title, points, marker, source, xLabel = 'Period' } = chart;
 
 // Round the axis maximum up to 1, 2 or 5 × 10^n.
 const peak = Math.max(...points.map((p) => p.value));
@@ -137,11 +142,13 @@ const markerLeft = barMarkerLeft ?? lineMarkerLeft;
     </div>
   </div>
 
+  {!sample && source && <p class="mt-6 max-w-[62ch] text-small text-muted">{source}</p>}
+
   <!-- The wrapper does the hiding: tables ignore sr-only's 1px size and clipping. -->
   <div class="sr-only">
     <table>
       <caption>{title}{sample ? ' (illustrative data)' : ''}{marker ? `. ${marker.label} at ${points[marker.index]?.label}.` : ''}</caption>
-      <thead><tr><th scope="col">Period</th><th scope="col">Value</th></tr></thead>
+      <thead><tr><th scope="col">{xLabel}</th><th scope="col">Value</th></tr></thead>
       <tbody>{points.map((p) => <tr><th scope="row">{p.label}</th><td>{format(p.value)}</td></tr>)}</tbody>
     </table>
   </div>

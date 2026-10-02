@@ -109,7 +109,31 @@ parts that must be genuine.
   - Startups assisted (sample shown: 45+)
   - Revenue generated for clients (sample shown: R25m+)
   - Industries served (sample shown: 15)
-- [ ] ⚠ **Case studies.** The five project pages are *sample projects with
+- [ ] **Real web projects: Mokone Events and Singabenguni Consulting.** Their
+      pages are written and online but hidden from Google until these are in:
+  - [ ] **Screenshots** (PNG, full resolution, no browser chrome needed):
+    - Mokone Events, main image: the home page, top of the page, on a laptop
+      (1440 px wide) beside a phone (390 px wide)
+    - Mokone Events, detail: the "Submit Enquiry" form on a phone (390 px
+      wide), with the event type list open
+    - Singabenguni, main image: the home page, top of the page, on a laptop
+      (1440 px wide) beside a phone (390 px wide)
+    - Singabenguni, detail: the Services page on a laptop (1440 px wide),
+      showing the grid of eight services
+  - [ ] **Figures, only if the client confirms them**: enquiries a month
+        through each website; for Mokone, the share of enquiries that start on
+        WhatsApp; for Singabenguni, briefs or tenders that came after a
+        prospect found them online. Any we can't confirm, we drop.
+  - [ ] **Testimonials**: send each client the draft in `drafts/testimonials.md`
+        (kept out of the public code) and get their reply approving the exact
+        words. Keep that email.
+  - [ ] **Check the story**: the "brief" paragraph on each page is our reading
+        of the project. Correct anything that isn't how it went, and confirm
+        the project duration and the deliverables listed.
+  - Their speed chart is real (Google Lighthouse, measured 2 October 2026).
+    It shows weak phone speed on both sites; improving their images first
+    would make it a much better showcase. Re-measure before launch.
+- [ ] ⚠ **Case studies.** The other five project pages are *sample projects with
       fictional clients* (Harbour & Hide, Tafel Bakehouse, Ledgerline, Stride
       Physio, Northgate Logistics). We need one real project per service (web,
       social, content, apps, tech). Use the questionnaire below for each.
@@ -181,6 +205,7 @@ outstanding. How to replace each kind of item is in the README.
 | Meta descriptions | `description` prop in each file under `src/pages/` | |
 | Client logos | `src/data/clients.ts` | `standIn = false` |
 | Case studies, testimonials, charts | `src/content/work/*.md`, images in `src/assets/work/` | `placeholder: false` per file; delete unused sample art |
+| Real case study missing content (Mokone, Singabenguni) | screenshots into `src/assets/work/`, then `cover` / `detail` (remove `coverShot` / `detailShot`); `[TBC]` results; approved quote into `testimonial` (remove `awaitingTestimonial`) | `complete: true` (page then indexed and in the sitemap) |
 | Social share image | `public/og-image.png` (provisional: `npm run og-image`) | replace the file, keep 1200 × 630 |
 | Tab icon | `npm run logo`, or supplied artwork into `public/` | |
 | Information Regulator details | `src/data/regulator.ts` | re-check on inforegulator.org.za before launch |

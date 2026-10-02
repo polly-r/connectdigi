@@ -56,7 +56,8 @@ samples included, and the contact form sends nothing.
 | FAQ questions and answers | `src/data/faq.ts` |
 | Prices, packages, features, extras, Care Plan, launch offer (the only place prices live) | `src/data/pricing.ts` |
 | Client logos | `src/data/clients.ts` |
-| Case studies (text, figures, testimonial, chart) | `src/content/work/*.md` |
+| Case studies (text, figures, testimonial, chart) | `src/content/work/*.md` (real projects: `placeholder: false`; `complete: false` until screenshots, figures and an approved quote are in) |
+| Testimonial drafts awaiting client approval (not committed) | `drafts/testimonials.md` |
 | Case study images | `src/assets/work/` |
 | Privacy Policy / Terms of Service | `src/pages/privacy.astro`, `src/pages/terms.astro` |
 | Information Regulator details | `src/data/regulator.ts` |

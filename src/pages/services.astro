@@ -3,24 +3,29 @@
 // reveal (incl. the divider draw-in). No headline reveal on this page.
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ServiceAccordion, { type AccordionItem } from '../components/services/ServiceAccordion';
+import ServiceAccordion, { type AccordionItem, type ProjectLink } from '../components/services/ServiceAccordion';
 import MotifButton from '../components/motif/MotifButton.astro';
 import NodeDivider from '../components/motif/NodeDivider.astro';
 import { services } from '../data/site';
 import { serviceDetails } from '../data/services';
 import { carePlan } from '../data/pricing';
 import { url } from '../lib/url';
+import { sortWork } from '../lib/work';
 
-const work = await getCollection('work');
+const work = sortWork(await getCollection('work'));
 
 const items: AccordionItem[] = services.map((service) => {
-  const study = work.find((entry) => entry.data.service === service.slug);
-  if (!study) throw new Error(`No case study for service "${service.slug}" in src/content/work/`);
+  const studies = work.filter((entry) => entry.data.service === service.slug);
+  if (!studies.length) throw new Error(`No case study for service "${service.slug}" in src/content/work/`);
+  const link = (entry: (typeof studies)[number]): ProjectLink => ({ href: url(`/work/${entry.id}`), client: entry.data.client });
   return {
     slug: service.slug,
     name: service.name,
     ...serviceDetails[service.slug],
-    caseStudy: { href: url(`/work/${study.id}`), client: study.data.client, sample: study.data.placeholder },
+    projects: {
+      real: studies.filter((e) => !e.data.placeholder).map(link),
+      samples: studies.filter((e) => e.data.placeholder).map(link),
+    },
   };
 });
 ---

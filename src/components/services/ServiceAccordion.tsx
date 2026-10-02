@@ -12,6 +12,8 @@
  * - Animation: the panel's content fades and rises in (transform + opacity);
  *   height changes instantly. None under reduced motion.
  * - Icon: a ring node that fills to a solid node when open (node motif).
+ * - Projects: real case studies and sample ones in separate lists, side by
+ *   side from md when a service has both ("Our projects" | "Sample projects").
  */
 import { useEffect, useState } from 'react';
 import { NODE_RADIUS, ringGeometry } from '../../lib/node-motif';
@@ -22,11 +24,35 @@ export interface AccordionItem {
   name: string;
   description: string;
   included: string[];
-  caseStudy: { href: string; client: string; sample: boolean };
+  projects: { real: ProjectLink[]; samples: ProjectLink[] };
+}
+
+export interface ProjectLink {
+  href: string;
+  client: string;
 }
 
 interface Props {
   items: AccordionItem[];
+}
+
+/** One list of case-study links; nothing when empty. Title: [singular, plural]. */
+function ProjectList({ title, links }: { title: [string, string]; links: ProjectLink[] }) {
+  if (!links.length) return null;
+  return (
+    <div>
+      <h3 className="sa-label">{links.length === 1 ? title[0] : title[1]}</h3>
+      <ul className="sa-projects">
+        {links.map((link) => (
+          <li key={link.href}>
+            <a href={link.href} className="link">
+              {link.client}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 const UNIT = 3;
@@ -113,12 +139,10 @@ export default function ServiceAccordion({ items }: Props) {
                     ))}
                   </ul>
                 </div>
-                <p className="sa-case">
-                  <span className="sa-label">{item.caseStudy.sample ? 'Sample project' : 'Case study'}</span>
-                  <a href={item.caseStudy.href} className="link">
-                    {item.caseStudy.client}
-                  </a>
-                </p>
+                <div className={item.projects.real.length && item.projects.samples.length ? 'sa-case sa-case--split' : 'sa-case'}>
+                  <ProjectList title={['Our project', 'Our projects']} links={item.projects.real} />
+                  <ProjectList title={['Sample project', 'Sample projects']} links={item.projects.samples} />
+                </div>
               </div>
             </div>
           </div>

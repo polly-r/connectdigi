@@ -5,6 +5,7 @@
 //   - draft hero copy and sample stats (src/data/home.ts)
 //   - draft About manifesto (src/data/about.ts)
 //   - draft Services copy (src/data/services.ts) and sample case studies (src/content/work/)
+//   - real case studies still incomplete (complete: false): screenshots, [TBC] figures, testimonial approval
 //   - draft FAQ copy (src/data/faq.ts)
 //   - draft Pricing copy and the launch offer's manual switch (src/data/pricing.ts)
 //   - the contact form's MOCK adapter (PUBLIC_FORM_ADAPTER not "http")
@@ -62,6 +63,23 @@ if (samples.length) {
     `Case studies are SAMPLE projects with fictional clients (${samples.join(', ')}).`,
     '  Their testimonials (also shown on Home) and results charts are SAMPLE data too.',
     '  Replace with real projects, consented quotes and verified figures in src/content/work/, then set placeholder: false.',
+  );
+}
+
+for (const file of readdirSync(workDir).filter((f) => f.endsWith('.md'))) {
+  const text = readFileSync(new URL(file, workDir), 'utf8');
+  if (!/^complete:\s*false\s*$/m.test(text)) continue;
+  const missing = [
+    ...[...text.matchAll(/^(cover|detail)Shot:\s*(.+)$/gm)].map((m) => `screenshot (${m[1]}): ${m[2].trim()}`),
+    // A [TBC] result is named by its label; any other [TBC] by its own text.
+    ...[...text.matchAll(/value: "\[TBC: [^\]]+\]"\s*\n\s*label: (.+)/g)].map((m) => `[TBC] result: ${m[1].trim()}`),
+    ...[...text.replace(/value: "\[TBC: [^\]]+\]"/g, '').matchAll(/\[TBC: ([^\]]+)\]/g)].map((m) => `[TBC] ${m[1]}`),
+    ...[...text.matchAll(/^awaitingTestimonial:\s*(.+)$/gm)].map((m) => `testimonial from the ${m[1].trim()}, awaiting the client's written approval`),
+  ];
+  warnings.push(
+    `Real case study ${file.replace(/\.md$/, '')} is INCOMPLETE (noindex, not in the sitemap). Missing:`,
+    ...missing.map((m) => `  - ${m}`),
+    '  Fill these in src/content/work/, then set complete: true.',
   );
 }
 

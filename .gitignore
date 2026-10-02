@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # project working notes (kept locally, not tracked)
 CLAUDE.md
+
+# Drafts not for the public repo (e.g. testimonials awaiting client approval)
+drafts/

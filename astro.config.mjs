@@ -10,11 +10,16 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { SITE_URL } from './src/data/site.ts';
 import devLab from './integrations/dev-lab.ts';
 
-// Case studies with `placeholder: true` (sample projects) stay out of the
-// sitemap; their pages also carry noindex. Flipping the flag re-includes them.
+// Case studies with `placeholder: true` (sample projects) or `complete: false`
+// (real projects still missing content) stay out of the sitemap; their pages
+// also carry noindex. Flipping the flag re-includes them.
 const WORK_DIR = './src/content/work';
 const sampleWork = readdirSync(WORK_DIR)
-  .filter((file) => file.endsWith('.md') && /^placeholder:\s*true\s*$/m.test(readFileSync(`${WORK_DIR}/${file}`, 'utf8')))
+  .filter(
+    (file) =>
+      file.endsWith('.md') &&
+      /^(placeholder:\s*true|complete:\s*false)\s*$/m.test(readFileSync(`${WORK_DIR}/${file}`, 'utf8')),
+  )
   .map((file) => `/work/${file.replace(/\.md$/, '')}`);
 
 // The site builds for the root of SITE_URL. Only the GitHub Pages preview
