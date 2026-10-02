@@ -17,9 +17,10 @@ launch, because on a live site they would read as claims about your business.
 
 - [ ] **Domain name.** Which address will the site use (e.g. theconnectdigital.co.za)?
 - [ ] **Hosting.** We'll recommend a free static host; just confirm you're happy with it.
-- [ ] **Contact form service.** The form currently sends messages nowhere.
-      Choose a form service (we can recommend one), or tell us if you already use one.
-- [ ] **Email provider.** What do you use for business email (e.g. Google Workspace, Microsoft 365)?
+- [x] **Contact form service.** Formspree, sending to thedigitalconnect777@gmail.com
+      (done 2 October 2026). In Formspree's form settings, restrict submissions to
+      your site's domain once it's live.
+- [x] **Email provider.** Gmail (Google).
 - [ ] **Where enquiries go after email.** The name of the CRM, spreadsheet or
       project tool you copy enquiries into.
 - [ ] **Booking tool (optional).** If you'd like people to book a call from the
@@ -46,7 +47,7 @@ South African law (POPIA and the ECTA) requires these on the site.
 
 ## 3. Contact details and social media
 
-- [ ] ⚠ **Email address** for the site (currently a sample: hello@example.com)
+- [x] **Email address** for the site: thedigitalconnect777@gmail.com
 - [ ] ⚠ **Phone number** (currently a sample: +27 00 000 0000)
 - [ ] ⚠ **Business address** as it should appear on the site (currently a sample)
 - [ ] Links to your **Facebook**, **Instagram** and **LinkedIn** profiles
@@ -182,7 +183,7 @@ outstanding. How to replace each kind of item is in the README.
 | Item | File / setting | Then |
 |---|---|---|
 | Domain | `SITE_URL` in `src/data/site.ts` | sitemap, canonicals and Terms follow |
-| Form service | `PUBLIC_FORM_ADAPTER=http`, `PUBLIC_FORM_ENDPOINT` (`.env.example`) | test a real submission; update the Privacy Policy |
+| Form service | Formspree: `PUBLIC_FORM_ADAPTER=formspree`, `PUBLIC_FORM_ENDPOINT` (set in the preview workflow; set on the final host too) | done; Privacy Policy updated |
 | Providers and their data locations | `site.providers.*`, `site.providerLocations.*` | Privacy Policy sections 5 and 6 |
 | Booking tool | `PUBLIC_BOOKING_URL`, `site.providers.booking` | Privacy Policy sections 2, 5, 6, 7 and 10 |
 | Analytics | `site.providers.analytics` | rewrite Privacy Policy sections 2 and 10 |

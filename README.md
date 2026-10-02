@@ -85,19 +85,29 @@ npm run logo             # regenerates the favicons from the new tokens
    Fraunces: the About wordmark widths in `src/components/about/Wordmark.astro`,
    and the `size-adjust` of the "Fraunces Fallback" font in `global.css`.
 
-## Choose a contact form provider
+## Contact form provider (Formspree)
 
 The form never talks to a provider directly; it calls `submitContact()` in
-`src/lib/submit-contact.ts`, which uses an adapter. Until a provider is chosen
-the **mock** adapter is active: it sends nothing.
+`src/lib/submit-contact.ts`, which uses an adapter. The provider is
+**Formspree** (form "Connect", in the client's Formspree account): each
+enquiry is emailed to thedigitalconnect777@gmail.com, with the sender as
+reply-to, and kept in the Formspree dashboard for 30 days (free plan: 50 a
+month).
 
-For any provider that accepts a JSON POST (most do), set two environment
-variables in `.env` or in the host's settings (see `.env.example`):
+Production builds need two environment variables (they're public, not
+secrets). The GitHub Pages workflow sets them; on the final host, set them in
+the host's settings; for local production builds, put them in
+`.env.production` (not committed):
 
 ```sh
-PUBLIC_FORM_ADAPTER=http
-PUBLIC_FORM_ENDPOINT=https://…your provider's endpoint…
+PUBLIC_FORM_ADAPTER=formspree
+PUBLIC_FORM_ENDPOINT=https://formspree.io/f/maengwnd
 ```
+
+Without them the **mock** adapter is active: it sends nothing, and the build
+warns. `npm run dev` stays on mock, so local testing never sends real
+enquiries. To switch provider, use `PUBLIC_FORM_ADAPTER=http` (generic JSON
+POST) or add an adapter.
 
 If a provider needs a different request format, add an adapter next to
 `httpAdapter` in `submit-contact.ts` (it implements `ContactAdapter`: one
@@ -115,7 +125,7 @@ Every stand-in is listed in [PLACEHOLDERS.md](PLACEHOLDERS.md). By kind:
 - **`[TBC: …]` facts** (company details, providers, retention periods, social
   URLs): edit the value in `src/data/site.ts`. It stops rendering as a dashed
   placeholder and appears as normal text everywhere it's used.
-- **Example contact details** (`hello@example.com` …): `site.contact` in
+- **Example contact details** (phone and address): `site.contact` in
   `src/data/site.ts`.
 - **Draft copy**: edit the text, then set the flag to `false`:
   `heroDraft` and `homeDraft` (`home.ts`), `aboutDraft` (`about.ts`), `servicesDraft` (`services.ts`),

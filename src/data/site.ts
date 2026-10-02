@@ -37,13 +37,13 @@ export const site = {
   locale: 'en-ZA',
 
   /**
-   * EXAMPLE VALUES, NOT REAL. Shown as-is in the footer at the client's
-   * request (CLAUDE.md, Decisions log, Phase 2). example.com is reserved
-   * (RFC 2606) and the 000 number doesn't exist. Replace with real details;
+   * Email is real (supplied 2026-10-02). Phone and address are still EXAMPLE
+   * VALUES, shown as-is at the client's request (CLAUDE.md, Decisions log,
+   * Phase 2): the 000 number doesn't exist. Replace them with real details;
    * listed in PLACEHOLDERS.md.
    */
   contact: {
-    email: 'hello@example.com',
+    email: 'thedigitalconnect777@gmail.com',
     phone: '+27 00 000 0000',
     address: 'Street, City, South Africa',
   },
@@ -74,9 +74,9 @@ export const site = {
    * each stores it (for the cross-border section). Decided later.
    */
   providers: {
-    form: tbc('contact form provider'),
+    form: 'Formspree',
     hosting: tbc('hosting provider'),
-    email: tbc('email provider'),
+    email: 'Google (Gmail)',
     crm: tbc('CRM or project tool enquiries are copied into'),
     /** Decided: enquiries may be answered on WhatsApp. */
     messaging: 'WhatsApp (Meta Platforms)',
@@ -84,9 +84,11 @@ export const site = {
     analytics: tbc('analytics tool, or none'),
   },
   providerLocations: {
-    form: tbc('where the form provider stores data'),
+    // Formspree privacy policy (updated 24 April 2022): "technical infrastructure in the US". Checked 2026-10-02.
+    form: 'United States',
     hosting: tbc('where the host stores logs'),
-    email: tbc('where the email provider stores data'),
+    // Google privacy policy (effective 1 October 2026): "servers around the world". Checked 2026-10-02.
+    email: 'Google’s servers in several countries, including outside South Africa',
     crm: tbc('where the CRM or project tool stores data'),
   },
 

@@ -4,15 +4,16 @@
  * (or configuring) an adapter, not touching the form.
  *
  * Choose with environment variables (see .env.example):
- *   PUBLIC_FORM_ADAPTER   'mock' (default) | 'http'
- *   PUBLIC_FORM_ENDPOINT  URL the 'http' adapter POSTs JSON to
+ *   PUBLIC_FORM_ADAPTER   'mock' (default) | 'formspree' | 'http'
+ *   PUBLIC_FORM_ENDPOINT  URL the 'formspree' / 'http' adapter POSTs JSON to
  *
  * The mock adapter sends NOTHING: it waits, logs the payload and reports
  * success. The build warns while it is the active adapter
  * (scripts/check-stand-ins.mjs), so the site can't launch with a form that
  * looks like it works but doesn't.
  */
-import type { ServiceSlug } from '../data/site';
+import { services, type ServiceSlug } from '../data/site';
+import { packageChoices } from '../data/pricing';
 
 export interface ContactPayload {
   name: string;
@@ -88,12 +89,45 @@ export function httpAdapter(endpoint: string): ContactAdapter {
   };
 }
 
+/**
+ * Formspree (chosen 2026-10-02). Same JSON POST as `httpAdapter`, but the
+ * fields are what the notification email shows, so they're readable: labels
+ * instead of slugs, and a subject line. Formspree uses `email` as the
+ * reply-to address, so a reply goes straight to the person who wrote.
+ * Endpoint: https://formspree.io/f/<form id>.
+ */
+export function formspreeAdapter(endpoint: string): ContactAdapter {
+  const http = httpAdapter(endpoint);
+  const serviceLabel = (slug: string) => services.find((s) => s.slug === slug)?.name ?? 'Not sure yet';
+  const packageLabel = (value: string) => packageChoices.find((p) => p.value === value)?.label ?? value;
+  return {
+    name: 'formspree',
+    submit(payload, options) {
+      const service = serviceLabel(payload.service);
+      const pkg = payload.package ? packageLabel(payload.package) : undefined;
+      const email = {
+        _subject: `New enquiry: ${service}${pkg ? `, ${pkg}` : ''} (${payload.name})`,
+        name: payload.name,
+        email: payload.email,
+        company: payload.company ?? '',
+        service,
+        package: pkg ?? '',
+        message: payload.message,
+        consent: 'Agreed to the Privacy Policy',
+        submitted: payload.submittedAt,
+        page: payload.page,
+      };
+      return http.submit(email as unknown as ContactPayload, options);
+    },
+  };
+}
+
 export function getAdapter(): ContactAdapter {
   const kind = import.meta.env.PUBLIC_FORM_ADAPTER ?? 'mock';
-  if (kind === 'http') {
+  if (kind === 'http' || kind === 'formspree') {
     const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT;
-    if (!endpoint) throw new Error('PUBLIC_FORM_ADAPTER=http needs PUBLIC_FORM_ENDPOINT.');
-    return httpAdapter(endpoint);
+    if (!endpoint) throw new Error(`PUBLIC_FORM_ADAPTER=${kind} needs PUBLIC_FORM_ENDPOINT.`);
+    return kind === 'formspree' ? formspreeAdapter(endpoint) : httpAdapter(endpoint);
   }
   return mockAdapter;
 }

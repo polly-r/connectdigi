@@ -37,6 +37,9 @@ jobs:
         env:
           PREVIEW_SITE_URL: ${{ steps.pages.outputs.origin }}
           PREVIEW_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          # The preview sends real enquiries (client decision, 2026-10-02).
+          PUBLIC_FORM_ADAPTER: formspree
+          PUBLIC_FORM_ENDPOINT: https://formspree.io/f/maengwnd
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

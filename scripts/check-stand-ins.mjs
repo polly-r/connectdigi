@@ -30,8 +30,8 @@ const missingFacts = (site.match(/tbc\('/g) ?? []).length;
 if (missingFacts > 0) {
   warnings.push(`${missingFacts} company facts in src/data/site.ts are still [TBC] (legal pages, providers, retention, social links).`);
 }
-if (/example\.com|000 0000/.test(site)) {
-  warnings.push('Footer contact details are EXAMPLE values (example.com, 000 number). Replace in src/data/site.ts.');
+if (/example\.com|000 0000|Street, City/.test(site)) {
+  warnings.push('Some footer contact details are EXAMPLE values (phone and/or address). Replace in src/data/site.ts.');
 }
 
 const home = read('src/data/home.ts');
@@ -120,8 +120,8 @@ const envFiles = ['.env', '.env.production']
   })
   .join('\n');
 const adapter = process.env.PUBLIC_FORM_ADAPTER ?? envFiles.match(/^PUBLIC_FORM_ADAPTER=(.*)$/m)?.[1]?.trim() ?? 'mock';
-if (adapter !== 'http') {
-  warnings.push('Contact form uses the MOCK adapter: messages go NOWHERE. Set PUBLIC_FORM_ADAPTER=http and PUBLIC_FORM_ENDPOINT (see .env.example).');
+if (adapter !== 'http' && adapter !== 'formspree') {
+  warnings.push('Contact form uses the MOCK adapter: messages go NOWHERE. Set PUBLIC_FORM_ADAPTER=formspree and PUBLIC_FORM_ENDPOINT (see .env.example).');
 }
 
 if (warnings.length) {

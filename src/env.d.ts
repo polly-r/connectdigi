@@ -1,7 +1,7 @@
 /** Public environment variables (see .env.example). All optional. */
 interface ImportMetaEnv {
   /** Contact form adapter: 'mock' (default, sends nothing) or 'http'. */
-  readonly PUBLIC_FORM_ADAPTER?: 'mock' | 'http';
+  readonly PUBLIC_FORM_ADAPTER?: 'mock' | 'formspree' | 'http';
   /** Endpoint the 'http' contact adapter POSTs JSON to. */
   readonly PUBLIC_FORM_ENDPOINT?: string;
   /** Booking page URL. When set, the Connect page shows the booking embed. */
