@@ -1,0 +1,137 @@
+---
+/**
+ * Neon border for the highlighted package card, adapted from Originkit's
+ * Neon Border (React) for this site's rules: no island, accent token only,
+ * transform/opacity only, no endless loop.
+ *
+ * Two light arcs (a conic gradient, drawn once) rotate behind a mask that
+ * only shows the card's border band, plus a copy in a slightly wider ring
+ * that is blurred after masking, for a glow that fades on both sides. Only
+ * `rotate` and `opacity` animate (the original repainted a gradient every
+ * frame); the glow's blur re-renders only during the 5 s burst.
+ *
+ * Motion (CLAUDE.md, Pricing budget: "neon border"): a ~5 s burst of two
+ * laps when the card first scrolls into view (./neon-border.ts), and again
+ * on hover or keyboard focus inside the card; otherwise it rests as the
+ * static accent border plus a soft glow (PackageCard). Nothing loops, so no
+ * pause control is needed (WCAG 2.2.2). Reduced motion: hidden entirely.
+ *
+ * Place it as the first child of a `position: relative` card with a 2px
+ * border; the card carries `data-neon`.
+ */
+---
+
+<span class="neon" aria-hidden="true">
+  <span class="neon-band neon-edge"><span class="neon-sweep"></span></span>
+  <span class="neon-glow"><span class="neon-band neon-halo"><span class="neon-sweep"></span></span></span>
+</span>
+
+<style>
+  /* Covers the card's 2px border (absolute insets start at the padding box). */
+  .neon {
+    position: absolute;
+    inset: -2px;
+    pointer-events: none;
+    /* Arc core: the accent pushed towards the foreground, so it reads against
+       the accent border: lighter on navy, deeper on white. */
+    --neon-core: color-mix(in srgb, var(--color-accent) 55%, var(--color-fg));
+  }
+
+  /* A ring: the box minus its content box. Only alpha matters in a mask. */
+  .neon-band {
+    position: absolute;
+    overflow: hidden;
+    -webkit-mask:
+      linear-gradient(currentColor 0 0) content-box,
+      linear-gradient(currentColor 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(currentColor 0 0) content-box exclude,
+      linear-gradient(currentColor 0 0);
+  }
+
+  /* Exactly the border. */
+  .neon-edge {
+    inset: 0;
+    padding: 2px;
+  }
+
+  /* The glow: a ring straddling the border, blurred by its wrapper. Blurring
+     after the mask (a filter on the same element would apply before it)
+     softens both edges instead of cutting the glow off in a hard bar. */
+  .neon-glow {
+    position: absolute;
+    inset: 0;
+    filter: blur(9px);
+  }
+
+  .neon-halo {
+    inset: -6px;
+    padding: 8px;
+  }
+
+  /* Square and much larger than the card's diagonal, centred, so it covers
+     the card at every angle as it turns. Two arcs, half a turn apart. */
+  .neon-sweep {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400%;
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    opacity: 0;
+    background: conic-gradient(
+      transparent 0turn,
+      var(--neon-core) 0.1turn,
+      transparent 0.2turn 0.5turn,
+      var(--neon-core) 0.6turn,
+      transparent 0.7turn
+    );
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :global([data-neon][data-neon-play]) .neon-sweep,
+    :global([data-neon]:focus-within) .neon-sweep {
+      animation: neon-burst 5s ease-in-out;
+    }
+
+    @media (hover: hover) {
+      :global([data-neon]:hover) .neon-sweep {
+        animation: neon-burst 5s ease-in-out;
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .neon {
+      display: none;
+    }
+  }
+
+  /* Two laps, fading in and out so it never starts or stops abruptly. */
+  @keyframes neon-burst {
+    0% {
+      rotate: 0turn;
+      opacity: 0;
+    }
+
+    12% {
+      opacity: 1;
+    }
+
+    85% {
+      opacity: 1;
+    }
+
+    100% {
+      rotate: 2turn;
+      opacity: 0;
+    }
+  }
+</style>
+
+<script>
+  import { init } from './neon-border';
+
+  init();
+</script>

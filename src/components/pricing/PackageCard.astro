@@ -2,7 +2,8 @@
 /**
  * One package card on /pricing. Everything comes from src/data/pricing.ts.
  * The highlighted package (Standard) gets a "Most popular" badge (the text
- * carries the meaning; the accent border and lift only echo it).
+ * carries the meaning; the accent border, lift, glow and neon burst only
+ * echo it).
  *
  * Each feature has an "i" disclosure button for its explainer
  * (src/lib/info-toggle.ts). Without JS the explainers are shown and the
@@ -10,6 +11,7 @@
  */
 import MotifButton from '../motif/MotifButton.astro';
 import PriceTag from './PriceTag.astro';
+import NeonBorder from './NeonBorder.astro';
 import {
   AS_AGREED,
   carePlan,
@@ -48,9 +50,11 @@ const label = (name: string, value: FeatureValue) =>
     aria-labelledby={titleId}
     class:list={[
       'relative flex h-full flex-col p-6 md:p-7 lg:p-6',
-      featured ? 'border-2 border-accent md:-translate-y-3' : 'border border-line',
+      featured ? 'pkg-featured border-2 border-accent md:-translate-y-3' : 'border border-line',
     ]}
+    data-neon={featured ? '' : undefined}
   >
+    {featured && <NeonBorder />}
     <h3 id={titleId} class="text-h3">{pkg.name}</h3>
     {
       pkg.highlight && (
@@ -124,6 +128,11 @@ const label = (name: string, value: FeatureValue) =>
 </li>
 
 <style>
+  /* Resting glow on the highlighted card (the neon burst plays over it). */
+  .pkg-featured {
+    box-shadow: 0 0 1.75rem -0.25rem color-mix(in srgb, var(--color-accent) 35%, transparent);
+  }
+
   @media (hover: hover) {
     .info-btn:not([aria-expanded='true']):hover {
       border-color: var(--color-fg);
